@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useCallback } from 'react';
 import { AllianceData } from '../../types';
 
 interface RelationshipGraphProps {
@@ -12,7 +12,56 @@ export function RelationshipGraph({ allianceData, className = '' }: Relationship
   const containerRef = useRef<HTMLDivElement>(null);
   const svgRef = useRef<SVGSVGElement>(null);
 
-  const renderDiagram = () => {
+  const addNodeInteractions = useCallback(() => {
+    const allNodes = document.querySelectorAll('.family-node');
+    const allLines = document.querySelectorAll('.alliance-line');
+    const allLabels = document.querySelectorAll('.alliance-label');
+
+    allNodes.forEach(node => {
+      const familyId = node.id.replace('node-', '');
+      
+      node.addEventListener('mouseenter', () => {
+        allNodes.forEach(n => {
+          const nId = n.id.replace('node-', '');
+          if (nId === familyId) {
+            n.classList.remove('fade');
+            n.classList.add('highlight');
+          } else {
+            n.classList.add('fade');
+          }
+        });
+
+        allLines.forEach(l => {
+          const from = l.getAttribute('data-from');
+          const to = l.getAttribute('data-to');
+          if (from === familyId || to === familyId) {
+            l.classList.remove('fade');
+            l.classList.add('highlight');
+          } else {
+            l.classList.add('fade');
+          }
+        });
+
+        allLabels.forEach(lbl => {
+          const from = lbl.getAttribute('data-from');
+          const to = lbl.getAttribute('data-to');
+          if (from === familyId || to === familyId) {
+            lbl.classList.remove('fade');
+          } else {
+            lbl.classList.add('fade');
+          }
+        });
+      });
+
+      node.addEventListener('mouseleave', () => {
+        allNodes.forEach(n => n.classList.remove('fade', 'highlight'));
+        allLines.forEach(l => l.classList.remove('fade', 'highlight'));
+        allLabels.forEach(lbl => lbl.classList.remove('fade'));
+      });
+    });
+  }, []);
+
+  const renderDiagram = useCallback(() => {
     const container = containerRef.current;
     const svg = svgRef.current;
     if (!container || !svg) return;
@@ -78,56 +127,7 @@ export function RelationshipGraph({ allianceData, className = '' }: Relationship
       // Add hover effects
       addNodeInteractions();
     }, 100);
-  };
-
-  const addNodeInteractions = () => {
-    const allNodes = document.querySelectorAll('.family-node');
-    const allLines = document.querySelectorAll('.alliance-line');
-    const allLabels = document.querySelectorAll('.alliance-label');
-
-    allNodes.forEach(node => {
-      const familyId = node.id.replace('node-', '');
-      
-      node.addEventListener('mouseenter', () => {
-        allNodes.forEach(n => {
-          const nId = n.id.replace('node-', '');
-          if (nId === familyId) {
-            n.classList.remove('fade');
-            n.classList.add('highlight');
-          } else {
-            n.classList.add('fade');
-          }
-        });
-
-        allLines.forEach(l => {
-          const from = l.getAttribute('data-from');
-          const to = l.getAttribute('data-to');
-          if (from === familyId || to === familyId) {
-            l.classList.remove('fade');
-            l.classList.add('highlight');
-          } else {
-            l.classList.add('fade');
-          }
-        });
-
-        allLabels.forEach(lbl => {
-          const from = lbl.getAttribute('data-from');
-          const to = lbl.getAttribute('data-to');
-          if (from === familyId || to === familyId) {
-            lbl.classList.remove('fade');
-          } else {
-            lbl.classList.add('fade');
-          }
-        });
-      });
-
-      node.addEventListener('mouseleave', () => {
-        allNodes.forEach(n => n.classList.remove('fade', 'highlight'));
-        allLines.forEach(l => l.classList.remove('fade', 'highlight'));
-        allLabels.forEach(lbl => lbl.classList.remove('fade'));
-      });
-    });
-  };
+  }, [allianceData, addNodeInteractions]);
 
   useEffect(() => {
     renderDiagram();
@@ -138,7 +138,7 @@ export function RelationshipGraph({ allianceData, className = '' }: Relationship
     return () => {
       window.removeEventListener('resize', handleResize);
     };
-  }, [allianceData]);
+  }, [renderDiagram]);
 
   return (
     <div className={className}>
