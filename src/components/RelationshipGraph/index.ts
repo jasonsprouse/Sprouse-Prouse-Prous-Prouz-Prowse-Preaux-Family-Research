@@ -1,0 +1,1 @@
+export { RelationshipGraph as default } from './RelationshipGraph';

@@ -1,7 +1,7 @@
 'use client'
 
 import { useEffect, useState } from 'react'
-import { siteData } from './data'
+import { siteData } from '../data'
 
 declare global {
   interface Window {
