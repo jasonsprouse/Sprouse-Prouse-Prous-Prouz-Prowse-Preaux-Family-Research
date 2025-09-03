@@ -27,8 +27,8 @@ export function Map({ mapData, className = '' }: MapProps) {
 
       // If Leaflet isn't loaded yet, wait a bit and try again
       if (!window.L) {
-        // Try for a maximum of 5 seconds before giving up
-        if (attempt < 10) {
+        // Try for a maximum of 2 seconds before giving up (reduced from 5 seconds)
+        if (attempt < 4) {
           setTimeout(() => checkLeafletAndInitMap(attempt + 1), 500);
         } else {
           setMapError('Failed to load interactive map');
