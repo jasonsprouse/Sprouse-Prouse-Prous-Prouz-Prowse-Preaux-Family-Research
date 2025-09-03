@@ -5,6 +5,7 @@ import { siteData } from '../data'
 import { Map } from '../components/Map/Map'
 import { RelationshipGraph } from '../components/RelationshipGraph/RelationshipGraph'
 import { Navigation } from '../components/Navigation/Navigation'
+import { PlaceholderImage } from '../components/PlaceholderImage/PlaceholderImage'
 
 declare global {
   interface Window {
@@ -130,7 +131,12 @@ export default function Home() {
                   <div key={era.id} className={`timeline-item reveal lg:col-start-${isOdd ? '2' : '1'}`}>
                     <div className="lg:absolute timeline-dot hidden lg:block"></div>
                     <div className="era-card rounded-lg overflow-hidden shadow-md flex flex-col h-full">
-                      <img src={era.image} alt={era.alt} className="w-full h-56 object-cover" />
+                      <PlaceholderImage 
+                        src={era.image} 
+                        alt={era.alt} 
+                        className="w-full h-56 object-cover" 
+                        fallbackText={era.title}
+                      />
                       <div className="p-8 flex flex-col flex-grow">
                         <h3 className="font-bold text-2xl mb-3 font-serif">{era.title}</h3>
                         <p className="text-sm font-bold uppercase tracking-wider text-gray-500 mb-4">{era.period}</p>
