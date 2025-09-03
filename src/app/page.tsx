@@ -78,70 +78,71 @@ export default function Home() {
       <Navigation />
 
       {/* Hero Section */}
-      <section className="py-24 md:py-40 bg-cover bg-center hero-bg mt-16">
-        <div className="container mx-auto px-6 text-center">
-          <h1 className="text-4xl md:text-6xl font-bold leading-tight mb-4 font-serif reveal">
+      <section className="hero-bg mt-16">
+        <div className="container mx-auto px-6 text-center hero-content flex flex-col justify-center items-center min-h-screen">
+          <h1 className="hero-title reveal">
             A Study in Commercial Genetics
           </h1>
-          <p className="text-lg md:text-xl max-w-3xl mx-auto mb-8 reveal" style={{ transitionDelay: '200ms' }}>
+          <p className="hero-subtitle reveal" style={{ transitionDelay: '200ms' }}>
             An Eight-Century Analysis of the Sprouse-Prouse Family and the Infrastructure of Power.
           </p>
           <a 
             href="#introduction" 
-            className="btn-primary font-bold py-3 px-8 rounded-full inline-block reveal hover:bg-primary-light transition-colors"
+            className="hero-cta reveal"
             style={{ transitionDelay: '400ms' }}
           >
-            Explore the Legacy
+            <span>Explore the Legacy</span>
+            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 14l-7 7m0 0l-7-7m7 7V3" />
+            </svg>
           </a>
         </div>
       </section>
 
       {/* Introduction Section */}
-      <section id="introduction" className="py-20 md:py-28">
+      <section id="introduction" className="content-section bg-bg-secondary">
         <div className="container mx-auto px-6">
           <div className="max-w-4xl mx-auto text-center reveal">
-            <h2 className="text-3xl md:text-4xl font-bold mb-6 font-serif">
+            <h2 className="text-3xl md:text-4xl font-bold mb-8 font-serif text-heading">
               The Journey of a Family, The History of Commerce
             </h2>
-            <p className="text-lg leading-relaxed mb-4">
-              The history of the Sprouse/Prouse family offers a unique lens through which to view eight centuries of economic and social change. 
-              Their path—from the wharves of medieval Exeter to the railheads of 19th-century Illinois—was not a series of accidents, 
-              but the continuous application of a core principle: wealth and influence are built at the junctions where goods and capital converge.
-            </p>
-            <p className="text-lg leading-relaxed italic text-gray-600">
-              This is a story not just of a family, but of a durable commercial strategy passed down through generations, 
-              adapting to new technologies and new frontiers while remaining true to its foundational instinct.
-            </p>
+            <div className="space-y-6 text-lg leading-relaxed">
+              <p className="text-text">
+                The history of the Sprouse/Prouse family offers a unique lens through which to view eight centuries of economic and social change. 
+                Their path—from the wharves of medieval Exeter to the railheads of 19th-century Illinois—was not a series of accidents, 
+                but the continuous application of a core principle: <span className="gradient-text font-semibold">wealth and influence are built at the junctions where goods and capital converge.</span>
+              </p>
+              <p className="text-text-light italic text-xl">
+                This is a story not just of a family, but of a durable commercial strategy passed down through generations, 
+                adapting to new technologies and new frontiers while remaining true to its foundational instinct.
+              </p>
+            </div>
           </div>
         </div>
       </section>
 
       {/* Timeline / Eras Section */}
-      <section id="timeline" className="py-20 md:py-28 bg-white section-divider">
+      <section id="timeline" className="content-section section-divider">
         <div className="container mx-auto px-6 reveal">
-          <h2 className="text-3xl md:text-4xl font-bold text-center mb-20 font-serif">
+          <h2 className="text-3xl md:text-4xl font-bold text-center mb-20 font-serif text-heading">
             Four Eras of Strategic Adaptation
           </h2>
-          <div className="relative">
+          <div className="timeline-container">
             <div className="timeline-line hidden lg:block"></div>
             <div className="grid lg:grid-cols-2 gap-x-16 gap-y-16">
               {siteData.eras.map((era, index) => {
                 const isOdd = index % 2 !== 0
                 return (
-                  <div key={era.id} className={`timeline-item reveal lg:col-start-${isOdd ? '2' : '1'}`}>
-                    <div className="lg:absolute timeline-dot hidden lg:block"></div>
-                    <div className="era-card rounded-lg overflow-hidden shadow-md flex flex-col h-full">
-                      <EraVisual 
-                        icon={era.theme.icon}
-                        gradient={era.theme.gradient}
-                        accentColor={era.theme.accentColor}
-                        alt={era.alt} 
-                        className="w-full h-56" 
-                      />
-                      <div className="p-8 flex flex-col flex-grow">
-                        <h3 className="font-bold text-2xl mb-3 font-serif">{era.title}</h3>
-                        <p className="text-sm font-bold uppercase tracking-wider text-gray-500 mb-4">{era.period}</p>
-                        <p className="leading-relaxed text-gray-600 flex-grow">{era.description}</p>
+                  <div key={era.id} className={`timeline-item reveal lg:col-start-${isOdd ? '2' : '1'}`} style={{ transitionDelay: `${index * 150}ms` }}>
+                    <div className="timeline-dot hidden lg:block"></div>
+                    <div className="era-card">
+                      <div className="era-visual">
+                        <span className="text-white text-4xl">{era.theme.icon}</span>
+                      </div>
+                      <div className="era-card-content">
+                        <h3 className="era-title">{era.title}</h3>
+                        <p className="era-period">{era.period}</p>
+                        <p className="era-description">{era.description}</p>
                       </div>
                     </div>
                   </div>
@@ -153,18 +154,20 @@ export default function Home() {
       </section>
 
       {/* Alliances and Migrations Section */}
-      <section id="alliances" className="py-20 md:py-28">
+      <section id="alliances" className="content-section bg-bg-secondary">
         <div className="container mx-auto px-6 reveal">
-          <h2 className="text-3xl md:text-4xl font-bold text-center mb-8 font-serif">
+          <h2 className="text-3xl md:text-4xl font-bold text-center mb-8 font-serif text-heading">
             Strategic Alliances & Migrations
           </h2>
-          <p className="text-center text-lg mb-16 max-w-3xl mx-auto">
+          <p className="text-center text-lg mb-16 max-w-3xl mx-auto text-text-light">
             The family&apos;s journey was physical as well as economic. This map traces their migration path, 
             while the interactive diagram below illustrates the key marriage alliances that fueled their commercial expansion in each new territory.
           </p>
           <div className="grid lg:grid-cols-2 gap-12 items-start">
             <div className="reveal">
-              <Map mapData={siteData.mapData} className="" />
+              <div className="glass rounded-2xl p-6">
+                <Map mapData={siteData.mapData} className="" />
+              </div>
             </div>
             <div className="reveal" style={{ transitionDelay: '200ms' }}>
               <RelationshipGraph allianceData={siteData.allianceData} className="" />
@@ -174,15 +177,15 @@ export default function Home() {
       </section>
 
       {/* Legacy Section */}
-      <section id="legacy" className="py-20 md:py-28 bg-white section-divider">
+      <section id="legacy" className="content-section section-divider">
         <div className="container mx-auto px-6 reveal">
           <div className="max-w-4xl mx-auto text-center">
-            <h2 className="text-3xl md:text-4xl font-bold mb-8 font-serif">The Enduring Legacy</h2>
-            <blockquote className="text-2xl italic border-l-4 border-primary pl-6 mb-8">
+            <h2 className="text-3xl md:text-4xl font-bold mb-12 font-serif text-heading">The Enduring Legacy</h2>
+            <blockquote className="text-2xl mb-12">
               &quot;From Exeter&apos;s guildhall to an Illinois railhead, the family kept choosing the same vantage points: where inventory turns into money.&quot;
             </blockquote>
-            <p className="text-lg leading-relaxed">
-              The eight-century journey of the Sprouse-Prouse family is more than a sequence of names and dates; it is a case study in commercial genetics. 
+            <p className="text-lg leading-relaxed text-text-light">
+              The eight-century journey of the Sprouse-Prouse family is more than a sequence of names and dates; it is a case study in <span className="gradient-text font-semibold">commercial genetics</span>. 
               The core DNA—an instinct for logistics, an appreciation for strategic alliances, and a mastery of the legal and financial tools of the age—proved remarkably durable. 
               They understood that power flowed not just from owning land, but from controlling its access to markets. 
               This fundamental insight, passed down and adapted from the age of sail to the age of rail, is their ultimate legacy.
@@ -192,80 +195,76 @@ export default function Home() {
       </section>
 
       {/* Appendix / Biographical Register */}
-      <section id="appendix" className="py-20 md:py-28">
+      <section id="appendix" className="content-section bg-bg-secondary">
         <div className="container mx-auto px-6 reveal">
-          <h2 className="text-3xl md:text-4xl font-bold text-center mb-16 font-serif">
+          <h2 className="text-3xl md:text-4xl font-bold text-center mb-16 font-serif text-heading">
             Biographical Register & Genealogical Findings
           </h2>
           <div className="max-w-4xl mx-auto">
             {siteData.biographicalData.map((era, eraIndex) => (
-              <div key={eraIndex} className="mb-8">
-                <div className="bg-white border border-card-border rounded-lg overflow-hidden shadow-sm">
-                  <button 
-                    className="accordion-button w-full text-left p-6 font-bold text-xl font-serif hover:bg-gray-50 transition-colors"
-                    onClick={(e) => {
-                      const button = e.currentTarget
-                      const content = button.nextElementSibling as HTMLElement
-                      const isActive = button.classList.contains('active')
-                      
-                      // Close all other accordions
-                      document.querySelectorAll('.accordion-button.active').forEach(btn => {
-                        if (btn !== button) {
-                          btn.classList.remove('active')
-                          const btnContent = btn.nextElementSibling as HTMLElement
-                          if (btnContent) {
-                            btnContent.classList.remove('active')
-                          }
+              <div key={eraIndex} className="accordion-section">
+                <button 
+                  className="accordion-button w-full text-left"
+                  onClick={(e) => {
+                    const button = e.currentTarget
+                    const content = button.nextElementSibling as HTMLElement
+                    const isActive = button.classList.contains('active')
+                    
+                    // Close all other accordions
+                    document.querySelectorAll('.accordion-button.active').forEach(btn => {
+                      if (btn !== button) {
+                        btn.classList.remove('active')
+                        const btnContent = btn.nextElementSibling as HTMLElement
+                        if (btnContent) {
+                          btnContent.classList.remove('active')
                         }
-                      })
-                      
-                      button.classList.toggle('active')
-                      if (content) {
-                        content.classList.toggle('active')
                       }
-                    }}
-                    data-location-id={era.locationId}
-                  >
-                    {era.era}
-                  </button>
-                  <div className="accordion-content">
-                    <div className="p-6 pt-0">
-                      <div className="grid gap-6">
-                        {era.people.map((person, personIndex) => (
-                          <div key={personIndex} className="border border-gray-200 rounded p-4">
-                            <div className="flex justify-between items-start mb-2">
-                              <h4 className="font-bold text-lg">{person.name}</h4>
-                              <span className="text-sm text-gray-500">{person.dates}</span>
-                            </div>
-                            <div className="grid md:grid-cols-2 gap-4 text-sm">
-                              <div>
-                                <p><strong>Faith & Community:</strong> {person.faith}</p>
-                                <p><strong>Commercial Nexus:</strong> {person.nexus}</p>
-                              </div>
-                              <div>
-                                <p><strong>Primary Sources:</strong> {person.sources}</p>
-                              </div>
-                            </div>
-                            {person.genealogicalEvidence && (
-                              <div className="mt-4">
-                                <h5 className="font-semibold mb-2">Genealogical Evidence:</h5>
-                                <div className="grid gap-2">
-                                  {person.genealogicalEvidence.map((evidence, evidenceIndex) => (
-                                    <button
-                                      key={evidenceIndex}
-                                      className="view-record-btn text-left p-2 bg-gray-50 rounded hover:bg-gray-100 transition-colors"
-                                      onClick={() => openModal(evidence.type, evidence.sourceImage, evidence.sourceTranscript)}
-                                    >
-                                      <strong>{evidence.type}:</strong> {evidence.detail}
-                                    </button>
-                                  ))}
-                                </div>
-                              </div>
-                            )}
+                    })
+                    
+                    button.classList.toggle('active')
+                    if (content) {
+                      content.classList.toggle('active')
+                    }
+                  }}
+                  data-location-id={era.locationId}
+                >
+                  {era.era}
+                </button>
+                <div className="accordion-content">
+                  <div className="grid gap-6">
+                    {era.people.map((person, personIndex) => (
+                      <div key={personIndex} className="person-card">
+                        <div className="flex justify-between items-start mb-3">
+                          <h4 className="person-name">{person.name}</h4>
+                          <span className="person-dates">{person.dates}</span>
+                        </div>
+                        <div className="grid md:grid-cols-2 gap-4 text-sm mb-4">
+                          <div className="space-y-2">
+                            <p className="text-text"><strong className="text-primary">Faith & Community:</strong> {person.faith}</p>
+                            <p className="text-text"><strong className="text-primary">Commercial Nexus:</strong> {person.nexus}</p>
                           </div>
-                        ))}
+                          <div>
+                            <p className="text-text"><strong className="text-primary">Primary Sources:</strong> {person.sources}</p>
+                          </div>
+                        </div>
+                        {person.genealogicalEvidence && (
+                          <div>
+                            <h5 className="font-semibold mb-3 text-heading">Genealogical Evidence:</h5>
+                            <div className="space-y-2">
+                              {person.genealogicalEvidence.map((evidence, evidenceIndex) => (
+                                <button
+                                  key={evidenceIndex}
+                                  className="evidence-button"
+                                  onClick={() => openModal(evidence.type, evidence.sourceImage, evidence.sourceTranscript)}
+                                >
+                                  <strong className="text-primary">{evidence.type}:</strong> <span className="text-text">{evidence.detail}</span>
+                                </button>
+                              ))}
+                            </div>
+                          </div>
+                        )}
                       </div>
-                    </div>
+                    ))}
                   </div>
                 </div>
               </div>
@@ -273,28 +272,32 @@ export default function Home() {
           </div>
         </div>
       </section>
-
       {/* Modal */}
       <div id="modal-overlay" className="modal-overlay" onClick={closeModal}>
         <div className="modal-content" onClick={(e) => e.stopPropagation()}>
           <button 
             id="modal-close" 
-            className="absolute top-4 right-4 text-2xl hover:text-gray-600"
+            className="modal-close"
             onClick={closeModal}
+            aria-label="Close modal"
           >
-            ×
+            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+            </svg>
           </button>
-          <h3 id="modal-title" className="text-xl font-bold mb-4"></h3>
-          <div className="grid md:grid-cols-2 gap-6">
+          <h3 id="modal-title" className="text-2xl font-bold mb-6 font-serif text-heading pr-12"></h3>
+          <div className="grid md:grid-cols-2 gap-8">
             <div>
-              <h4 className="font-bold mb-2">Document Image</h4>
-              <div className="bg-gray-100 border rounded h-64 flex items-center justify-center">
-                <img id="modal-image" src="" alt="Source Document" className="max-w-full max-h-full object-contain" />
+              <h4 className="font-bold mb-4 text-primary">Document Image</h4>
+              <div className="glass rounded-xl p-4 h-80 flex items-center justify-center">
+                <img id="modal-image" src="" alt="Source Document" className="max-w-full max-h-full object-contain rounded-lg" />
               </div>
             </div>
             <div>
-              <h4 className="font-bold mb-2">Transcript & Notes</h4>
-              <p id="modal-transcript" className="text-sm bg-gray-50 p-3 border rounded h-64 overflow-y-auto whitespace-pre-wrap font-mono"></p>
+              <h4 className="font-bold mb-4 text-primary">Transcript & Notes</h4>
+              <div className="glass rounded-xl p-4 h-80 overflow-y-auto">
+                <p id="modal-transcript" className="text-sm whitespace-pre-wrap font-mono text-text leading-relaxed"></p>
+              </div>
             </div>
           </div>
         </div>
@@ -305,8 +308,11 @@ export default function Home() {
         id="to-top-btn" 
         className="to-top"
         onClick={scrollToTop}
+        aria-label="Back to top"
       >
-        ↑
+        <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 10l7-7m0 0l7 7m-7-7v18" />
+        </svg>
       </button>
     </>
   )
