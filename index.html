@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Sprouse-Prouse Family: An Eight-Century Commercial History</title>
+    <meta name="description" content="A comprehensive study of eight centuries of the Sprouse-Prouse family's commercial history, from medieval Devon to modern retail empire.">
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,700;1,400&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Leaflet CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin=""/>
+    
+    <!-- Custom Styles -->
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav id="navbar" class="navbar">
+        <div class="nav-container">
+            <div class="nav-brand">
+                <h1>Sprouse-Prouse Research</h1>
+            </div>
+            
+            <!-- Desktop Navigation -->
+            <ul class="nav-menu">
+                <li><a href="#introduction" class="nav-link">Introduction</a></li>
+                <li><a href="#timeline" class="nav-link">Timeline</a></li>
+                <li><a href="#alliances" class="nav-link">Alliances</a></li>
+                <li><a href="#legacy" class="nav-link">Legacy</a></li>
+                <li><a href="#register" class="nav-link">Register</a></li>
+            </ul>
+            
+            <!-- Mobile Hamburger Menu -->
+            <div class="hamburger" id="hamburger">
+                <span class="hamburger-line"></span>
+                <span class="hamburger-line"></span>
+                <span class="hamburger-line"></span>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section id="hero" class="hero">
+        <div class="hero-content">
+            <h1 class="hero-title fade-in">A Study in Commercial Genetics</h1>
+            <p class="hero-subtitle fade-in-delayed">An Eight-Century Analysis of the Sprouse-Prouse Family and the Infrastructure of Power.</p>
+            <a href="#introduction" class="hero-cta fade-in-delayed-more">Explore the Legacy</a>
+        </div>
+    </section>
+
+    <!-- Introduction Section -->
+    <section id="introduction" class="section">
+        <div class="container">
+            <div class="intro-content reveal">
+                <h2 class="section-title">The Journey of a Family, The History of Commerce</h2>
+                <p class="intro-text">
+                    The history of the Sprouse/Prouse family offers a unique lens through which to view eight centuries of economic and social change. Their path—from the wharves of medieval Exeter to the railheads of 19th-century Illinois—was not a series of accidents, but the continuous application of a core principle: wealth and influence are built at the junctions where goods and capital converge.
+                </p>
+                <p class="intro-text italic">
+                    This is a story not just of a family, but of a durable commercial strategy passed down through generations, adapting to new technologies and new frontiers while remaining true to its foundational instinct.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Timeline Section -->
+    <section id="timeline" class="section section-alt">
+        <div class="container">
+            <h2 class="section-title reveal">Four Eras of Strategic Adaptation</h2>
+            <div class="timeline">
+                <div class="timeline-line"></div>
+                
+                <div class="timeline-item reveal">
+                    <div class="timeline-dot"></div>
+                    <div class="era-card era-card-left">
+                        <div class="era-icon" style="background: linear-gradient(135deg, #8b5a3c, #d4af37);">
+                            <span class="icon">⚱</span>
+                            <div class="icon-pattern"></div>
+                        </div>
+                        <div class="era-content">
+                            <h3 class="era-title">I. The Crucible of Commerce</h3>
+                            <p class="era-period">c. 1100–1607</p>
+                            <p class="era-description">
+                                From Devon manors to the powerful Society of Merchant Venturers in Exeter, the family forged its commercial DNA in the English wool and tin trades, mastering international logistics and credit.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="timeline-item reveal">
+                    <div class="timeline-dot"></div>
+                    <div class="era-card era-card-right">
+                        <div class="era-icon" style="background: linear-gradient(135deg, #1e3a8a, #3b82f6);">
+                            <span class="icon">⚓</span>
+                            <div class="icon-pattern"></div>
+                        </div>
+                        <div class="era-content">
+                            <h3 class="era-title">II. The Atlantic Enterprise</h3>
+                            <p class="era-period">c. 1650–1780</p>
+                            <p class="era-description">
+                                Transplanting their skills to colonial Maryland, they established riverfront plantations as private logistical hubs for the lucrative tobacco trade, linking rural production to urban finance in Baltimore.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="timeline-item reveal">
+                    <div class="timeline-dot"></div>
+                    <div class="era-card era-card-left">
+                        <div class="era-icon" style="background: linear-gradient(135deg, #7c2d12, #dc2626);">
+                            <span class="icon">🚂</span>
+                            <div class="icon-pattern"></div>
+                        </div>
+                        <div class="era-content">
+                            <h3 class="era-title">III. Forging a New Nation</h3>
+                            <p class="era-period">c. 1780–1880</p>
+                            <p class="era-description">
+                                Moving west, the family adapted again, mastering the legal infrastructure of the frontier before founding a town at a critical railroad junction, controlling the flow of timber and grain.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="timeline-item reveal">
+                    <div class="timeline-dot"></div>
+                    <div class="era-card era-card-right">
+                        <div class="era-icon" style="background: linear-gradient(135deg, #1f2937, #6b7280);">
+                            <span class="icon">🏢</span>
+                            <div class="icon-pattern"></div>
+                        </div>
+                        <div class="era-content">
+                            <h3 class="era-title">IV. The Modern Apex</h3>
+                            <p class="era-period">c. 1860–1993</p>
+                            <p class="era-description">
+                                The family's focus evolved to finance, politics, and finally, national retail, scaling their logistical instinct to manage a multi-state distribution network for the Sprouse-Reitz stores.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Alliances & Migration Section -->
+    <section id="alliances" class="section">
+        <div class="container">
+            <div class="reveal">
+                <h2 class="section-title">Strategic Alliances & Migrations</h2>
+                <p class="section-subtitle">
+                    The family's journey was physical as well as economic. This map traces their migration path, 
+                    while the interactive diagram below illustrates the key marriage alliances that fueled their 
+                    commercial expansion in each new territory.
+                </p>
+            </div>
+            
+            <div class="alliances-grid">
+                <div class="map-container reveal">
+                    <h3 class="subsection-title">Migration Map</h3>
+                    <div id="migration-map" class="map-placeholder">
+                        <div class="loading-indicator">
+                            <div class="spinner"></div>
+                            <span>Loading interactive map...</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="relationship-container reveal">
+                    <h3 class="subsection-title">Relationship Web</h3>
+                    <div id="relationship-diagram" class="relationship-placeholder">
+                        <svg width="100%" height="100%">
+                            <!-- SVG content will be added by JavaScript -->
+                        </svg>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Legacy Section -->
+    <section id="legacy" class="section section-alt">
+        <div class="container">
+            <div class="legacy-content reveal">
+                <h2 class="section-title">The Enduring Legacy</h2>
+                <blockquote class="legacy-quote">
+                    "From Exeter's guildhall to an Illinois railhead, the family kept choosing the same vantage points: where inventory turns into money."
+                </blockquote>
+                <p class="legacy-text">
+                    The eight-century journey of the Sprouse-Prouse family is more than a sequence of names and dates; 
+                    it is a case study in commercial genetics. The core DNA—an instinct for logistics, an appreciation 
+                    for strategic alliances, and a mastery of the legal and financial tools of the age—proved remarkably 
+                    durable. They understood that power flowed not just from owning land, but from controlling its access 
+                    to markets. This fundamental insight, passed down and adapted from the age of sail to the age of rail, 
+                    is their ultimate legacy.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Biographical Register Section -->
+    <section id="register" class="section">
+        <div class="container">
+            <div class="register-header reveal">
+                <h2 class="section-title">Biographical Register & Genealogical Findings</h2>
+                
+                <!-- Search/Filter Input -->
+                <div class="search-container">
+                    <input 
+                        type="text" 
+                        id="family-search" 
+                        class="search-input" 
+                        placeholder="Search family members, dates, or locations..."
+                    >
+                    <button class="search-clear" id="search-clear" type="button">✕</button>
+                </div>
+            </div>
+            
+            <div class="register-content">
+                <!-- Era Accordions will be populated by JavaScript -->
+                <div class="accordion-container">
+                    <!-- Medieval & Early Modern Devon (1100–1600) -->
+                    <div class="accordion-item" data-location="exeter">
+                        <button class="accordion-header" type="button" data-era="medieval">
+                            <h3>I. Medieval & Early Modern Devon (1100–1600)</h3>
+                            <span class="accordion-icon">+</span>
+                        </button>
+                        <div class="accordion-content">
+                            <div class="people-grid" id="medieval-people">
+                                <!-- People will be populated by JavaScript -->
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Colonial Chesapeake (1650–1780) -->
+                    <div class="accordion-item" data-location="talbot">
+                        <button class="accordion-header" type="button" data-era="colonial">
+                            <h3>II. Colonial Chesapeake (1650–1780)</h3>
+                            <span class="accordion-icon">+</span>
+                        </button>
+                        <div class="accordion-content">
+                            <div class="people-grid" id="colonial-people">
+                                <!-- People will be populated by JavaScript -->
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Post-Colonial Expansion (1780–1850) -->
+                    <div class="accordion-item" data-location="robertson">
+                        <button class="accordion-header" type="button" data-era="expansion">
+                            <h3>III. Post-Colonial Expansion (1780–1850)</h3>
+                            <span class="accordion-icon">+</span>
+                        </button>
+                        <div class="accordion-content">
+                            <div class="people-grid" id="expansion-people">
+                                <!-- People will be populated by JavaScript -->
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Modern & Frontier Era (1850–1954) -->
+                    <div class="accordion-item" data-location="kinmundy">
+                        <button class="accordion-header" type="button" data-era="modern">
+                            <h3>IV. Modern & Frontier Era (1850–1954)</h3>
+                            <span class="accordion-icon">+</span>
+                        </button>
+                        <div class="accordion-content">
+                            <div class="people-grid" id="modern-people">
+                                <!-- People will be populated by JavaScript -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Document Modal -->
+    <div id="document-modal" class="modal-overlay">
+        <div class="modal-container">
+            <button class="modal-close" id="modal-close" type="button">&times;</button>
+            <div class="modal-content">
+                <h3 id="modal-title" class="modal-title"></h3>
+                <div class="modal-body">
+                    <div class="document-section">
+                        <h4>Document Image</h4>
+                        <div class="document-image-container">
+                            <img id="modal-image" src="" alt="Source Document" class="document-image">
+                        </div>
+                    </div>
+                    <div class="transcript-section">
+                        <h4>Transcript & Notes</h4>
+                        <div id="modal-transcript" class="transcript-content"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Back to Top Button -->
+    <button id="back-to-top" class="back-to-top" title="Back to top">
+        <span>↑</span>
+    </button>
+
+    <!-- Scripts -->
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+    <script src="script.js"></script>
+</body>
+</html>
