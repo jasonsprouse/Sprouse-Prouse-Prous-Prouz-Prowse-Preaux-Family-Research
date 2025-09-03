@@ -1,0 +1,225 @@
+export interface Person { id: string; name: string; dates?: string; eraKey: EraKey; faith?: string; commerceLogistics?: string; sources?: string[]; generationOrder?: number; altNames?: string[]; anchor?: string; }
+
+export type EraKey =
+  | 'medieval_devon'
+  | 'colonial_chesapeake'
+  | 'post_colonial_expansion'
+  | 'modern_frontier';
+
+export interface Era { key: EraKey; title: string; dateRange?: string; order: number; description?: string; color?: string; }
+
+export const ERAS: Record<EraKey, Era> = { medieval_devon: { key: 'medieval_devon', title: 'I. Medieval & Early Modern Devon (1100–1600)', dateRange: '1100–1600', order: 1, description: 'Origins in Devon and Normandy; monastic, mercantile, and early Reformation transitions.', color: '#6b5b95' }, colonial_chesapeake: { key: 'colonial_chesapeake', title: 'II. Colonial Chesapeake (1650–1780)', dateRange: '1650–1780', order: 2, description: 'Migration to Maryland; Anglican parish life; plantation and Atlantic credit networks.', color: '#34568B' }, post_colonial_expansion: { key: 'post_colonial_expansion', title: 'III. Post‑Colonial Expansion (1780–1850)', dateRange: '1780–1850', order: 3, description: 'Frontier dispersal, legal and agricultural diversification, early industrial implements.', color: '#FF6F61' }, modern_frontier: { key: 'modern_frontier', title: 'IV. Modern & Frontier Era (1850–1954)', dateRange: '1850–1954', order: 4, description: 'Railroad era entrepreneurship, tobacco commerce, civic and corporate leadership.', color: '#88B04B' } };
+
+export const PEOPLE: Person[] = [
+  {
+    id: 'osbert-de-preaux',
+    name: 'Osbert de Préaux',
+    dates: 'fl. c. 1120–1150',
+    eraKey: 'medieval_devon',
+    faith: 'Catholic; patron of monastic houses in Devon and Normandy.',
+    commerceLogistics: 'Managed estates near coastal routes; oversaw grain and wool transport.',
+    sources: ['Devon manorial rolls', 'Norman charters'],
+    generationOrder: 1
+  },
+  {
+    id: 'william-de-preaux',
+    name: 'William de Préaux',
+    dates: 'fl. c. 1180–1210',
+    eraKey: 'medieval_devon',
+    faith: 'Catholic; served in Angevin court.',
+    commerceLogistics: 'Engaged in Channel maritime provisioning for military expeditions.',
+    sources: ['Angevin administrative records', 'Port customs accounts'],
+    generationOrder: 2
+  },
+  {
+    id: 'lawrence-prouz-1480',
+    name: 'Lawrence Prouz (1480–1548)',
+    eraKey: 'medieval_devon',
+    faith: 'Catholic parish life pre‑Reformation.',
+    commerceLogistics: 'Sword Bearer of Exeter; managed manorial agriculture and tin mining; coordinated shipments via Exeter quay.',
+    sources: ['Exeter Guild records', 'Devon subsidy rolls'],
+    generationOrder: 3
+  },
+  {
+    id: 'richard-prouz-1509',
+    name: 'Richard Prouz (1509–)',
+    eraKey: 'medieval_devon',
+    faith: 'Catholic; later Anglican.',
+    commerceLogistics: 'Married Joane de Beaumont; invested in local market rights; maintained mercantile ties.',
+    sources: ['Heraldic Visitations of Devon (1620)', 'Parish registers'],
+    generationOrder: 4
+  },
+  {
+    id: 'richard-prouse-1535',
+    name: 'Richard Prouse (1535–1607)',
+    eraKey: 'medieval_devon',
+    faith: 'Anglican post‑Reformation.',
+    commerceLogistics: 'Married Richord Vincent and Ann Vaughn; integrated into Exeter’s Merchant Adventurers; exported kerseys to Antwerp/Middelburg; used credit instruments and warehousing.',
+    sources: ['Exeter customs accounts', 'Merchant Adventurers’ records'],
+    generationOrder: 5
+  },
+  {
+    id: 'george-prouse-ii-1642',
+    name: 'George Prouse II (1642–1696)',
+    eraKey: 'colonial_chesapeake',
+    faith: 'Anglican; St. Peter’s Parish, Talbot County.',
+    commerceLogistics: 'Assembled river‑front plantations; leveraged London factor credit.',
+    sources: ['Talbot County land patents', 'Parish registers'],
+    generationOrder: 1
+  },
+  {
+    id: 'mary-alford-prouse',
+    name: 'Mary Alford Prouse',
+    eraKey: 'colonial_chesapeake',
+    faith: 'Anglican.',
+    commerceLogistics: 'Brought Exeter merchant‑guild heritage; managed household provisioning and local trade accounts.',
+    sources: ['Exeter guild rolls', 'Parish records'],
+    generationOrder: 2
+  },
+  {
+    id: 'george-prouse-iii-1675',
+    name: 'George Prouse III (1675–1708)',
+    eraKey: 'colonial_chesapeake',
+    faith: 'Anglican.',
+    commerceLogistics: 'Managed inherited tracts; 1708 will shows structured asset transfer; relied on local sureties.',
+    sources: ['Maryland wills', 'Probate bonds'],
+    generationOrder: 3
+  },
+  {
+    id: 'george-prouse-iv-1700',
+    name: 'George Prouse IV (1700–1758)',
+    eraKey: 'colonial_chesapeake',
+    faith: 'Anglican.',
+    commerceLogistics: 'Married Jane Harding; linked rural production to Baltimore warehousing and finance.',
+    sources: ['St. Peter’s Parish marriage register', 'Gittings family papers'],
+    generationOrder: 4
+  },
+  {
+    id: 'jane-harding-prouse',
+    name: 'Jane Harding Prouse',
+    eraKey: 'colonial_chesapeake',
+    faith: 'Anglican.',
+    commerceLogistics: 'Gittings family connections; facilitated access to urban storage and capital markets.',
+    sources: ['Baltimore County court records', 'Family papers'],
+    generationOrder: 5
+  },
+  {
+    id: 'george-prouse-v-1733',
+    name: 'George Prouse V (1733–1781)',
+    eraKey: 'colonial_chesapeake',
+    faith: 'Anglican; Church Warden.',
+    commerceLogistics: '(Entry incomplete in source text—expand if more data emerges.)',
+    sources: [],
+    generationOrder: 6
+  },
+  {
+    id: 'george-sprouse-1757',
+    name: 'George Sprouse (1757–1845)',
+    eraKey: 'post_colonial_expansion',
+    faith: 'Anglican roots; frontier Protestantism.',
+    commerceLogistics: 'Migrated to Robertson County, TN; diversified farming; Appleton merchant heritage.',
+    sources: ['Robertson County deed books', 'Appleton genealogies'],
+    generationOrder: 1
+  },
+  {
+    id: 'margaret-appleton-sprouse',
+    name: 'Margaret Appleton Sprouse',
+    eraKey: 'post_colonial_expansion',
+    faith: 'Protestant.',
+    commerceLogistics: 'Descended from Ipswich, MA, merchant‑magistrates; maintained literacy and record‑keeping traditions.',
+    sources: ['Massachusetts Bay Colony records'],
+    generationOrder: 2
+  },
+  {
+    id: 'james-w-sprouse-1798',
+    name: 'James W. Sprouse (c. 1798–1860)',
+    eraKey: 'post_colonial_expansion',
+    faith: 'Protestant.',
+    commerceLogistics: 'Lawyer; landholder; handled deeds, contracts, estate settlements.',
+    sources: ['Robertson County court minutes', 'Probate records'],
+    generationOrder: 3
+  },
+  {
+    id: 'william-sprouse-1802',
+    name: 'William Sprouse (1802–after 1880)',
+    eraKey: 'post_colonial_expansion',
+    faith: 'Protestant.',
+    commerceLogistics: 'Black Hawk War veteran; blacksmith; patented “Occidental Plow”; TN→IL→KS; served under Abraham Lincoln in 1832.',
+    sources: ['U.S. Patent Office records', 'Military muster rolls'],
+    generationOrder: 4
+  },
+  {
+    id: 'martha-combs-sprouse',
+    name: 'Martha Combs Sprouse',
+    eraKey: 'post_colonial_expansion',
+    faith: 'Protestant.',
+    commerceLogistics: 'Virginia Northern Neck heritage; linked to Op den Graeff mercantile‑heraldic line.',
+    sources: ['Virginia land and parish records'],
+    generationOrder: 5
+  },
+  {
+    id: 'william-sprouse-1822-town',
+    name: 'William Sprouse (1822–after 1880)',
+    eraKey: 'post_colonial_expansion',
+    faith: 'Protestant.',
+    commerceLogistics: 'Involved in town‑planning beside a rail line; boosted local market access.',
+    sources: ['County plat maps', 'Rail company records'],
+    generationOrder: 6
+  },
+  {
+    id: 'william-t-sprouse-1822',
+    name: 'William T. Sprouse (1822–1886)',
+    eraKey: 'modern_frontier',
+    faith: 'Protestant.',
+    commerceLogistics: 'Founded Kinmundy, IL, beside Illinois Central Railroad; built first saw and grist mill; Civil War captain.',
+    sources: ['Marion County plat maps', 'Civil War service records'],
+    generationOrder: 1
+  },
+  {
+    id: 'granville-babbitt-sprouse-1863',
+    name: 'Granville Babbitt Sprouse (1863–1947)',
+    eraKey: 'modern_frontier',
+    faith: 'Protestant.',
+    commerceLogistics: 'Tobacco merchant; co‑founded prizing house; mayor; bank director; part of regional tobacco–banking complex.',
+    sources: ['Springfield city directories', 'Bank records'],
+    generationOrder: 2
+  },
+  {
+    id: 'john-draughon-sprouse-sr-1904',
+    name: 'John Draughon Sprouse, Sr. (1904–1980)',
+    eraKey: 'modern_frontier',
+    faith: 'Protestant.',
+    commerceLogistics: 'Tennessee state senator; legislative influence on infrastructure.',
+    sources: ['Tennessee legislative records'],
+    generationOrder: 3
+  },
+  {
+    id: 'john-alwyn-sprouse-1908',
+    name: 'John Alwyn Sprouse (1908–1993)',
+    eraKey: 'modern_frontier',
+    faith: 'Presbyterian.',
+    commerceLogistics: 'President/CEO of Sprouse‑Reitz Stores Inc.; pioneered overseas buying; multi‑state retail logistics.',
+    sources: ['Company histories', 'Trade journals'],
+    generationOrder: 4
+  },
+  {
+    id: 'george-f-sprouse-1837',
+    name: 'George F. Sprouse (1837–1910)',
+    eraKey: 'modern_frontier',
+    faith: 'Protestant.',
+    commerceLogistics: 'Civil War officer; farmer in KS and AR; adapted to post‑war commodity markets.',
+    sources: ['Military records', 'Agricultural censuses'],
+    generationOrder: 5
+  },
+  {
+    id: 'william-claude-sprouse-1891',
+    name: 'William Claude Sprouse (1891–1954)',
+    eraKey: 'modern_frontier',
+    faith: 'Protestant.',
+    commerceLogistics: 'Tradesman; navigated economic shifts of two world wars and the Depression.',
+    sources: ['City directories', 'Census records'],
+    generationOrder: 6
+  }
+];
+
+export const peopleById = PEOPLE.reduce<Record<string, Person>>((acc, p) => { acc[p.id] = p; return acc; }, {});
