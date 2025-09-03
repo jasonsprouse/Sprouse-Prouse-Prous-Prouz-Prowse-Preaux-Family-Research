@@ -2,6 +2,9 @@
 
 import { useEffect, useState } from 'react'
 import { siteData } from '../data'
+import { Map } from '../components/Map/Map'
+import { RelationshipGraph } from '../components/RelationshipGraph/RelationshipGraph'
+import { Navigation } from '../components/Navigation/Navigation'
 
 declare global {
   interface Window {
@@ -16,16 +19,6 @@ export default function Home() {
     // Set body opacity for fade-in effect
     document.body.style.opacity = '1'
     setIsLoaded(true)
-
-    const initializeComponents = () => {
-      if (typeof window !== 'undefined' && window.L) {
-        initMap()
-        renderRelationshipDiagram()
-      }
-    }
-
-    // Initialize the interactive components after load
-    setTimeout(initializeComponents, 1000)
 
     // Set up intersection observer for reveals
     const observer = new IntersectionObserver((entries) => {
@@ -51,157 +44,11 @@ export default function Home() {
     }
 
     window.addEventListener('scroll', handleScroll)
-    window.addEventListener('resize', renderRelationshipDiagram)
 
     return () => {
       window.removeEventListener('scroll', handleScroll)
-      window.removeEventListener('resize', renderRelationshipDiagram)
     }
   }, [])
-
-  const initMap = () => {
-    if (typeof window === 'undefined' || !window.L) return
-
-    const mapContainer = document.getElementById('map')
-    if (!mapContainer) return
-
-    const map = window.L.map('map').setView([40.0, -85.0], 4)
-    
-    window.L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-      attribution: '© OpenStreetMap contributors'
-    }).addTo(map)
-
-    const mapMarkers: any = {}
-
-    siteData.mapData.locations.forEach(location => {
-      const marker = window.L.marker(location.coords)
-        .addTo(map)
-        .bindPopup(`<b>${location.name}</b><br/>${location.description}`)
-      
-      mapMarkers[location.id] = marker
-    })
-
-    // Store markers for later use
-    ;(window as any).mapMarkers = mapMarkers
-  }
-
-  const renderRelationshipDiagram = () => {
-    const container = document.getElementById('relationship-diagram')
-    if (!container) return
-
-    container.innerHTML = '<svg id="alliance-svg" width="100%" height="100%" style="position: absolute; top: 0; left: 0; pointer-events: none;"></svg>'
-    const svg = document.getElementById('alliance-svg')
-    if (!svg) return
-
-    // Create family nodes
-    siteData.allianceData.families.forEach(family => {
-      const node = document.createElement('div')
-      node.className = 'family-node'
-      node.id = `node-${family.id}`
-      node.textContent = family.label
-      node.style.left = `${family.pos.x}%`
-      node.style.top = `${family.pos.y}%`
-      node.style.transform = `translate(-${family.pos.x}%, -${family.pos.y}%)`
-      container.appendChild(node)
-    })
-
-    // Create alliance lines after a brief delay
-    setTimeout(() => {
-      const newSvg = document.getElementById('alliance-svg')
-      if (!newSvg) return
-
-      newSvg.innerHTML = ''
-      
-      siteData.allianceData.alliances.forEach(alliance => {
-        const fromNodeEl = document.getElementById(`node-${alliance.from}`)
-        const toNodeEl = document.getElementById(`node-${alliance.to}`)
-        
-        if (!fromNodeEl || !toNodeEl) return
-
-        const fromPos = {
-          x: fromNodeEl.offsetLeft + fromNodeEl.offsetWidth / 2,
-          y: fromNodeEl.offsetTop + fromNodeEl.offsetHeight / 2
-        }
-        const toPos = {
-          x: toNodeEl.offsetLeft + toNodeEl.offsetWidth / 2,
-          y: toNodeEl.offsetTop + toNodeEl.offsetHeight / 2
-        }
-
-        // Create line
-        const line = document.createElementNS('http://www.w3.org/2000/svg', 'line')
-        line.setAttribute('x1', fromPos.x.toString())
-        line.setAttribute('y1', fromPos.y.toString())
-        line.setAttribute('x2', toPos.x.toString())
-        line.setAttribute('y2', toPos.y.toString())
-        line.classList.add('alliance-line')
-        line.setAttribute('data-from', alliance.from)
-        line.setAttribute('data-to', alliance.to)
-        newSvg.appendChild(line)
-
-        // Create label
-        const label = document.createElementNS('http://www.w3.org/2000/svg', 'text')
-        label.setAttribute('x', ((fromPos.x + toPos.x) / 2).toString())
-        label.setAttribute('y', ((fromPos.y + toPos.y) / 2).toString())
-        label.setAttribute('data-from', alliance.from)
-        label.setAttribute('data-to', alliance.to)
-        label.classList.add('alliance-label')
-        label.textContent = alliance.label
-        newSvg.appendChild(label)
-      })
-
-      // Add hover effects
-      addNodeInteractions()
-    }, 100)
-  }
-
-  const addNodeInteractions = () => {
-    const allNodes = document.querySelectorAll('.family-node')
-    const allLines = document.querySelectorAll('.alliance-line')
-    const allLabels = document.querySelectorAll('.alliance-label')
-
-    allNodes.forEach(node => {
-      const familyId = node.id.replace('node-', '')
-      
-      node.addEventListener('mouseenter', () => {
-        allNodes.forEach(n => {
-          const nId = n.id.replace('node-', '')
-          if (nId === familyId) {
-            n.classList.remove('fade')
-            n.classList.add('highlight')
-          } else {
-            n.classList.add('fade')
-          }
-        })
-
-        allLines.forEach(l => {
-          const from = l.getAttribute('data-from')
-          const to = l.getAttribute('data-to')
-          if (from === familyId || to === familyId) {
-            l.classList.remove('fade')
-            l.classList.add('highlight')
-          } else {
-            l.classList.add('fade')
-          }
-        })
-
-        allLabels.forEach(lbl => {
-          const from = lbl.getAttribute('data-from')
-          const to = lbl.getAttribute('data-to')
-          if (from === familyId || to === familyId) {
-            lbl.classList.remove('fade')
-          } else {
-            lbl.classList.add('fade')
-          }
-        })
-      })
-
-      node.addEventListener('mouseleave', () => {
-        allNodes.forEach(n => n.classList.remove('fade', 'highlight'))
-        allLines.forEach(l => l.classList.remove('fade', 'highlight'))
-        allLabels.forEach(lbl => lbl.classList.remove('fade'))
-      })
-    })
-  }
 
   const openModal = (title: string, img: string, transcript: string) => {
     const modalOverlay = document.getElementById('modal-overlay')
@@ -227,36 +74,7 @@ export default function Home() {
   return (
     <>
       {/* Navigation */}
-      <nav className="bg-white/95 backdrop-blur-sm border-b border-card-border fixed w-full top-0 z-50">
-        <div className="container mx-auto px-6 py-4">
-          <div className="flex justify-between items-center">
-            <div className="font-bold text-xl font-serif text-heading">Sprouse-Prouse Research</div>
-            <div className="hidden md:flex space-x-8">
-              <a href="#introduction" className="nav-link">Introduction</a>
-              <a href="#timeline" className="nav-link">Timeline</a>
-              <a href="#alliances" className="nav-link">Alliances</a>
-              <a href="#legacy" className="nav-link">Legacy</a>
-              <a href="#appendix" className="nav-link">Register</a>
-            </div>
-            <button id="menu-btn" className="md:hidden">
-              <div className="w-6 h-6 flex flex-col justify-center items-center space-y-1">
-                <span className="w-4 h-0.5 bg-heading"></span>
-                <span className="w-4 h-0.5 bg-heading"></span>
-                <span className="w-4 h-0.5 bg-heading"></span>
-              </div>
-            </button>
-          </div>
-          <div id="mobile-menu" className="hidden md:hidden mt-4 pb-4 border-t border-card-border pt-4">
-            <div className="flex flex-col space-y-2">
-              <a href="#introduction" className="nav-link">Introduction</a>
-              <a href="#timeline" className="nav-link">Timeline</a>
-              <a href="#alliances" className="nav-link">Alliances</a>
-              <a href="#legacy" className="nav-link">Legacy</a>
-              <a href="#appendix" className="nav-link">Register</a>
-            </div>
-          </div>
-        </div>
-      </nav>
+      <Navigation />
 
       {/* Hero Section */}
       <section className="py-24 md:py-40 bg-cover bg-center hero-bg mt-16">
@@ -339,14 +157,10 @@ export default function Home() {
           </p>
           <div className="grid lg:grid-cols-2 gap-12 items-start">
             <div className="reveal">
-              <h3 className="text-2xl font-bold font-serif mb-4">Migration Map</h3>
-              <div id="map" className="h-96 bg-gray-100 border border-card-border rounded-lg"></div>
+              <Map mapData={siteData.mapData} className="" />
             </div>
             <div className="reveal" style={{ transitionDelay: '200ms' }}>
-              <h3 className="text-2xl font-bold font-serif mb-4">Relationship Web</h3>
-              <div id="relationship-diagram">
-                <svg id="alliance-svg" width="100%" height="100%" style={{ position: 'absolute', top: 0, left: 0, pointerEvents: 'none' }}></svg>
-              </div>
+              <RelationshipGraph allianceData={siteData.allianceData} className="" />
             </div>
           </div>
         </div>
