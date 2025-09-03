@@ -27,7 +27,11 @@ export interface Era {
   title: string;
   period: string;
   description: string;
-  image: string;
+  theme: {
+    icon: string;
+    gradient: string[];
+    accentColor: string;
+  };
   alt: string;
 }
 
