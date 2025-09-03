@@ -1,0 +1,298 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Roboto:wght@400;700&display=swap');
+
+:root {
+  --color-primary: #6d5d4b;
+  --color-primary-light: #a38b70;
+  --color-bg: #fdfdfd;
+  --color-text: #4a4a4a;
+  --color-heading: #2c2c2c;
+  --color-card-border: #e0e0e0;
+  --color-accent: #4a5568;
+}
+
+::selection {
+  background-color: var(--color-primary);
+  color: white;
+}
+
+body {
+  font-family: 'Roboto', sans-serif;
+  background-color: var(--color-bg);
+  color: var(--color-text);
+}
+
+h1, h2, h3, .font-serif {
+  font-family: 'Playfair Display', serif;
+  color: var(--color-heading);
+  letter-spacing: 0.5px;
+}
+
+.nav-link {
+  position: relative;
+  transition: color 0.3s;
+}
+
+.nav-link::after {
+  content: '';
+  position: absolute;
+  width: 100%;
+  transform: scaleX(0);
+  height: 2px;
+  bottom: -4px;
+  left: 0;
+  background-color: var(--color-primary);
+  transform-origin: bottom right;
+  transition: transform 0.25s ease-out;
+}
+
+.nav-link:hover {
+  color: var(--color-primary);
+}
+
+.nav-link:hover::after {
+  transform: scaleX(1);
+  transform-origin: bottom left;
+}
+
+.hero-bg {
+  background-image: linear-gradient(rgba(253, 253, 253, 0.8), rgba(253, 253, 253, 0.8)), url('https://images.unsplash.com/photo-1447023224058-f59733a41c88?q=80&w=1920&auto=format&fit=crop');
+  background-attachment: fixed;
+}
+
+.era-card {
+  background-color: #ffffff;
+  border: 1px solid var(--color-card-border);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  overflow: hidden;
+}
+
+.era-card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 15px 30px rgba(0,0,0,0.1);
+}
+
+.era-card img {
+  transition: transform 0.4s ease, filter 0.4s ease;
+}
+
+.era-card:hover img {
+  transform: scale(1.05);
+  filter: grayscale(0%);
+}
+
+.btn-primary {
+  background-color: var(--color-primary);
+  color: white;
+}
+
+/* Relationship Diagram */
+#relationship-diagram {
+  position: relative;
+  min-height: 500px;
+  width: 100%;
+  background-color: #fff;
+  border: 1px solid var(--color-card-border);
+  border-radius: 0.5rem;
+  padding: 2rem;
+}
+
+.family-node {
+  position: absolute;
+  background-color: var(--color-primary);
+  color: white;
+  padding: 0.75rem 1.25rem;
+  border-radius: 9999px;
+  font-weight: bold;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+  border: 2px solid white;
+  transition: transform 0.3s, background-color 0.3s, opacity 0.3s;
+  cursor: pointer;
+}
+
+.family-node.highlight {
+  background-color: var(--color-accent);
+  transform: scale(1.1);
+}
+
+.family-node.fade {
+  opacity: 0.3;
+}
+
+/* Timeline styles */
+.timeline-line {
+  position: absolute;
+  left: 50%;
+  top: 0;
+  bottom: 0;
+  width: 2px;
+  background-color: var(--color-primary);
+  transform: translateX(-50%);
+}
+
+.timeline-item {
+  position: relative;
+}
+
+.timeline-dot {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 12px;
+  height: 12px;
+  background-color: var(--color-primary);
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 10;
+}
+
+/* Reveal animation */
+.reveal {
+  opacity: 0;
+  transform: translateY(30px);
+  transition: opacity 0.8s ease, transform 0.8s ease;
+}
+
+.reveal.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Back to top button */
+.to-top {
+  position: fixed;
+  bottom: 2rem;
+  right: 2rem;
+  background-color: var(--color-primary);
+  color: white;
+  border-radius: 50%;
+  width: 3rem;
+  height: 3rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.3s, transform 0.3s;
+  z-index: 50;
+}
+
+.to-top.show {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Modal styles */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.8);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 100;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.3s, visibility 0.3s;
+}
+
+.modal-overlay.show {
+  opacity: 1;
+  visibility: visible;
+}
+
+.modal-content {
+  background: white;
+  border-radius: 0.5rem;
+  padding: 2rem;
+  max-width: 90vw;
+  max-height: 90vh;
+  overflow: auto;
+  position: relative;
+}
+
+/* Alliance lines */
+.alliance-line {
+  stroke: var(--color-primary);
+  stroke-width: 2;
+  opacity: 0.7;
+  transition: opacity 0.3s, stroke-width 0.3s;
+}
+
+.alliance-line.highlight {
+  opacity: 1;
+  stroke-width: 3;
+}
+
+.alliance-line.fade {
+  opacity: 0.2;
+}
+
+.alliance-label {
+  fill: var(--color-text);
+  font-size: 12px;
+  text-anchor: middle;
+  transition: opacity 0.3s;
+}
+
+.alliance-label.fade {
+  opacity: 0.3;
+}
+
+/* Accordion styles */
+.accordion-button {
+  transition: background-color 0.3s;
+}
+
+.accordion-button:hover {
+  background-color: #f7fafc;
+}
+
+.accordion-button.active {
+  background-color: #edf2f7;
+}
+
+.accordion-content {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.3s ease;
+}
+
+.accordion-content.active {
+  max-height: 1000px;
+}
+
+/* Map marker styles */
+.custom-marker {
+  background-color: var(--color-primary);
+  border: 2px solid white;
+  border-radius: 50%;
+  width: 20px;
+  height: 20px;
+}
+
+.custom-marker.highlight {
+  background-color: var(--color-accent);
+  transform: scale(1.2);
+}
+
+/* Section divider */
+.section-divider {
+  position: relative;
+}
+
+.section-divider::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: linear-gradient(to right, transparent, var(--color-card-border), transparent);
+}
