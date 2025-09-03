@@ -1,0 +1,681 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Sprouse-Prouse Family: An Eight-Century Commercial History</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <!-- LeafletJS for Interactive Map -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin=""/>
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+    <style>
+        :root {
+            --color-primary: #6d5d4b; /* A richer, more academic brown */
+            --color-primary-light: #a38b70;
+            --color-bg: #fdfdfd; 
+            --color-text: #4a4a4a;
+            --color-heading: #2c2c2c;
+            --color-card-border: #e0e0e0;
+            --color-accent: #4a5568; 
+        }
+        ::selection { background-color: var(--color-primary); color: white; }
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-color: var(--color-bg);
+            color: var(--color-text);
+            opacity: 0;
+            transition: opacity 1s ease-in-out;
+        }
+        h1, h2, h3, .font-serif {
+            font-family: 'Playfair Display', serif;
+            color: var(--color-heading);
+            letter-spacing: 0.5px;
+        }
+        .nav-link { position: relative; transition: color 0.3s; }
+        .nav-link::after {
+            content: ''; position: absolute; width: 100%; transform: scaleX(0); height: 2px;
+            bottom: -4px; left: 0; background-color: var(--color-primary);
+            transform-origin: bottom right; transition: transform 0.25s ease-out;
+        }
+        .nav-link:hover { color: var(--color-primary); }
+        .nav-link:hover::after { transform: scaleX(1); transform-origin: bottom left; }
+        .hero-bg {
+             background-image: linear-gradient(rgba(253, 253, 253, 0.8), rgba(253, 253, 253, 0.8)), url('https://images.unsplash.com/photo-1447023224058-f59733a41c88?q=80&w=1920&auto=format&fit=crop');
+             background-attachment: fixed;
+        }
+        .era-card {
+            background-color: #ffffff; border: 1px solid var(--color-card-border);
+            transition: transform 0.3s ease, box-shadow 0.3s ease; overflow: hidden;
+        }
+        .era-card:hover { transform: translateY(-8px); box-shadow: 0 15px 30px rgba(0,0,0,0.1); }
+        .era-card img { transition: transform 0.4s ease, filter 0.4s ease; }
+        .era-card:hover img { transform: scale(1.05); filter: grayscale(0%); }
+        .btn-primary {
+            background-color: var(--color-primary); color: white;
+            transition: background-color 0.3s, transform 0.3s; box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+        .btn-primary:hover {
+            background-color: var(--color-primary-dark); transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0,0,0,0.15);
+        }
+        .accordion-content {
+            max-height: 0; overflow: hidden;
+            transition: max-height 0.7s ease-in-out, padding 0.7s ease-in-out; padding: 0 1.5rem;
+        }
+        .accordion-button.active + .accordion-content {
+           max-height: 1200px; /* Increased for more content */
+           padding: 0 1.5rem 1.5rem 1.5rem;
+        }
+        .accordion-button { transition: background-color 0.3s; }
+        .accordion-button:hover { background-color: #f7f7f7; }
+        .accordion-button.active { background-color: #f3f3f3; }
+        .accordion-button .arrow { transition: transform 0.3s ease; }
+        .accordion-button.active .arrow { transform: rotate(180deg); color: var(--color-primary); }
+        .section-divider { border-bottom: 1px solid var(--color-card-border); }
+        .reveal { opacity: 0; transform: translateY(30px); transition: opacity 0.8s ease-out, transform 0.8s ease-out; }
+        .reveal.visible { opacity: 1; transform: translateY(0); }
+        /* Timeline */
+        .timeline-item { position: relative; }
+        .timeline-line { position: absolute; left: 50%; top: 2rem; bottom: -2rem; width: 2px; background-color: var(--color-card-border); transform: translateX(-50%); }
+        .timeline-dot {
+            position: absolute; left: 50%; top: 50%; width: 1.25rem; height: 1.25rem;
+            border-radius: 9999px; background-color: var(--color-bg); border: 3px solid var(--color-primary);
+            transform: translate(-50%, -50%); transition: transform 0.3s ease;
+        }
+        .timeline-item:hover .timeline-dot { transform: translate(-50%, -50%) scale(1.2); }
+        /* Interactive Map */
+        #map { height: 500px; width: 100%; border-radius: 0.5rem; border: 1px solid var(--color-card-border); z-index: 10; }
+        .map-marker-default, .map-marker-highlight {
+            background-color: var(--color-primary);
+            border: 2px solid white;
+            border-radius: 50%;
+            width: 12px !important;
+            height: 12px !important;
+            box-shadow: 0 0 5px rgba(0,0,0,0.5);
+            transition: all 0.3s ease;
+        }
+        .map-marker-highlight {
+            background-color: #d00;
+            width: 20px !important;
+            height: 20px !important;
+            transform: translate(-4px, -4px); /* Re-center larger icon */
+        }
+        /* Relationship Diagram */
+        #relationship-diagram { position: relative; min-height: 500px; width: 100%; background-color: #fff; border: 1px solid var(--color-card-border); border-radius: 0.5rem; padding: 2rem; }
+        .family-node {
+            position: absolute; background-color: var(--color-primary); color: white;
+            padding: 0.75rem 1.25rem; border-radius: 9999px; font-weight: bold;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1); border: 2px solid white;
+            transition: transform 0.3s, background-color 0.3s, opacity 0.3s; cursor: pointer;
+        }
+        .family-node.highlight { background-color: var(--color-accent); transform: scale(1.1); }
+        .family-node.fade { opacity: 0.3; }
+        .alliance-line { stroke: var(--color-primary-light); stroke-width: 2; stroke-dasharray: 5, 5; transition: opacity 0.3s, stroke-width 0.3s; }
+        .alliance-line.highlight { stroke-width: 4; stroke-dasharray: none; }
+        .alliance-line.fade { opacity: 0.1; }
+        .alliance-label { font-size: 11px; font-weight: bold; fill: var(--color-text); text-anchor: middle; paint-order: stroke; stroke: #fff; stroke-width: 3px; transition: opacity 0.3s; }
+        .alliance-label.fade { opacity: 0.1; }
+        /* Back to top button */
+        #to-top-btn {
+            position: fixed; bottom: -50px; right: 20px;
+            background-color: var(--color-primary); color: white;
+            width: 40px; height: 40px; border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+            transition: bottom 0.3s, transform 0.3s; z-index: 100;
+        }
+        #to-top-btn:hover { transform: scale(1.1); }
+        #to-top-btn.show { bottom: 20px; }
+        /* Source Modal */
+        #modal-overlay {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background-color: rgba(0,0,0,0.6); backdrop-filter: blur(5px);
+            z-index: 1000; opacity: 0; visibility: hidden;
+            transition: opacity 0.3s ease, visibility 0s 0.3s;
+        }
+        #modal-overlay.show { opacity: 1; visibility: visible; transition: opacity 0.3s ease; }
+        #modal-content {
+            position: fixed; top: 50%; left: 50%;
+            transform: translate(-50%, -50%) scale(0.95);
+            background-color: white; border-radius: 0.5rem;
+            width: 90%; max-width: 800px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            transition: transform 0.3s ease;
+            max-height: 90vh;
+            display: flex;
+            flex-direction: column;
+        }
+        #modal-overlay.show #modal-content { transform: translate(-50%, -50%) scale(1); }
+    </style>
+</head>
+<body class="antialiased">
+    <!-- Header & Navigation -->
+    <header class="bg-white/90 backdrop-blur-lg sticky top-0 z-50 shadow-sm border-b border-gray-200">
+        <nav class="container mx-auto px-6 py-4 flex justify-between items-center">
+            <div class="font-serif text-xl font-bold tracking-wider text-gray-800">SPROUSE-PROUSE</div>
+            <div class="hidden md:flex space-x-10">
+                <a href="#timeline" class="nav-link font-semibold tracking-wide">Timeline</a>
+                <a href="#alliances" class="nav-link font-semibold tracking-wide">Alliances</a>
+                <a href="#legacy" class="nav-link font-semibold tracking-wide">Legacy</a>
+                <a href="#appendix" class="nav-link font-semibold tracking-wide">Key Figures</a>
+            </div>
+            <div class="md:hidden">
+                <button id="menu-btn" class="text-gray-700 focus:outline-none">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path></svg>
+                </button>
+            </div>
+        </nav>
+        <div id="mobile-menu" class="hidden md:hidden">
+             <a href="#timeline" class="block py-2 px-4 text-sm hover:bg-gray-100">Timeline</a>
+             <a href="#alliances" class="block py-2 px-4 text-sm hover:bg-gray-100">Alliances</a>
+             <a href="#legacy" class="block py-2 px-4 text-sm hover:bg-gray-100">Legacy</a>
+             <a href="#appendix" class="block py-2 px-4 text-sm hover:bg-gray-100">Key Figures</a>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="py-24 md:py-40 bg-cover bg-center hero-bg">
+        <div class="container mx-auto px-6 text-center">
+            <h1 class="text-4xl md:text-6xl font-bold leading-tight mb-4 font-serif reveal">A Study in Commercial Genetics</h1>
+            <p class="text-lg md:text-xl max-w-3xl mx-auto mb-8 reveal" style="transition-delay: 200ms;">An Eight-Century Analysis of the Sprouse-Prouse Family and the Infrastructure of Power.</p>
+            <a href="#introduction" class="btn-primary font-bold py-3 px-8 rounded-full inline-block reveal" style="transition-delay: 400ms;">Explore the Legacy</a>
+        </div>
+    </section>
+
+    <!-- Introduction Section -->
+    <section id="introduction" class="py-20 md:py-28">
+        <div class="container mx-auto px-6">
+            <div class="max-w-4xl mx-auto text-center reveal">
+                <h2 class="text-3xl md:text-4xl font-bold mb-6 font-serif">The Journey of a Family, The History of Commerce</h2>
+                <p class="text-lg leading-relaxed mb-4">The history of the Sprouse/Prouse family offers a unique lens through which to view eight centuries of economic and social change. Their path—from the wharves of medieval Exeter to the railheads of 19th-century Illinois—was not a series of accidents, but the continuous application of a core principle: wealth and influence are built at the junctions where goods and capital converge.</p>
+                <p class="text-lg leading-relaxed italic text-gray-600">This is a story not just of a family, but of a durable commercial strategy passed down through generations, adapting to new technologies and new frontiers while remaining true to its foundational instinct.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Timeline / Eras Section -->
+    <section id="timeline" class="py-20 md:py-28 bg-white section-divider">
+        <div class="container mx-auto px-6 reveal">
+            <h2 class="text-3xl md:text-4xl font-bold text-center mb-20 font-serif">Four Eras of Strategic Adaptation</h2>
+            <div id="eras-container" class="relative">
+                <!-- Timeline will be injected here -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Alliances and Migrations Section -->
+    <section id="alliances" class="py-20 md:py-28">
+        <div class="container mx-auto px-6 reveal">
+            <h2 class="text-3xl md:text-4xl font-bold text-center mb-8 font-serif">Strategic Alliances & Migrations</h2>
+            <p class="text-center text-lg mb-16 max-w-3xl mx-auto">The family's journey was physical as well as economic. This map traces their migration path, while the interactive diagram below illustrates the key marriage alliances that fueled their commercial expansion in each new territory.</p>
+            <div class="grid lg:grid-cols-2 gap-12 items-start">
+                <div class="reveal">
+                    <h3 class="text-2xl font-bold font-serif mb-4">Migration Map</h3>
+                    <div id="map"></div>
+                </div>
+                <div class="reveal" style="transition-delay: 200ms;">
+                    <h3 class="text-2xl font-bold font-serif mb-4">Relationship Web</h3>
+                    <div id="relationship-diagram">
+                        <svg id="alliance-svg" width="100%" height="100%" style="position: absolute; top: 0; left: 0; pointer-events: none;"></svg>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Legacy Section -->
+    <section id="legacy" class="py-20 md:py-28 bg-white section-divider">
+        <div class="container mx-auto px-6 reveal">
+            <div class="max-w-4xl mx-auto text-center">
+                <h2 class="text-3xl md:text-4xl font-bold mb-8 font-serif">The Enduring Legacy</h2>
+                <blockquote class="text-2xl italic border-l-4 border-primary pl-6 mb-8">
+                    "From Exeter’s guildhall to an Illinois railhead, the family kept choosing the same vantage points: where inventory turns into money."
+                </blockquote>
+                <p class="text-lg leading-relaxed">The eight-century journey of the Sprouse-Prouse family is more than a sequence of names and dates; it is a case study in commercial genetics. The core DNA—an instinct for logistics, an appreciation for strategic alliances, and a mastery of the legal and financial tools of the age—proved remarkably durable. They understood that power flowed not just from owning land, but from controlling its access to markets. This fundamental insight, passed down and adapted from the age of sail to the age of rail, is their ultimate legacy.</p>
+            </div>
+        </div>
+    </section>
+
+
+    <!-- Appendix / Biographical Register -->
+    <section id="appendix" class="py-20 md:py-28">
+        <div class="container mx-auto px-6 reveal">
+            <h2 class="text-3xl md:text-4xl font-bold text-center mb-16 font-serif">Biographical Register & Genealogical Findings</h2>
+            <div class="max-w-4xl mx-auto" id="accordion-container">
+                <!-- Accordion items will be generated by JavaScript -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-gray-800 text-white py-12">
+        <div class="container mx-auto px-6 text-center">
+            <p class="font-serif text-lg font-bold tracking-wider">SPROUSE-PROUSE</p>
+            <p class="text-sm text-gray-400 mt-2">An Eight-Century Legacy of Adaptation and Foresight.</p>
+             <div class="mt-6 space-x-6">
+                <a href="#timeline" class="text-gray-300 hover:text-white transition-colors duration-300">Timeline</a>
+                <a href="#alliances" class="text-gray-300 hover:text-white transition-colors duration-300">Alliances</a>
+                <a href="#legacy" class="text-gray-300 hover:text-white transition-colors duration-300">Legacy</a>
+                <a href="#appendix" class="text-gray-300 hover:text-white transition-colors duration-300">Key Figures</a>
+            </div>
+        </div>
+    </footer>
+    
+    <!-- Back to Top Button -->
+    <a href="#" id="to-top-btn" aria-label="Back to top">
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 15l7-7 7 7"></path></svg>
+    </a>
+    
+    <!-- Source Modal -->
+    <div id="modal-overlay">
+        <div id="modal-content">
+            <div class="p-4 border-b flex justify-between items-center">
+                <h3 id="modal-title" class="text-lg font-bold font-serif">Source Document</h3>
+                <button id="modal-close" class="text-gray-500 hover:text-gray-800">&times;</button>
+            </div>
+            <div class="p-6 overflow-y-auto">
+                <div class="grid md:grid-cols-2 gap-6">
+                    <div>
+                        <h4 class="font-bold mb-2">Document Image</h4>
+                        <div class="bg-gray-100 border rounded h-64 flex items-center justify-center">
+                            <img id="modal-image" src="" alt="Source Document" class="max-w-full max-h-full object-contain">
+                        </div>
+                    </div>
+                    <div>
+                        <h4 class="font-bold mb-2">Transcript & Notes</h4>
+                        <p id="modal-transcript" class="text-sm bg-gray-50 p-3 border rounded h-64 overflow-y-auto whitespace-pre-wrap font-mono"></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+<script>
+    const siteData = {
+      "eras": [
+        { "id": 1, "title": "I. The Crucible of Commerce", "period": "c. 1100–1607", "description": "From Devon manors to the powerful Society of Merchant Venturers in Exeter, the family forged its commercial DNA in the English wool and tin trades, mastering international logistics and credit.", "image": "https://images.unsplash.com/photo-1594782480839-819708170198?q=80&w=800&auto=format&fit=crop", "alt": "Historic medieval port city of Exeter" },
+        { "id": 2, "title": "II. The Atlantic Enterprise", "period": "c. 1650–1780", "description": "Transplanting their skills to colonial Maryland, they established riverfront plantations as private logistical hubs for the lucrative tobacco trade, linking rural production to urban finance in Baltimore.", "image": "https://images.unsplash.com/photo-1620050143639-0d127713d2e2?q=80&w=800&auto=format&fit=crop", "alt": "Colonial-era plantation house in Maryland" },
+        { "id": 3, "title": "III. Forging a New Nation", "period": "c. 1780–1880", "description": "Moving west, the family adapted again, mastering the legal infrastructure of the frontier before founding a town at a critical railroad junction, controlling the flow of timber and grain.", "image": "https://images.unsplash.com/photo-1554224024-81a16b9b35b7?q=80&w=800&auto=format&fit=crop", "alt": "Vintage steam train on a railroad track" },
+        { "id": 4, "title": "IV. The Modern Apex", "period": "c. 1860–1993", "description": "The family's focus evolved to finance, politics, and finally, national retail, scaling their logistical instinct to manage a multi-state distribution network for the Sprouse-Reitz stores.", "image": "https://images.unsplash.com/photo-1528701920115-f5c71a39f40e?q=80&w=800&auto=format&fit=crop", "alt": "Interior of a vintage 20th-century general store" }
+      ],
+      "biographicalData": [
+          { 
+              "era": "I. Medieval & Early Modern Devon (1100–1600)", 
+              "locationId": "exeter",
+              "people": [
+                  { "name": "Osbert de Préaux", "dates": "fl. c. 1120–1150", "faith": "Catholic; patron of monastic houses in Devon and Normandy.", "nexus": "Managed estates near coastal routes; oversaw grain and wool transport.", "sources": "Devon manorial rolls; Norman charters.", "genealogicalEvidence": [
+                      { "type": "Manorial Roll Entry", "detail": "Records show Osbert de Préaux holding lands at Gidleigh, noting annual yields of wool sent to Exeter.", "sourceImage": "https://placehold.co/400x300/e2e8f0/64748b?text=Manorial+Roll", "sourceTranscript": "Item: To Osbert de Préaux, for the lands at Gidleigh, an accounting of XL stone of wool delivered to the port-reeve of Exeter..." }
+                  ]},
+                  { "name": "William de Préaux", "dates": "fl. c. 1180–1210", "faith": "Catholic; served in Angevin court.", "nexus": "Engaged in Channel maritime provisioning for military expeditions.", "sources": "Angevin administrative records; port customs accounts." },
+                  { "name": "Lawrence Prouz", "dates": "1480–1548", "faith": "Catholic parish life pre-Reformation.", "nexus": "Sword Bearer of Exeter; managed manorial agriculture and tin mining; coordinated shipments via Exeter quay.", "sources": "Exeter Guild records; Devon subsidy rolls." },
+                  { "name": "Richard Prouz", "dates": "1509–", "faith": "Catholic; later Anglican.", "nexus": "Married Joane de Beaumont; invested in local market rights; maintained mercantile ties.", "sources": "Heraldic Visitations of Devon (1620); parish registers." },
+                  { "name": "Richard Prouse", "dates": "1535–1607", "faith": "Anglican post-Reformation.", "nexus": "Married Richord Vincent and Ann Vaughn; integrated into Exeter’s Merchant Adventurers; exported kerseys to Antwerp/Middelburg; used credit instruments and warehousing.", "sources": "Exeter customs accounts; Merchant Adventurers’ records." }
+              ]
+          },
+          { 
+              "era": "II. Colonial Chesapeake (1650–1780)", 
+              "locationId": "talbot",
+              "people": [
+                  { "name": "George Prouse II", "dates": "1642–1696", "faith": "Anglican; St. Peter’s Parish, Talbot County.", "nexus": "Assembled river-front plantations; leveraged London factor credit.", "sources": "Talbot County land patents; parish registers.", "genealogicalEvidence": [
+                      { "type": "Land Patent", "detail": "Grant for 350 acres, 'Prouse's Landing,' described as 'fronting the Choptank River for the purpose of loading tobacco.'", "sourceImage": "https://placehold.co/400x300/e2e8f0/64748b?text=Land+Patent", "sourceTranscript": "By the authority of the Lord Proprietor, we do grant unto George Prouse a parcel of land of 350 acres... to be known as Prouse's Landing, for the cultivation and shipping of tobacco." }
+                  ]},
+                  { "name": "Mary Alford Prouse", "dates": "", "faith": "Anglican.", "nexus": "Brought Exeter merchant-guild heritage; managed household provisioning and local trade accounts.", "sources": "Exeter guild rolls; parish records." },
+                  { "name": "George Prouse III", "dates": "1675–1708", "faith": "Anglican.", "nexus": "Managed inherited tracts; 1708 will shows structured asset transfer; relied on local sureties.", "sources": "Maryland wills; probate bonds." },
+                  { "name": "George Prouse IV", "dates": "1700–1758", "faith": "Anglican.", "nexus": "Married Jane Harding; linked rural production to Baltimore warehousing and finance.", "sources": "St. Peter’s Parish marriage register; Gittings family papers." },
+                  { "name": "Jane Harding Prouse", "dates": "", "faith": "Anglican.", "nexus": "Gittings family connections; facilitated access to urban storage and capital markets.", "sources": "Baltimore County court records; family papers." },
+                  { "name": "George Prouse V", "dates": "1733–1781", "faith": "Anglican; Church Warden.", "nexus": "Managed plantation logistics and parish finances, a key source of local power.", "sources": "St. Peter's Parish Vestry Minutes." }
+              ]
+          },
+          { 
+              "era": "III. Post-Colonial Expansion (1780–1850)",
+              "locationId": "robertson",
+              "people": [
+                  { "name": "George Sprouse", "dates": "1757–1845", "faith": "Anglican roots; frontier Protestantism.", "nexus": "Migrated to Robertson County, TN; diversified farming; Appleton merchant heritage.", "sources": "Robertson County deed books; Appleton genealogies." },
+                  { "name": "Margaret Appleton Sprouse", "dates": "", "faith": "Protestant.", "nexus": "Descended from Ipswich, MA, merchant-magistrates; maintained literacy and record-keeping traditions.", "sources": "Massachusetts Bay Colony records." },
+                  { "name": "James W. Sprouse", "dates": "c. 1798–1860", "faith": "Protestant.", "nexus": "Lawyer; landholder; handled deeds, contracts, estate settlements.", "sources": "Robertson County court minutes; probate records." },
+                  { "name": "William Sprouse (b. 1802)", "dates": "1802–after 1880", "faith": "Protestant.", "nexus": "Black Hawk War veteran; blacksmith; patented “Occidental Plow”; TN→IL→KS; served under Abraham Lincoln in 1832.", "sources": "U.S. Patent Office records; military muster rolls.", "genealogicalEvidence": [
+                       { "type": "Military Muster Roll", "detail": "1832, 4th Reg, IL Mounted Volunteers. Listed as a private in Captain Abraham Lincoln's company.", "sourceImage": "https://placehold.co/400x300/e2e8f0/64748b?text=Muster+Roll", "sourceTranscript": "Company: Captain A. Lincoln\n4th Regiment, Illinois Mounted Volunteers\nPrivate William Sprouse - Mustered in April 21, 1832..." }
+                   ]},
+                  { "name": "Martha Combs Sprouse", "dates": "", "faith": "Protestant.", "nexus": "Virginia Northern Neck heritage; linked to Op den Graeff mercantile-heraldic line.", "sources": "Virginia land and parish records." },
+                  { "name": "William Sprouse (b. 1822)", "dates": "1822–after 1880", "faith": "Protestant.", "nexus": "Involved in town-planning beside a rail line; boosted local market access.", "sources": "County plat maps; rail company records." }
+              ]
+          },
+          { 
+              "era": "IV. Modern & Frontier Era (1850–1954)", 
+              "locationId": "kinmundy",
+              "people": [
+                  { "name": "William T. Sprouse", "dates": "1822–1886", "faith": "Protestant.", "nexus": "Founded Kinmundy, IL, beside Illinois Central Railroad; built first saw and grist mill; Civil War captain.", "sources": "Marion County plat maps; Civil War service records.", "genealogicalEvidence": [
+                      { "type": "County Land Deed", "detail": "Documents the purchase of the initial 80-acre tract for the town plat of Kinmundy, 'adjacent to the proposed Illinois Central right-of-way.'", "sourceImage": "https://placehold.co/400x300/e2e8f0/64748b?text=Land+Deed", "sourceTranscript": "Be it known that William T. Sprouse has this day purchased the 80 acre tract... for the establishment of a town to be named Kinmundy, situated upon the planned route of the Illinois Central Railroad..." }
+                  ]},
+                  { "name": "Granville Babbitt Sprouse", "dates": "1863–1947", "faith": "Protestant.", "nexus": "Tobacco merchant; co-founded prizing house; mayor; bank director; operated within Robertson County’s tobacco–banking complex.", "sources": "Springfield city directories; bank records." },
+                  { "name": "John Draughon Sprouse, Sr.", "dates": "1904–1980", "faith": "Protestant.", "nexus": "Tennessee state senator; legislative influence on infrastructure.", "sources": "Tennessee legislative records." },
+                  { "name": "John Alwyn Sprouse", "dates": "1908–1993", "faith": "Presbyterian.", "nexus": "President/CEO of Sprouse-Reitz Stores Inc.; pioneered overseas buying; multi-state retail logistics.", "sources": "Company histories; trade journals." },
+                  { "name": "George F. Sprouse", "dates": "1837–1910", "faith": "Protestant.", "nexus": "Civil War officer; farmer in KS and AR; adapted to post-war commodity markets.", "sources": "Military records; agricultural censuses." },
+                  { "name": "William Claude Sprouse", "dates": "1891–1954", "faith": "Protestant.", "nexus": "Tradesman; navigated economic shifts of two world wars and the Depression.", "sources": "City directories; census records." }
+              ]
+          }
+      ],
+      "mapData": {
+          "locations": [
+              { "id": "exeter", "name": "Exeter, Devon", "coords": [50.7184, -3.5339], "description": "The family's commercial origins in the wool and tin trades." },
+              { "id": "talbot", "name": "Talbot County, MD", "coords": [38.783, -76.071], "description": "Hub of the family's tobacco plantation and export operations." },
+              { "id": "robertson", "name": "Robertson County, TN", "coords": [36.529, -86.885], "description": "Center of frontier farming and legal-financial activities." },
+              { "id": "kinmundy", "name": "Kinmundy, IL", "coords": [38.771, -88.846], "description": "Founded at a key railroad junction for the grain and timber trade." }
+          ]
+      },
+      "allianceData": {
+          "families": [
+              { "id": "Prouse", "label": "Prouse/Sprouse", "pos": { "x": 50, "y": 10 } },
+              { "id": "Vincent", "label": "Vincent (Drapers)", "pos": { "x": 10, "y": 30 } },
+              { "id": "Alford", "label": "Alford (Merchants)", "pos": { "x": 90, "y": 30 } },
+              { "id": "Harding", "label": "Harding/Gittings (Finance)", "pos": { "x": 10, "y": 60 } },
+              { "id": "Appleton", "label": "Appleton (Magistrates)", "pos": { "x": 90, "y": 60 } },
+              { "id": "Combs", "label": "Combs (Landholders)", "pos": { "x": 50, "y": 90 } }
+          ],
+          "alliances": [
+              { "from": "Prouse", "to": "Vincent", "label": "c. 1559" },
+              { "from": "Prouse", "to": "Alford", "label": "c. 1670" },
+              { "from": "Prouse", "to": "Harding", "label": "c. 1731" },
+              { "from": "Prouse", "to": "Appleton", "label": "c. 1785" },
+              { "from": "Prouse", "to": "Combs", "label": "c. 1820" }
+          ]
+      }
+    };
+
+    document.addEventListener('DOMContentLoaded', function() {
+        document.body.style.opacity = 1;
+
+        let map;
+        let mapMarkers = {};
+
+        // --- RENDER FUNCTIONS --- //
+        function renderTimeline() {
+            const erasContainer = document.getElementById('eras-container');
+            if (!erasContainer) return;
+            erasContainer.innerHTML = '<div class="timeline-line hidden lg:block"></div>';
+            const timelineGrid = document.createElement('div');
+            timelineGrid.className = "grid lg:grid-cols-2 gap-x-16 gap-y-16";
+            siteData.eras.forEach((era, index) => {
+                const isOdd = index % 2 !== 0;
+                timelineGrid.innerHTML += `
+                    <div class="timeline-item reveal lg:col-start-${isOdd ? 2 : 1}">
+                        <div class="lg:absolute timeline-dot hidden lg:block"></div>
+                        <div class="era-card rounded-lg overflow-hidden shadow-md flex flex-col h-full">
+                            <img src="${era.image}" alt="${era.alt}" class="w-full h-56 object-cover">
+                            <div class="p-8 flex flex-col flex-grow">
+                                <h3 class="font-bold text-2xl mb-3 font-serif">${era.title}</h3>
+                                <p class="text-sm font-bold uppercase tracking-wider text-gray-500 mb-4">${era.period}</p>
+                                <p class="leading-relaxed text-gray-600 flex-grow">${era.description}</p>
+                            </div>
+                        </div>
+                    </div>`;
+            });
+            erasContainer.appendChild(timelineGrid);
+        }
+
+        function renderAccordion() {
+            const accordionContainer = document.getElementById('accordion-container');
+            if (!accordionContainer) return;
+            accordionContainer.innerHTML = '';
+            siteData.biographicalData.forEach(eraData => {
+                let eraHtml = `<div class="era-section mb-8">
+                    <div class="flex justify-between items-center mb-4 border-b pb-3">
+                         <h3 class="text-2xl font-bold font-serif">${eraData.era}</h3>
+                    </div>`;
+                eraData.people.forEach(person => {
+                    let evidenceHtml = '';
+                    if (person.genealogicalEvidence) {
+                        evidenceHtml += `<div class="mt-6 pt-4 border-t border-dashed border-gray-300">
+                            <h4 class="font-bold text-sm uppercase tracking-wider text-gray-500 mb-3">Genealogical Findings</h4>
+                            <ul class="space-y-3 text-sm">`;
+                        person.genealogicalEvidence.forEach((evi, index) => {
+                            evidenceHtml += `<li class="flex items-start justify-between">
+                                <div class="flex items-start pr-4">
+                                    <svg class="w-4 h-4 mr-3 mt-1 text-primary-light shrink-0" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" /></svg>
+                                    <span><strong>${evi.type}:</strong> ${evi.detail}</span>
+                                </div>
+                                <button class="view-record-btn text-xs font-semibold text-blue-600 hover:underline shrink-0" 
+                                        data-title="${evi.type}" 
+                                        data-img="${evi.sourceImage}" 
+                                        data-transcript="${evi.sourceTranscript}">
+                                    View Record
+                                </button>
+                            </li>`;
+                        });
+                        evidenceHtml += `</ul></div>`;
+                    }
+                    
+                    const detailsHtml = `
+                        ${person.faith ? `<p><strong>Faith:</strong> ${person.faith}</p>` : ''}
+                        ${person.nexus ? `<p><strong>Commerce/Logistics:</strong> ${person.nexus}</p>` : ''}
+                        ${person.sources ? `<p><strong>Sources:</strong> <em class="text-sm">${person.sources}</em></p>` : ''}
+                    `;
+
+                    eraHtml += `<div class="border-b border-gray-200">
+                        <button class="accordion-button w-full text-left py-4 px-4 flex justify-between items-center focus:outline-none rounded-t-md" data-location-id="${eraData.locationId}">
+                            <div class="flex items-center">
+                               <div class="w-10 h-10 rounded-full bg-gray-200 mr-4 flex-shrink-0 flex items-center justify-center overflow-hidden">
+                                 <svg class="w-full h-full text-gray-400" fill="currentColor" viewBox="0 0 24 24"><path d="M24 20.993V24H0v-2.996A14.977 14.977 0 0112.004 15c4.904 0 9.26 2.354 11.996 5.993zM16.002 8.999a4 4 0 11-8 0 4 4 0 018 0z" /></svg>
+                               </div>
+                               <div>
+                                    <span class="font-bold text-lg">${person.name}</span>
+                                    <span class="text-sm text-gray-500 ml-2 block sm:inline">${person.dates}</span>
+                               </div>
+                            </div>
+                            <span class="arrow text-2xl text-gray-400 transform transition-transform duration-300">&#8964;</span>
+                        </button>
+                        <div class="accordion-content bg-gray-50 rounded-b-md">
+                            <div class="p-5 border-l-2 border-primary-light space-y-3">
+                                ${detailsHtml}
+                                ${evidenceHtml}
+                            </div>
+                        </div></div>`;
+                });
+                eraHtml += `</div>`;
+                accordionContainer.innerHTML += eraHtml;
+            });
+        }
+
+        function initMap() {
+            const mapContainer = document.getElementById('map');
+            if (!mapContainer || mapContainer._leaflet_id) return;
+            map = L.map('map').setView([43, -45], 3);
+            L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager_labels_under/{z}/{x}/{y}{r}.png', {
+                attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>',
+                subdomains: 'abcd', maxZoom: 10, minZoom: 2
+            }).addTo(map);
+            const points = [];
+            siteData.mapData.locations.forEach(loc => {
+                const defaultIcon = L.divIcon({ className: 'map-marker-default', iconSize: [12, 12] });
+                const marker = L.marker(loc.coords, { icon: defaultIcon }).addTo(map)
+                    .bindPopup(`<b>${loc.name}</b><br>${loc.description}`);
+                mapMarkers[loc.id] = marker;
+                points.push(loc.coords);
+            });
+            const polyline = L.polyline(points, {color: 'var(--color-primary)', weight: 3}).addTo(map);
+            map.fitBounds(polyline.getBounds().pad(0.2));
+        }
+        
+        function highlightMapLocation(locationId) {
+            // Reset all markers
+            for (const id in mapMarkers) {
+                mapMarkers[id].setIcon(L.divIcon({ className: 'map-marker-default', iconSize: [12, 12] }));
+            }
+            // Highlight the selected one
+            if (locationId && mapMarkers[locationId]) {
+                const marker = mapMarkers[locationId];
+                marker.setIcon(L.divIcon({ className: 'map-marker-highlight', iconSize: [20, 20] }));
+                map.panTo(marker.getLatLng());
+            }
+        }
+
+        function renderRelationshipDiagram() {
+            const container = document.getElementById('relationship-diagram');
+            const svg = document.getElementById('alliance-svg');
+            if (!container || !svg) return;
+            container.innerHTML = `<svg id="alliance-svg" width="100%" height="100%" style="position: absolute; top: 0; left: 0; pointer-events: none;"></svg>`;
+            const newSvg = document.getElementById('alliance-svg');
+
+            siteData.allianceData.families.forEach(family => {
+                const node = document.createElement('div');
+                node.className = 'family-node';
+                node.id = `node-${family.id}`;
+                node.textContent = family.label;
+                node.style.left = `${family.pos.x}%`;
+                node.style.top = `${family.pos.y}%`;
+                node.style.transform = `translate(-${family.pos.x}%, -${family.pos.y}%)`;
+                container.appendChild(node);
+            });
+            
+            setTimeout(() => {
+                newSvg.innerHTML = '';
+                siteData.allianceData.alliances.forEach(alliance => {
+                    const fromNodeEl = document.getElementById(`node-${alliance.from}`);
+                    const toNodeEl = document.getElementById(`node-${alliance.to}`);
+                    const fromPos = { x: fromNodeEl.offsetLeft + fromNodeEl.offsetWidth / 2, y: fromNodeEl.offsetTop + fromNodeEl.offsetHeight / 2 };
+                    const toPos = { x: toNodeEl.offsetLeft + toNodeEl.offsetWidth / 2, y: toNodeEl.offsetTop + toNodeEl.offsetHeight / 2 };
+                    
+                    const line = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+                    line.setAttribute('x1', fromPos.x); line.setAttribute('y1', fromPos.y);
+                    line.setAttribute('x2', toPos.x); line.setAttribute('y2', toPos.y);
+                    line.classList.add('alliance-line');
+                    line.dataset.from = alliance.from; line.dataset.to = alliance.to;
+                    newSvg.appendChild(line);
+
+                    const label = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+                    label.setAttribute('x', (fromPos.x + toPos.x) / 2); label.setAttribute('y', (fromPos.y + toPos.y) / 2 + 4);
+                    label.classList.add('alliance-label');
+                    label.dataset.from = alliance.from; label.dataset.to = alliance.to;
+                    label.textContent = alliance.label;
+                    newSvg.appendChild(label);
+                });
+                
+                const allNodes = container.querySelectorAll('.family-node');
+                const allLines = newSvg.querySelectorAll('.alliance-line');
+                const allLabels = newSvg.querySelectorAll('.alliance-label');
+
+                allNodes.forEach(node => {
+                    node.addEventListener('mouseover', () => {
+                        const familyId = node.id.replace('node-', '');
+                        const connectedFamilyIds = new Set([familyId]);
+                        siteData.allianceData.alliances.forEach(a => {
+                            if (a.from === familyId) connectedFamilyIds.add(a.to);
+                            if (a.to === familyId) connectedFamilyIds.add(a.from);
+                        });
+
+                        allNodes.forEach(n => {
+                            const nId = n.id.replace('node-', '');
+                            if (connectedFamilyIds.has(nId)) {
+                                n.classList.remove('fade');
+                                if(nId === familyId) n.classList.add('highlight');
+                            } else { n.classList.add('fade'); }
+                        });
+
+                        allLines.forEach(l => {
+                             if(l.dataset.from === familyId || l.dataset.to === familyId) {
+                                l.classList.remove('fade'); l.classList.add('highlight');
+                             } else { l.classList.add('fade'); }
+                        });
+                        allLabels.forEach(lbl => {
+                             if(lbl.dataset.from === familyId || lbl.dataset.to === familyId) {
+                                lbl.classList.remove('fade');
+                             } else { lbl.classList.add('fade'); }
+                        });
+                    });
+
+                    node.addEventListener('mouseout', () => {
+                        allNodes.forEach(n => { n.classList.remove('fade', 'highlight'); });
+                        allLines.forEach(l => { l.classList.remove('fade', 'highlight'); });
+                        allLabels.forEach(lbl => { lbl.classList.remove('fade'); });
+                    });
+                });
+            }, 100);
+        }
+        
+        // --- MODAL LOGIC --- //
+        const modalOverlay = document.getElementById('modal-overlay');
+        const modalClose = document.getElementById('modal-close');
+        const modalTitle = document.getElementById('modal-title');
+        const modalImage = document.getElementById('modal-image');
+        const modalTranscript = document.getElementById('modal-transcript');
+        
+        function openModal(title, img, transcript) {
+            modalTitle.textContent = title;
+            modalImage.src = img;
+            modalTranscript.textContent = transcript;
+            modalOverlay.classList.add('show');
+        }
+
+        function closeModal() {
+            modalOverlay.classList.remove('show');
+        }
+
+        modalClose.addEventListener('click', closeModal);
+        modalOverlay.addEventListener('click', (e) => {
+            if (e.target === modalOverlay) closeModal();
+        });
+
+        // --- EVENT LISTENERS & INITIALIZATION --- //
+        const menuBtn = document.getElementById('menu-btn');
+        const mobileMenu = document.getElementById('mobile-menu');
+        menuBtn.addEventListener('click', () => { mobileMenu.classList.toggle('hidden'); });
+
+        const accordionContainer = document.getElementById('accordion-container');
+        if(accordionContainer) {
+            accordionContainer.addEventListener('click', function(e) {
+                const button = e.target.closest('.accordion-button');
+                if (button) {
+                    const wasActive = button.classList.contains('active');
+                    button.classList.toggle('active');
+                    
+                    if (!wasActive) {
+                        highlightMapLocation(button.dataset.locationId);
+                    } else {
+                        highlightMapLocation(null); // Deselect on close
+                    }
+                }
+                
+                const recordBtn = e.target.closest('.view-record-btn');
+                if(recordBtn) {
+                    openModal(
+                        recordBtn.dataset.title,
+                        recordBtn.dataset.img,
+                        recordBtn.dataset.transcript
+                    );
+                }
+            });
+        }
+        
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) entry.target.classList.add('visible');
+            });
+        }, { threshold: 0.1 });
+        document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+        
+        const toTopBtn = document.getElementById('to-top-btn');
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 300) {
+                toTopBtn.classList.add('show');
+            } else {
+                toTopBtn.classList.remove('show');
+            }
+        });
+
+        // Initial render
+        renderTimeline();
+        renderAccordion();
+        initMap();
+        renderRelationshipDiagram();
+        
+        window.addEventListener('resize', renderRelationshipDiagram);
+    });
+</script>
+
+</body>
+</html>
+
