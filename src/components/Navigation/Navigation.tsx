@@ -22,10 +22,10 @@ export function Navigation({ className = '' }: NavigationProps) {
   };
 
   return (
-    <nav className={`bg-white/95 backdrop-blur-sm border-b border-card-border fixed w-full top-0 z-50 ${className}`}>
+    <nav className={`nav-container fixed w-full top-0 z-50 ${className}`}>
       <div className="container mx-auto px-6 py-4">
         <div className="flex justify-between items-center">
-          <div className="font-bold text-xl font-serif text-heading">
+          <div className="font-bold text-xl font-serif gradient-text">
             Sprouse-Prouse Research
           </div>
           
@@ -41,20 +41,20 @@ export function Navigation({ className = '' }: NavigationProps) {
           {/* Mobile Menu Button */}
           <button 
             onClick={toggleMobileMenu}
-            className="md:hidden"
+            className="md:hidden p-2 rounded-lg hover:bg-primary/5 transition-colors"
             aria-label="Toggle mobile menu"
           >
             <div className="w-6 h-6 flex flex-col justify-center items-center space-y-1">
-              <span className="w-4 h-0.5 bg-heading"></span>
-              <span className="w-4 h-0.5 bg-heading"></span>
-              <span className="w-4 h-0.5 bg-heading"></span>
+              <span className="w-5 h-0.5 bg-primary rounded-full transition-all"></span>
+              <span className="w-5 h-0.5 bg-primary rounded-full transition-all"></span>
+              <span className="w-5 h-0.5 bg-primary rounded-full transition-all"></span>
             </div>
           </button>
         </div>
         
         {/* Mobile Navigation */}
         {isMobileMenuOpen && (
-          <div className="md:hidden mt-4 pb-4 border-t border-card-border pt-4">
+          <div className="md:hidden mt-4 pb-4 pt-4 glass rounded-lg">
             <div className="flex flex-col space-y-2">
               {navLinks.map(({ href, label }) => (
                 <a 

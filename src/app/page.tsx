@@ -78,20 +78,23 @@ export default function Home() {
       <Navigation />
 
       {/* Hero Section */}
-      <section className="py-24 md:py-40 bg-cover bg-center hero-bg mt-16">
-        <div className="container mx-auto px-6 text-center">
-          <h1 className="text-4xl md:text-6xl font-bold leading-tight mb-4 font-serif reveal">
+      <section className="hero-bg mt-16">
+        <div className="container mx-auto px-6 text-center hero-content flex flex-col justify-center items-center min-h-screen">
+          <h1 className="hero-title reveal">
             A Study in Commercial Genetics
           </h1>
-          <p className="text-lg md:text-xl max-w-3xl mx-auto mb-8 reveal" style={{ transitionDelay: '200ms' }}>
+          <p className="hero-subtitle reveal" style={{ transitionDelay: '200ms' }}>
             An Eight-Century Analysis of the Sprouse-Prouse Family and the Infrastructure of Power.
           </p>
           <a 
             href="#introduction" 
-            className="btn-primary font-bold py-3 px-8 rounded-full inline-block reveal hover:bg-primary-light transition-colors"
+            className="hero-cta reveal"
             style={{ transitionDelay: '400ms' }}
           >
-            Explore the Legacy
+            <span>Explore the Legacy</span>
+            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 14l-7 7m0 0l-7-7m7 7V3" />
+            </svg>
           </a>
         </div>
       </section>
