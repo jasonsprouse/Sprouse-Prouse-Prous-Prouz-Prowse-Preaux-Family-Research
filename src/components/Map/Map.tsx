@@ -3,6 +3,11 @@
 import { useEffect, useRef, useState } from 'react';
 import { MapData } from '../../types';
 
+// Import Leaflet CSS
+if (typeof window !== 'undefined') {
+  import('leaflet/dist/leaflet.css');
+}
+
 // Import Leaflet dynamically to avoid SSR issues
 let L: any;
 
@@ -37,31 +42,37 @@ export function Map({ mapData, className = '' }: MapProps) {
           shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/images/marker-shadow.png',
         });
 
-        // Wait for the DOM element to be available
+        // Wait for the DOM element to be available with more aggressive checking
         let attempts = 0;
-        const maxAttempts = 50; // 5 seconds max
+        const maxAttempts = 100; // 10 seconds max
         
-        const waitForElement = (): Promise<void> => {
+        const waitForElement = (): Promise<boolean> => {
           return new Promise((resolve) => {
             const checkElement = () => {
               attempts++;
-              if (mapRef.current && mounted) {
-                resolve();
+              if (mapRef.current && mounted && 
+                  mapRef.current.getBoundingClientRect().width > 0 && 
+                  mapRef.current.getBoundingClientRect().height > 0) {
+                // Element exists and has dimensions
+                resolve(true);
               } else if (attempts < maxAttempts) {
                 setTimeout(checkElement, 100);
               } else {
-                resolve(); // Give up after max attempts
+                resolve(false); // Give up after max attempts
               }
             };
             checkElement();
           });
         };
 
-        await waitForElement();
+        const elementReady = await waitForElement();
 
-        if (!mapRef.current || !mounted) {
-          setMapError('Map container not available');
-          setMapLoading(false);
+        if (!elementReady || !mapRef.current || !mounted) {
+          console.warn('Map container not ready after waiting, falling back to static content');
+          if (mounted) {
+            setMapError('Map container not available');
+            setMapLoading(false);
+          }
           return;
         }
 
@@ -70,14 +81,24 @@ export function Map({ mapData, className = '' }: MapProps) {
           mapInstanceRef.current.remove();
         }
 
-        // Initialize the map
-        const map = L.map(mapRef.current).setView([40.0, -85.0], 4);
+        // Initialize the map with error handling
+        const map = L.map(mapRef.current, {
+          zoomControl: true,
+          scrollWheelZoom: true,
+          attributionControl: true,
+        }).setView([40.0, -85.0], 4);
         
-        // Add tile layer
-        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        // Add tile layer with error handling
+        const tileLayer = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
           attribution: '© OpenStreetMap contributors',
           maxZoom: 19,
-        }).addTo(map);
+        });
+        
+        tileLayer.on('tileerror', (e) => {
+          console.warn('Tile loading error:', e);
+        });
+        
+        tileLayer.addTo(map);
 
         // Add markers for each location
         mapData.locations.forEach((location) => {
@@ -98,14 +119,20 @@ export function Map({ mapData, className = '' }: MapProps) {
           }).addTo(map);
         }
 
-        // Fit map to show all points
-        const group = L.featureGroup(mapData.locations.map(location => L.marker(location.coords)));
-        map.fitBounds(group.getBounds().pad(0.1));
+        // Fit map to show all points with error handling
+        try {
+          const group = L.featureGroup(mapData.locations.map(location => L.marker(location.coords)));
+          map.fitBounds(group.getBounds().pad(0.1));
+        } catch (boundsError) {
+          console.warn('Error fitting bounds, using default view:', boundsError);
+          map.setView([40.0, -85.0], 4);
+        }
 
         if (mounted) {
           mapInstanceRef.current = map;
           setMapLoading(false);
           setMapError(null);
+          console.log('Map initialized successfully');
         }
       } catch (error) {
         console.error('Error initializing map:', error);
@@ -116,8 +143,8 @@ export function Map({ mapData, className = '' }: MapProps) {
       }
     };
 
-    // Small delay to ensure DOM is ready
-    const timeoutId = setTimeout(initializeMap, 100);
+    // Longer delay to ensure DOM is fully ready
+    const timeoutId = setTimeout(initializeMap, 500);
 
     return () => {
       mounted = false;
@@ -167,7 +194,7 @@ export function Map({ mapData, className = '' }: MapProps) {
       ) : (
         <div 
           ref={mapRef} 
-          className="h-96 bg-gray-100 border border-card-border rounded-lg"
+          className="map-container h-96 bg-gray-100 border border-card-border rounded-lg"
           style={{ minHeight: '384px' }}
         />
       )}
