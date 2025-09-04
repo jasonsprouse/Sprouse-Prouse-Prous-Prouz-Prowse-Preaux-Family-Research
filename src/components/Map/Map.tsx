@@ -19,6 +19,7 @@ export function Map({ mapData, className = '' }: MapProps) {
 
   useEffect(() => {
     let mounted = true;
+    let timeoutId: NodeJS.Timeout;
 
     const initializeMap = async () => {
       // Wait for client-side rendering
@@ -39,7 +40,7 @@ export function Map({ mapData, className = '' }: MapProps) {
 
         // Wait for the DOM element to be available with improved checking
         let attempts = 0;
-        const maxAttempts = 50; // 5 seconds max, shorter timeout
+        const maxAttempts = 30; // 3 seconds max, shorter timeout
         
         const waitForElement = (): Promise<boolean> => {
           return new Promise((resolve) => {
@@ -56,9 +57,15 @@ export function Map({ mapData, className = '' }: MapProps) {
                                 computedStyle.visibility !== 'hidden' &&
                                 computedStyle.opacity !== '0';
                 const hasDimensions = rect.width > 0 && rect.height > 0;
+                const hasParent = mapRef.current.offsetParent !== null;
                 
-                if (isVisible && hasDimensions) {
-                  console.log('Map container ready:', { width: rect.width, height: rect.height });
+                if (isVisible && hasDimensions && hasParent) {
+                  console.log('Map container ready:', { 
+                    width: rect.width, 
+                    height: rect.height,
+                    visible: isVisible,
+                    hasParent: hasParent
+                  });
                   resolve(true);
                   return;
                 }
@@ -77,7 +84,8 @@ export function Map({ mapData, className = '' }: MapProps) {
                     rect,
                     display: computedStyle.display,
                     visibility: computedStyle.visibility,
-                    opacity: computedStyle.opacity
+                    opacity: computedStyle.opacity,
+                    offsetParent: mapRef.current.offsetParent
                   });
                 }
                 resolve(false);
@@ -165,37 +173,25 @@ export function Map({ mapData, className = '' }: MapProps) {
       }
     };
 
-    // Use intersection observer to trigger map initialization when container becomes visible
-    const timeoutId = setTimeout(() => {
-      const observer = new IntersectionObserver((entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting && mounted) {
-            observer.disconnect();
+    // Use simpler initialization approach with requestAnimationFrame
+    const initWithDelay = () => {
+      // Wait a bit more for the layout to settle
+      timeoutId = setTimeout(() => {
+        requestAnimationFrame(() => {
+          if (mounted) {
             initializeMap();
           }
         });
-      }, { threshold: 0.1 });
+      }, 1000);
+    };
 
-      if (mapRef.current) {
-        observer.observe(mapRef.current);
-      }
-
-      // Fallback timeout in case intersection observer doesn't work
-      setTimeout(() => {
-        if (mounted && mapLoading) {
-          observer.disconnect();
-          initializeMap();
-        }
-      }, 2000);
-
-      return () => {
-        observer.disconnect();
-      };
-    }, 100);
+    initWithDelay();
 
     return () => {
       mounted = false;
-      clearTimeout(timeoutId);
+      if (timeoutId) {
+        clearTimeout(timeoutId);
+      }
       if (mapInstanceRef.current) {
         mapInstanceRef.current.remove();
         mapInstanceRef.current = null;
@@ -241,8 +237,12 @@ export function Map({ mapData, className = '' }: MapProps) {
         ) : (
           <div 
             ref={mapRef} 
-            className="map-container h-96 bg-gray-100 border border-card-border rounded-lg"
-            style={{ minHeight: '384px' }}
+            className="map-container w-full h-96 bg-gray-100 border border-card-border rounded-lg"
+            style={{ 
+              minHeight: '384px',
+              height: '384px',
+              width: '100%'
+            }}
           />
         )}
       </div>
