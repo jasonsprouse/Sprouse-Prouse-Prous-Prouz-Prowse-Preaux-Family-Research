@@ -18,9 +18,11 @@ export function Map({ mapData, className = '' }: MapProps) {
   const [mapError, setMapError] = useState<string | null>(null);
 
   useEffect(() => {
-    // Dynamically import Leaflet to avoid SSR issues
+    let mounted = true;
+
     const initializeMap = async () => {
-      if (typeof window === 'undefined') return;
+      // Wait for client-side rendering
+      if (typeof window === 'undefined' || !mounted) return;
 
       try {
         // Import Leaflet dynamically
@@ -35,7 +37,33 @@ export function Map({ mapData, className = '' }: MapProps) {
           shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/images/marker-shadow.png',
         });
 
-        if (!mapRef.current) return;
+        // Wait for the DOM element to be available
+        let attempts = 0;
+        const maxAttempts = 50; // 5 seconds max
+        
+        const waitForElement = (): Promise<void> => {
+          return new Promise((resolve) => {
+            const checkElement = () => {
+              attempts++;
+              if (mapRef.current && mounted) {
+                resolve();
+              } else if (attempts < maxAttempts) {
+                setTimeout(checkElement, 100);
+              } else {
+                resolve(); // Give up after max attempts
+              }
+            };
+            checkElement();
+          });
+        };
+
+        await waitForElement();
+
+        if (!mapRef.current || !mounted) {
+          setMapError('Map container not available');
+          setMapLoading(false);
+          return;
+        }
 
         // Clear existing map if it exists
         if (mapInstanceRef.current) {
@@ -51,33 +79,49 @@ export function Map({ mapData, className = '' }: MapProps) {
           maxZoom: 19,
         }).addTo(map);
 
-        const mapMarkers: any = {};
-
         // Add markers for each location
-        mapData.locations.forEach(location => {
-          const marker = L.marker(location.coords)
+        mapData.locations.forEach((location) => {
+          L.marker(location.coords)
             .addTo(map)
             .bindPopup(`<b>${location.name}</b><br/>${location.description}`);
-          
-          mapMarkers[location.id] = marker;
         });
 
-        // Store markers for later use
-        mapInstanceRef.current = map;
-        setMapLoading(false);
-        setMapError(null);
+        // Add migration path lines
+        for (let i = 1; i < mapData.locations.length; i++) {
+          const prevLocation = mapData.locations[i - 1];
+          const currentLocation = mapData.locations[i];
+          
+          L.polyline([prevLocation.coords, currentLocation.coords], {
+            color: '#8b5a3c',
+            weight: 3,
+            opacity: 0.7
+          }).addTo(map);
+        }
+
+        // Fit map to show all points
+        const group = L.featureGroup(mapData.locations.map(location => L.marker(location.coords)));
+        map.fitBounds(group.getBounds().pad(0.1));
+
+        if (mounted) {
+          mapInstanceRef.current = map;
+          setMapLoading(false);
+          setMapError(null);
+        }
       } catch (error) {
         console.error('Error initializing map:', error);
-        setMapError('Failed to load interactive map');
-        setMapLoading(false);
+        if (mounted) {
+          setMapError('Failed to load interactive map');
+          setMapLoading(false);
+        }
       }
     };
 
-    // Start the initialization process
-    initializeMap();
+    // Small delay to ensure DOM is ready
+    const timeoutId = setTimeout(initializeMap, 100);
 
-    // Cleanup function
     return () => {
+      mounted = false;
+      clearTimeout(timeoutId);
       if (mapInstanceRef.current) {
         mapInstanceRef.current.remove();
         mapInstanceRef.current = null;
