@@ -19,6 +19,7 @@ export function Map({ mapData, className = '' }: MapProps) {
 
   useEffect(() => {
     let mounted = true;
+    let timeoutId: NodeJS.Timeout;
 
     const initializeMap = async () => {
       // Wait for client-side rendering
@@ -37,23 +38,57 @@ export function Map({ mapData, className = '' }: MapProps) {
           shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/images/marker-shadow.png',
         });
 
-        // Wait for the DOM element to be available with more aggressive checking
+        // Wait for the DOM element to be available with improved checking
         let attempts = 0;
-        const maxAttempts = 100; // 10 seconds max
+        const maxAttempts = 30; // 3 seconds max, shorter timeout
         
         const waitForElement = (): Promise<boolean> => {
           return new Promise((resolve) => {
             const checkElement = () => {
               attempts++;
-              if (mapRef.current && mounted && 
-                  mapRef.current.getBoundingClientRect().width > 0 && 
-                  mapRef.current.getBoundingClientRect().height > 0) {
-                // Element exists and has dimensions
-                resolve(true);
-              } else if (attempts < maxAttempts) {
+              
+              // More robust element checking
+              if (mapRef.current && mounted) {
+                const rect = mapRef.current.getBoundingClientRect();
+                const computedStyle = window.getComputedStyle(mapRef.current);
+                
+                // Check if element is visible and has dimensions
+                const isVisible = computedStyle.display !== 'none' && 
+                                computedStyle.visibility !== 'hidden' &&
+                                computedStyle.opacity !== '0';
+                const hasDimensions = rect.width > 0 && rect.height > 0;
+                const hasParent = mapRef.current.offsetParent !== null;
+                
+                if (isVisible && hasDimensions && hasParent) {
+                  console.log('Map container ready:', { 
+                    width: rect.width, 
+                    height: rect.height,
+                    visible: isVisible,
+                    hasParent: hasParent
+                  });
+                  resolve(true);
+                  return;
+                }
+              }
+              
+              if (attempts < maxAttempts) {
                 setTimeout(checkElement, 100);
               } else {
-                resolve(false); // Give up after max attempts
+                console.warn('Map container check failed after', attempts, 'attempts');
+                if (mapRef.current) {
+                  const rect = mapRef.current.getBoundingClientRect();
+                  const computedStyle = window.getComputedStyle(mapRef.current);
+                  console.warn('Final state:', {
+                    element: !!mapRef.current,
+                    mounted,
+                    rect,
+                    display: computedStyle.display,
+                    visibility: computedStyle.visibility,
+                    opacity: computedStyle.opacity,
+                    offsetParent: mapRef.current.offsetParent
+                  });
+                }
+                resolve(false);
               }
             };
             checkElement();
@@ -138,18 +173,31 @@ export function Map({ mapData, className = '' }: MapProps) {
       }
     };
 
-    // Longer delay to ensure DOM is fully ready
-    const timeoutId = setTimeout(initializeMap, 500);
+    // Use simpler initialization approach with requestAnimationFrame
+    const initWithDelay = () => {
+      // Wait a bit more for the layout to settle
+      timeoutId = setTimeout(() => {
+        requestAnimationFrame(() => {
+          if (mounted) {
+            initializeMap();
+          }
+        });
+      }, 1000);
+    };
+
+    initWithDelay();
 
     return () => {
       mounted = false;
-      clearTimeout(timeoutId);
+      if (timeoutId) {
+        clearTimeout(timeoutId);
+      }
       if (mapInstanceRef.current) {
         mapInstanceRef.current.remove();
         mapInstanceRef.current = null;
       }
     };
-  }, [mapData]);
+  }, [mapData, mapLoading]);
 
   // Fallback content when map fails to load
   const renderFallback = () => (
@@ -189,8 +237,12 @@ export function Map({ mapData, className = '' }: MapProps) {
         ) : (
           <div 
             ref={mapRef} 
-            className="map-container h-96 bg-gray-100 border border-card-border rounded-lg"
-            style={{ minHeight: '384px' }}
+            className="map-container w-full h-96 bg-gray-100 border border-card-border rounded-lg"
+            style={{ 
+              minHeight: '384px',
+              height: '384px',
+              width: '100%'
+            }}
           />
         )}
       </div>
