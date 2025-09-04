@@ -1425,3 +1425,19 @@ blockquote::before {
 body.loaded {
   opacity: 1;
 }
+
+/* Person Accordion Styles */
+.accordion-content {
+  transition: max-height 0.3s ease-in-out, opacity 0.3s ease-in-out;
+  overflow: hidden;
+}
+
+.accordion-content.collapsed {
+  max-height: 0 !important;
+  opacity: 0 !important;
+}
+
+.accordion-content.expanded {
+  max-height: 2000px !important;
+  opacity: 1 !important;
+}
