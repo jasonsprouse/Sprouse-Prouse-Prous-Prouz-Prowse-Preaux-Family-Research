@@ -14,6 +14,7 @@ declare global {
 
 export default function Home() {
   const [isLoaded, setIsLoaded] = useState(false)
+  const [openPersonAccordions, setOpenPersonAccordions] = useState<Set<string>>(new Set())
 
   useEffect(() => {
     // Set body opacity for fade-in effect
@@ -66,6 +67,19 @@ export default function Home() {
   const closeModal = () => {
     const modalOverlay = document.getElementById('modal-overlay')
     if (modalOverlay) modalOverlay.classList.remove('show')
+  }
+
+  const togglePersonAccordion = (eraIndex: number, personIndex: number) => {
+    const accordionId = `${eraIndex}-${personIndex}`
+    setOpenPersonAccordions(prev => {
+      const newSet = new Set(prev)
+      if (newSet.has(accordionId)) {
+        newSet.delete(accordionId)
+      } else {
+        newSet.add(accordionId)
+      }
+      return newSet
+    })
   }
 
   const scrollToTop = () => {
@@ -174,71 +188,97 @@ export default function Home() {
                   </h3>
                   <div className="w-24 h-1 bg-primary mx-auto rounded-full"></div>
                 </div>
-                <div className="grid gap-8 lg:grid-cols-2">
-                  {era.people.map((person, personIndex) => (
-                    <div key={personIndex} className="person-card bg-white rounded-2xl p-6 hover:shadow-xl transition-all duration-300 hover:scale-[1.02] border">
-                      <div className="flex justify-between items-start mb-4">
-                        <h4 className="text-xl font-bold font-serif">{person.name}</h4>
-                        <span className="text-sm text-white font-semibold bg-primary px-3 py-1 rounded-full shadow-sm">{person.dates}</span>
-                      </div>
-                      <div className="space-y-4 text-sm mb-4">
-                        <div className="bg-gray-50 rounded-lg p-4 border border-gray-200">
-                          <p>
-                            <strong className="text-primary flex items-center mb-2">
-                              <span className="w-2 h-2 bg-primary rounded-full mr-2"></span>
-                              Faith & Community:
-                            </strong> 
-                            {person.faith}
-                          </p>
-                        </div>
-                        <div className="bg-gray-50 rounded-lg p-4 border border-gray-200">
-                          <p>
-                            <strong className="text-primary flex items-center mb-2">
-                              <span className="w-2 h-2 bg-primary rounded-full mr-2"></span>
-                              Commercial Nexus:
-                            </strong> 
-                            {person.nexus}
-                          </p>
-                        </div>
-                        <div className="bg-gray-50 rounded-lg p-4 border border-gray-200">
-                          <p>
-                            <strong className="text-primary flex items-center mb-2">
-                              <span className="w-2 h-2 bg-primary rounded-full mr-2"></span>
-                              Primary Sources:
-                            </strong> 
-                            {person.sources}
-                          </p>
-                        </div>
-                      </div>
-                      {person.genealogicalEvidence && (
-                        <div className="border-t border-gray-200 pt-4">
-                          <h5 className="font-bold mb-4 flex items-center">
-                            <svg className="w-4 h-4 text-primary mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
-                            </svg>
-                            Genealogical Evidence:
-                          </h5>
-                          <div className="space-y-3">
-                            {person.genealogicalEvidence.map((evidence, evidenceIndex) => (
-                              <button
-                                key={evidenceIndex}
-                                className="evidence-button w-full text-left p-4 bg-white hover:bg-gray-50 border border-gray-300 rounded-lg transition-all duration-200 hover:scale-[1.01] hover:shadow-md group"
-                                onClick={() => openModal(evidence.type, evidence.sourceImage, evidence.sourceTranscript)}
-                              >
-                                <div className="flex items-start">
-                                  <div className="w-2 h-2 bg-primary rounded-full mt-2 mr-3 group-hover:scale-125 transition-transform"></div>
-                                  <div>
-                                    <strong className="text-primary block mb-1">{evidence.type}:</strong> 
-                                    <span className="text-gray-700 text-sm leading-relaxed">{evidence.detail}</span>
-                                  </div>
+                <div className="space-y-4">
+                  {era.people.map((person, personIndex) => {
+                    const accordionId = `${eraIndex}-${personIndex}`
+                    const isOpen = openPersonAccordions.has(accordionId)
+                    
+                    return (
+                      <div key={personIndex} className="person-accordion bg-white rounded-2xl border shadow-sm hover:shadow-md transition-all duration-300">
+                        {/* Accordion Header */}
+                        <button
+                          className="w-full p-4 text-left flex justify-between items-center hover:bg-gray-50 rounded-2xl transition-colors duration-200"
+                          onClick={() => togglePersonAccordion(eraIndex, personIndex)}
+                          aria-expanded={isOpen}
+                          aria-controls={`person-content-${accordionId}`}
+                        >
+                          <div className="flex items-center gap-4">
+                            <h4 className="text-lg font-bold font-serif text-gray-900">{person.name}</h4>
+                            <span className="text-sm text-gray-600 font-medium">{person.dates}</span>
+                          </div>
+                          <span 
+                            className={`text-2xl text-primary transition-transform duration-300 ${isOpen ? 'rotate-180' : ''}`}
+                            aria-hidden="true"
+                          >
+                            ⌄
+                          </span>
+                        </button>
+                        
+                        {/* Accordion Content */}
+                        <div
+                          id={`person-content-${accordionId}`}
+                          className={`accordion-content ${isOpen ? 'expanded' : 'collapsed'}`}
+                        >
+                          <div className="px-4 pb-4 pt-2 space-y-4 text-sm">
+                            <div className="bg-gray-50 rounded-lg p-4 border border-gray-200">
+                              <p>
+                                <strong className="text-primary flex items-center mb-2">
+                                  <span className="w-2 h-2 bg-primary rounded-full mr-2"></span>
+                                  Faith & Community:
+                                </strong> 
+                                {person.faith}
+                              </p>
+                            </div>
+                            <div className="bg-gray-50 rounded-lg p-4 border border-gray-200">
+                              <p>
+                                <strong className="text-primary flex items-center mb-2">
+                                  <span className="w-2 h-2 bg-primary rounded-full mr-2"></span>
+                                  Commercial Nexus:
+                                </strong> 
+                                {person.nexus}
+                              </p>
+                            </div>
+                            <div className="bg-gray-50 rounded-lg p-4 border border-gray-200">
+                              <p>
+                                <strong className="text-primary flex items-center mb-2">
+                                  <span className="w-2 h-2 bg-primary rounded-full mr-2"></span>
+                                  Primary Sources:
+                                </strong> 
+                                {person.sources}
+                              </p>
+                            </div>
+                            {person.genealogicalEvidence && (
+                              <div className="border-t border-gray-200 pt-4">
+                                <h5 className="font-bold mb-4 flex items-center">
+                                  <svg className="w-4 h-4 text-primary mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                                  </svg>
+                                  Genealogical Evidence:
+                                </h5>
+                                <div className="space-y-3">
+                                  {person.genealogicalEvidence.map((evidence, evidenceIndex) => (
+                                    <button
+                                      key={evidenceIndex}
+                                      className="evidence-button w-full text-left p-4 bg-white hover:bg-gray-50 border border-gray-300 rounded-lg transition-all duration-200 hover:scale-[1.01] hover:shadow-md group"
+                                      onClick={() => openModal(evidence.type, evidence.sourceImage, evidence.sourceTranscript)}
+                                    >
+                                      <div className="flex items-start">
+                                        <div className="w-2 h-2 bg-primary rounded-full mt-2 mr-3 group-hover:scale-125 transition-transform"></div>
+                                        <div>
+                                          <strong className="text-primary block mb-1">{evidence.type}:</strong> 
+                                          <span className="text-gray-700 text-sm leading-relaxed">{evidence.detail}</span>
+                                        </div>
+                                      </div>
+                                    </button>
+                                  ))}
                                 </div>
-                              </button>
-                            ))}
+                              </div>
+                            )}
                           </div>
                         </div>
-                      )}
-                    </div>
-                  ))}
+                      </div>
+                    )
+                  })}
                 </div>
               </div>
             ))}
