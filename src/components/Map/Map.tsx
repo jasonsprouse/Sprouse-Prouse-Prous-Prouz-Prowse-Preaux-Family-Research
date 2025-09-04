@@ -3,11 +3,6 @@
 import { useEffect, useRef, useState } from 'react';
 import { MapData } from '../../types';
 
-// Import Leaflet CSS
-if (typeof window !== 'undefined') {
-  import('leaflet/dist/leaflet.css');
-}
-
 // Import Leaflet dynamically to avoid SSR issues
 let L: any;
 
@@ -94,7 +89,7 @@ export function Map({ mapData, className = '' }: MapProps) {
           maxZoom: 19,
         });
         
-        tileLayer.on('tileerror', (e) => {
+        tileLayer.on('tileerror', (e: any) => {
           console.warn('Tile loading error:', e);
         });
         
@@ -181,23 +176,24 @@ export function Map({ mapData, className = '' }: MapProps) {
   return (
     <div className={className}>
       <h3 className="text-2xl font-bold font-serif mb-4">Migration Map</h3>
-      
-      {mapLoading ? (
-        <div className="h-96 bg-gray-100 border border-card-border rounded-lg flex items-center justify-center">
-          <div className="flex items-center space-x-3">
-            <div className="animate-spin rounded-full h-6 w-6 border-b-2 border-primary"></div>
-            <span className="text-gray-600">Loading interactive map...</span>
+      <div className="glass rounded-lg p-6 overflow-hidden">
+        {mapLoading ? (
+          <div className="h-96 bg-gray-100 border border-card-border rounded-lg flex items-center justify-center">
+            <div className="flex items-center space-x-3">
+              <div className="animate-spin rounded-full h-6 w-6 border-b-2 border-primary"></div>
+              <span className="text-gray-600">Loading interactive map...</span>
+            </div>
           </div>
-        </div>
-      ) : mapError ? (
-        renderFallback()
-      ) : (
-        <div 
-          ref={mapRef} 
-          className="map-container h-96 bg-gray-100 border border-card-border rounded-lg"
-          style={{ minHeight: '384px' }}
-        />
-      )}
+        ) : mapError ? (
+          renderFallback()
+        ) : (
+          <div 
+            ref={mapRef} 
+            className="map-container h-96 bg-gray-100 border border-card-border rounded-lg"
+            style={{ minHeight: '384px' }}
+          />
+        )}
+      </div>
     </div>
   );
 }
