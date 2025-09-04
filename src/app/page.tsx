@@ -4,7 +4,6 @@ import { useEffect, useState } from 'react'
 import { siteData } from '../data'
 import { Map } from '../components/Map/Map'
 import { RelationshipGraph } from '../components/RelationshipGraph/RelationshipGraph'
-import { Navigation } from '../components/Navigation/Navigation'
 import { EraVisual } from '../components/EraVisual/EraVisual'
 
 declare global {
@@ -74,11 +73,8 @@ export default function Home() {
 
   return (
     <>
-      {/* Navigation */}
-      <Navigation />
-
       {/* Hero Section */}
-      <section className="hero-bg mt-16">
+      <section className="hero-bg">
         <div className="container mx-auto px-6 text-center hero-content flex flex-col justify-center items-center min-h-screen">
           <h1 className="hero-title reveal">
             A Study in Commercial Genetics

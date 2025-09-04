@@ -37,23 +37,50 @@ export function Map({ mapData, className = '' }: MapProps) {
           shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/images/marker-shadow.png',
         });
 
-        // Wait for the DOM element to be available with more aggressive checking
+        // Wait for the DOM element to be available with improved checking
         let attempts = 0;
-        const maxAttempts = 100; // 10 seconds max
+        const maxAttempts = 50; // 5 seconds max, shorter timeout
         
         const waitForElement = (): Promise<boolean> => {
           return new Promise((resolve) => {
             const checkElement = () => {
               attempts++;
-              if (mapRef.current && mounted && 
-                  mapRef.current.getBoundingClientRect().width > 0 && 
-                  mapRef.current.getBoundingClientRect().height > 0) {
-                // Element exists and has dimensions
-                resolve(true);
-              } else if (attempts < maxAttempts) {
+              
+              // More robust element checking
+              if (mapRef.current && mounted) {
+                const rect = mapRef.current.getBoundingClientRect();
+                const computedStyle = window.getComputedStyle(mapRef.current);
+                
+                // Check if element is visible and has dimensions
+                const isVisible = computedStyle.display !== 'none' && 
+                                computedStyle.visibility !== 'hidden' &&
+                                computedStyle.opacity !== '0';
+                const hasDimensions = rect.width > 0 && rect.height > 0;
+                
+                if (isVisible && hasDimensions) {
+                  console.log('Map container ready:', { width: rect.width, height: rect.height });
+                  resolve(true);
+                  return;
+                }
+              }
+              
+              if (attempts < maxAttempts) {
                 setTimeout(checkElement, 100);
               } else {
-                resolve(false); // Give up after max attempts
+                console.warn('Map container check failed after', attempts, 'attempts');
+                if (mapRef.current) {
+                  const rect = mapRef.current.getBoundingClientRect();
+                  const computedStyle = window.getComputedStyle(mapRef.current);
+                  console.warn('Final state:', {
+                    element: !!mapRef.current,
+                    mounted,
+                    rect,
+                    display: computedStyle.display,
+                    visibility: computedStyle.visibility,
+                    opacity: computedStyle.opacity
+                  });
+                }
+                resolve(false);
               }
             };
             checkElement();
@@ -138,8 +165,33 @@ export function Map({ mapData, className = '' }: MapProps) {
       }
     };
 
-    // Longer delay to ensure DOM is fully ready
-    const timeoutId = setTimeout(initializeMap, 500);
+    // Use intersection observer to trigger map initialization when container becomes visible
+    const timeoutId = setTimeout(() => {
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting && mounted) {
+            observer.disconnect();
+            initializeMap();
+          }
+        });
+      }, { threshold: 0.1 });
+
+      if (mapRef.current) {
+        observer.observe(mapRef.current);
+      }
+
+      // Fallback timeout in case intersection observer doesn't work
+      setTimeout(() => {
+        if (mounted && mapLoading) {
+          observer.disconnect();
+          initializeMap();
+        }
+      }, 2000);
+
+      return () => {
+        observer.disconnect();
+      };
+    }, 100);
 
     return () => {
       mounted = false;
@@ -149,7 +201,7 @@ export function Map({ mapData, className = '' }: MapProps) {
         mapInstanceRef.current = null;
       }
     };
-  }, [mapData]);
+  }, [mapData, mapLoading]);
 
   // Fallback content when map fails to load
   const renderFallback = () => (
