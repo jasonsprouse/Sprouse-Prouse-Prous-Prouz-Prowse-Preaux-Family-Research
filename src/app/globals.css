@@ -483,28 +483,34 @@ h3 {
 
 .family-node {
   position: absolute;
-  background: var(--gradient-primary);
+  background: linear-gradient(135deg, #8b6f47 0%, #d4af74 100%);
   color: white;
-  padding: 0.875rem 1.5rem;
+  padding: 1rem 1.75rem;
   border-radius: 2rem;
   font-weight: 600;
-  box-shadow: var(--shadow-md);
-  border: 2px solid rgba(255, 255, 255, 0.9);
+  font-size: 0.9rem;
+  box-shadow: 
+    0 8px 16px rgba(139, 90, 60, 0.3),
+    0 4px 8px rgba(139, 90, 60, 0.2),
+    inset 0 1px 0 rgba(255, 255, 255, 0.2);
+  border: 3px solid rgba(255, 255, 255, 0.9);
   transition: all var(--transition-normal);
   cursor: pointer;
   backdrop-filter: blur(10px);
   z-index: 10;
-  position: relative;
+  text-align: center;
+  min-width: 140px;
+  transform-origin: center;
 }
 
 .family-node::before {
   content: '';
   position: absolute;
-  top: -2px;
-  left: -2px;
-  right: -2px;
-  bottom: -2px;
-  background: var(--gradient-accent);
+  top: -3px;
+  left: -3px;
+  right: -3px;
+  bottom: -3px;
+  background: linear-gradient(135deg, #d4af74 0%, #f4d03f 50%, #d4af74 100%);
   border-radius: 2rem;
   z-index: -1;
   opacity: 0;
@@ -512,8 +518,12 @@ h3 {
 }
 
 .family-node.highlight {
-  transform: scale(1.1);
-  box-shadow: var(--shadow-lg);
+  transform: scale(1.15);
+  box-shadow: 
+    0 12px 24px rgba(139, 90, 60, 0.4),
+    0 8px 16px rgba(139, 90, 60, 0.3),
+    inset 0 1px 0 rgba(255, 255, 255, 0.3);
+  background: linear-gradient(135deg, #d4af74 0%, #f4d03f 100%);
 }
 
 .family-node.highlight::before {
@@ -522,7 +532,7 @@ h3 {
 
 .family-node.fade {
   opacity: 0.3;
-  transform: scale(0.95);
+  transform: scale(0.9);
 }
 
 /* Enhanced Timeline */
@@ -734,17 +744,17 @@ h3 {
 
 /* Enhanced Alliance Lines */
 .alliance-line {
-  stroke: url(#gradient-line);
+  stroke: var(--color-primary);
   stroke-width: 3;
-  opacity: 0.7;
+  opacity: 0.8;
   transition: all var(--transition-normal);
   filter: drop-shadow(0 2px 4px rgba(139, 90, 60, 0.2));
 }
 
 .alliance-line.highlight {
   opacity: 1;
-  stroke-width: 4;
-  filter: drop-shadow(0 4px 8px rgba(139, 90, 60, 0.3));
+  stroke-width: 5;
+  filter: drop-shadow(0 4px 8px rgba(139, 90, 60, 0.4));
 }
 
 .alliance-line.fade {
@@ -755,10 +765,10 @@ h3 {
 .alliance-label {
   fill: var(--color-text);
   font-size: 13px;
-  font-weight: 500;
+  font-weight: 600;
   text-anchor: middle;
   transition: all var(--transition-normal);
-  filter: drop-shadow(0 1px 2px rgba(255, 255, 255, 0.8));
+  filter: drop-shadow(0 1px 2px rgba(255, 255, 255, 0.9)) drop-shadow(0 1px 3px rgba(139, 90, 60, 0.2));
 }
 
 .alliance-label.fade {
