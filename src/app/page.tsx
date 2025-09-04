@@ -18,6 +18,7 @@ export default function Home() {
   useEffect(() => {
     // Set body opacity for fade-in effect
     document.body.style.opacity = '1'
+    document.body.classList.add('loaded')
     setIsLoaded(true)
 
     // Set up intersection observer for reveals
@@ -74,56 +75,31 @@ export default function Home() {
   return (
     <>
       {/* Hero Section */}
-      <section className="hero-bg">
-        <div className="container mx-auto px-6 text-center hero-content flex flex-col justify-center items-center min-h-screen">
-          <h1 className="hero-title reveal">
-            A Study in Commercial Genetics
-          </h1>
-          <p className="hero-subtitle reveal" style={{ transitionDelay: '200ms' }}>
-            An Eight-Century Analysis of the Sprouse-Prouse Family and the Infrastructure of Power.
-          </p>
-          <a 
-            href="#introduction" 
-            className="hero-cta reveal"
-            style={{ transitionDelay: '400ms' }}
-          >
-            <span>Explore the Legacy</span>
-            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 14l-7 7m0 0l-7-7m7 7V3" />
-            </svg>
-          </a>
+      <section className="py-24 md:py-40 bg-cover bg-center hero-bg">
+        <div className="container mx-auto px-6 text-center">
+          <h1 className="text-4xl md:text-6xl font-bold leading-tight mb-4 font-serif reveal">A Study in Commercial Genetics</h1>
+          <p className="text-lg md:text-xl max-w-3xl mx-auto mb-8 reveal" style={{ transitionDelay: '200ms' }}>An Eight-Century Analysis of the Sprouse-Prouse Family and the Infrastructure of Power.</p>
+          <a href="#introduction" className="btn-primary font-bold py-3 px-8 rounded-full inline-block reveal" style={{ transitionDelay: '400ms' }}>Explore the Legacy</a>
         </div>
       </section>
 
       {/* Introduction Section */}
-      <section id="introduction" className="content-section bg-bg-secondary">
+      <section id="introduction" className="py-20 md:py-28">
         <div className="container mx-auto px-6">
           <div className="max-w-4xl mx-auto text-center reveal">
-            <h2 className="text-3xl md:text-4xl font-bold mb-8 font-serif text-heading">
-              The Journey of a Family, The History of Commerce
-            </h2>
-            <div className="space-y-6 text-lg leading-relaxed">
-              <p className="text-text">
-                The history of the Sprouse/Prouse family offers a unique lens through which to view eight centuries of economic and social change. 
-                Their path—from the wharves of medieval Exeter to the railheads of 19th-century Illinois—was not a series of accidents, 
-                but the continuous application of a core principle: <span className="gradient-text font-semibold">wealth and influence are built at the junctions where goods and capital converge.</span>
-              </p>
-              <p className="text-text-light italic text-xl">
-                This is a story not just of a family, but of a durable commercial strategy passed down through generations, 
-                adapting to new technologies and new frontiers while remaining true to its foundational instinct.
-              </p>
-            </div>
+            <h2 className="text-3xl md:text-4xl font-bold mb-6 font-serif">The Journey of a Family, The History of Commerce</h2>
+            <p className="text-lg leading-relaxed mb-4">The history of the Sprouse/Prouse family offers a unique lens through which to view eight centuries of economic and social change. Their path—from the wharves of medieval Exeter to the railheads of 19th-century Illinois—was not a series of accidents, but the continuous application of a core principle: wealth and influence are built at the junctions where goods and capital converge.</p>
+            <p className="text-lg leading-relaxed italic text-gray-600">This is a story not just of a family, but of a durable commercial strategy passed down through generations, adapting to new technologies and new frontiers while remaining true to its foundational instinct.</p>
           </div>
         </div>
       </section>
 
       {/* Timeline / Eras Section */}
-      <section id="timeline" className="content-section section-divider">
+      <section id="timeline" className="py-20 md:py-28 bg-white section-divider">
         <div className="container mx-auto px-6 reveal">
-          <h2 className="text-3xl md:text-4xl font-bold text-center mb-20 font-serif text-heading">
-            Four Eras of Strategic Adaptation
-          </h2>
-          <div className="timeline-container">
+          <h2 className="text-3xl md:text-4xl font-bold text-center mb-20 font-serif">Four Eras of Strategic Adaptation</h2>
+          <div id="eras-container" className="relative">
+            {/* Timeline will be injected here */}
             <div className="timeline-line hidden lg:block"></div>
             <div className="grid lg:grid-cols-2 gap-x-16 gap-y-16">
               {siteData.eras.map((era, index) => {
@@ -131,14 +107,14 @@ export default function Home() {
                 return (
                   <div key={era.id} className={`timeline-item reveal lg:col-start-${isOdd ? '2' : '1'}`} style={{ transitionDelay: `${index * 150}ms` }}>
                     <div className="timeline-dot hidden lg:block"></div>
-                    <div className="era-card">
-                      <div className="era-visual">
+                    <div className="era-card rounded-lg overflow-hidden shadow-lg">
+                      <div className="era-visual p-8 bg-primary text-center">
                         <span className="text-white text-4xl">{era.theme.icon}</span>
                       </div>
-                      <div className="era-card-content">
-                        <h3 className="era-title">{era.title}</h3>
-                        <p className="era-period">{era.period}</p>
-                        <p className="era-description">{era.description}</p>
+                      <div className="era-card-content p-6">
+                        <h3 className="text-xl font-bold font-serif mb-2">{era.title}</h3>
+                        <p className="text-sm font-semibold text-primary mb-3">{era.period}</p>
+                        <p className="text-gray-600 leading-relaxed">{era.description}</p>
                       </div>
                     </div>
                   </div>
@@ -171,48 +147,43 @@ export default function Home() {
       </section>
 
       {/* Legacy Section */}
-      <section id="legacy" className="content-section section-divider">
+      <section id="legacy" className="py-20 md:py-28 bg-white section-divider">
         <div className="container mx-auto px-6 reveal">
           <div className="max-w-4xl mx-auto text-center">
-            <h2 className="text-3xl md:text-4xl font-bold mb-12 font-serif text-heading">The Enduring Legacy</h2>
-            <blockquote className="text-2xl mb-12">
+            <h2 className="text-3xl md:text-4xl font-bold mb-8 font-serif">The Enduring Legacy</h2>
+            <blockquote className="text-2xl italic border-l-4 border-primary pl-6 mb-8">
               &quot;From Exeter&apos;s guildhall to an Illinois railhead, the family kept choosing the same vantage points: where inventory turns into money.&quot;
             </blockquote>
-            <p className="text-lg leading-relaxed text-text-light">
-              The eight-century journey of the Sprouse-Prouse family is more than a sequence of names and dates; it is a case study in <span className="gradient-text font-semibold">commercial genetics</span>. 
-              The core DNA—an instinct for logistics, an appreciation for strategic alliances, and a mastery of the legal and financial tools of the age—proved remarkably durable. 
-              They understood that power flowed not just from owning land, but from controlling its access to markets. 
-              This fundamental insight, passed down and adapted from the age of sail to the age of rail, is their ultimate legacy.
-            </p>
+            <p className="text-lg leading-relaxed">The eight-century journey of the Sprouse-Prouse family is more than a sequence of names and dates; it is a case study in commercial genetics. The core DNA—an instinct for logistics, an appreciation for strategic alliances, and a mastery of the legal and financial tools of the age—proved remarkably durable. They understood that power flowed not just from owning land, but from controlling its access to markets. This fundamental insight, passed down and adapted from the age of sail to the age of rail, is their ultimate legacy.</p>
           </div>
         </div>
       </section>
 
       {/* Biographical Register */}
-      <section id="register" className="content-section bg-bg-secondary">
+      <section id="appendix" className="py-20 md:py-28">
         <div className="container mx-auto px-6 reveal">
-          <h2 className="text-3xl md:text-4xl font-bold text-center mb-16 font-serif text-heading">
+          <h2 className="text-3xl md:text-4xl font-bold text-center mb-16 font-serif">
             Biographical Register & Genealogical Findings
           </h2>
-          <div className="max-w-6xl mx-auto">
+          <div className="max-w-4xl mx-auto" id="accordion-container">
             {siteData.biographicalData.map((era, eraIndex) => (
               <div key={eraIndex} className="era-section mb-16">
-                <div className="era-header glass rounded-2xl p-6 mb-8 text-center">
-                  <h3 className="text-2xl font-bold text-heading font-serif mb-2">
+                <div className="era-header bg-white rounded-2xl p-6 mb-8 text-center shadow-lg border">
+                  <h3 className="text-2xl font-bold font-serif mb-2">
                     {era.era}
                   </h3>
-                  <div className="w-24 h-1 bg-gradient-to-r from-primary to-primary-light mx-auto rounded-full"></div>
+                  <div className="w-24 h-1 bg-primary mx-auto rounded-full"></div>
                 </div>
                 <div className="grid gap-8 lg:grid-cols-2">
                   {era.people.map((person, personIndex) => (
-                    <div key={personIndex} className="person-card glass rounded-2xl p-6 hover:shadow-xl transition-all duration-300 hover:scale-[1.02]">
+                    <div key={personIndex} className="person-card bg-white rounded-2xl p-6 hover:shadow-xl transition-all duration-300 hover:scale-[1.02] border">
                       <div className="flex justify-between items-start mb-4">
-                        <h4 className="text-xl font-bold text-heading font-serif">{person.name}</h4>
+                        <h4 className="text-xl font-bold font-serif">{person.name}</h4>
                         <span className="text-sm text-white font-semibold bg-primary px-3 py-1 rounded-full shadow-sm">{person.dates}</span>
                       </div>
                       <div className="space-y-4 text-sm mb-4">
-                        <div className="bg-white/60 backdrop-blur-sm rounded-lg p-4 border border-primary/10">
-                          <p className="text-text">
+                        <div className="bg-gray-50 rounded-lg p-4 border border-gray-200">
+                          <p>
                             <strong className="text-primary flex items-center mb-2">
                               <span className="w-2 h-2 bg-primary rounded-full mr-2"></span>
                               Faith & Community:
@@ -220,8 +191,8 @@ export default function Home() {
                             {person.faith}
                           </p>
                         </div>
-                        <div className="bg-white/60 backdrop-blur-sm rounded-lg p-4 border border-primary/10">
-                          <p className="text-text">
+                        <div className="bg-gray-50 rounded-lg p-4 border border-gray-200">
+                          <p>
                             <strong className="text-primary flex items-center mb-2">
                               <span className="w-2 h-2 bg-primary rounded-full mr-2"></span>
                               Commercial Nexus:
@@ -229,8 +200,8 @@ export default function Home() {
                             {person.nexus}
                           </p>
                         </div>
-                        <div className="bg-white/60 backdrop-blur-sm rounded-lg p-4 border border-primary/10">
-                          <p className="text-text">
+                        <div className="bg-gray-50 rounded-lg p-4 border border-gray-200">
+                          <p>
                             <strong className="text-primary flex items-center mb-2">
                               <span className="w-2 h-2 bg-primary rounded-full mr-2"></span>
                               Primary Sources:
@@ -240,8 +211,8 @@ export default function Home() {
                         </div>
                       </div>
                       {person.genealogicalEvidence && (
-                        <div className="border-t border-primary/20 pt-4">
-                          <h5 className="font-bold mb-4 text-heading flex items-center">
+                        <div className="border-t border-gray-200 pt-4">
+                          <h5 className="font-bold mb-4 flex items-center">
                             <svg className="w-4 h-4 text-primary mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
                             </svg>
@@ -251,14 +222,14 @@ export default function Home() {
                             {person.genealogicalEvidence.map((evidence, evidenceIndex) => (
                               <button
                                 key={evidenceIndex}
-                                className="evidence-button w-full text-left p-4 bg-white/80 hover:bg-primary/10 border border-primary/20 rounded-lg transition-all duration-200 hover:scale-[1.01] hover:shadow-md group"
+                                className="evidence-button w-full text-left p-4 bg-white hover:bg-gray-50 border border-gray-300 rounded-lg transition-all duration-200 hover:scale-[1.01] hover:shadow-md group"
                                 onClick={() => openModal(evidence.type, evidence.sourceImage, evidence.sourceTranscript)}
                               >
                                 <div className="flex items-start">
                                   <div className="w-2 h-2 bg-primary rounded-full mt-2 mr-3 group-hover:scale-125 transition-transform"></div>
                                   <div>
                                     <strong className="text-primary block mb-1">{evidence.type}:</strong> 
-                                    <span className="text-text text-sm leading-relaxed">{evidence.detail}</span>
+                                    <span className="text-gray-700 text-sm leading-relaxed">{evidence.detail}</span>
                                   </div>
                                 </div>
                               </button>
