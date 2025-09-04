@@ -165,9 +165,7 @@ export default function Home() {
           </p>
           <div className="grid lg:grid-cols-2 gap-12 items-start">
             <div className="reveal">
-              <div className="glass rounded-2xl p-6">
-                <Map mapData={siteData.mapData} className="" />
-              </div>
+              <Map mapData={siteData.mapData} className="" />
             </div>
             <div className="reveal" style={{ transitionDelay: '200ms' }}>
               <RelationshipGraph allianceData={siteData.allianceData} className="" />
