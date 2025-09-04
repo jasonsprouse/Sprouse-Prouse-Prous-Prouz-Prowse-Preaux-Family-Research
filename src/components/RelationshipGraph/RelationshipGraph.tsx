@@ -145,8 +145,20 @@ export function RelationshipGraph({ allianceData, className = '' }: Relationship
       <h3 className="text-2xl font-bold font-serif mb-4">Relationship Web</h3>
       <div 
         ref={containerRef}
-        className="relative min-h-[500px] w-full bg-white border border-card-border rounded-lg p-8"
+        className="relative min-h-[500px] w-full glass rounded-lg p-8 overflow-hidden"
+        style={{ background: 'linear-gradient(135deg, rgba(255,255,255,0.9) 0%, rgba(248,249,250,0.9) 100%)' }}
       >
+        {/* Background Pattern */}
+        <div 
+          className="absolute inset-0 opacity-5" 
+          style={{
+            backgroundImage: `
+              radial-gradient(circle at 20% 20%, rgba(139, 90, 60, 0.3) 0%, transparent 30%),
+              radial-gradient(circle at 80% 80%, rgba(212, 165, 116, 0.3) 0%, transparent 30%),
+              radial-gradient(circle at 40% 60%, rgba(139, 90, 60, 0.2) 0%, transparent 20%)
+            `
+          }}
+        ></div>
         <svg 
           ref={svgRef}
           width="100%" 
@@ -157,7 +169,17 @@ export function RelationshipGraph({ allianceData, className = '' }: Relationship
             left: 0, 
             pointerEvents: 'none' 
           }}
-        />
+        >
+          <defs>
+            <linearGradient id="connectionGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" style={{ stopColor: '#8b6f47', stopOpacity: 0.8 }} />
+              <stop offset="100%" style={{ stopColor: '#d4af74', stopOpacity: 0.6 }} />
+            </linearGradient>
+            <filter id="dropShadow">
+              <feDropShadow dx="2" dy="2" stdDeviation="3" floodColor="#8b6f47" floodOpacity="0.3"/>
+            </filter>
+          </defs>
+        </svg>
       </div>
     </div>
   );

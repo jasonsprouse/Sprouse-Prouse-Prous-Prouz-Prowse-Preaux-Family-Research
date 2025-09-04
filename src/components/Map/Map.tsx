@@ -3,15 +3,12 @@
 import { useEffect, useRef, useState } from 'react';
 import { MapData } from '../../types';
 
+// Import Leaflet dynamically to avoid SSR issues
+let L: any;
+
 interface MapProps {
   mapData: MapData;
   className?: string;
-}
-
-declare global {
-  interface Window {
-    L: any;
-  }
 }
 
 export function Map({ mapData, className = '' }: MapProps) {
@@ -21,43 +18,44 @@ export function Map({ mapData, className = '' }: MapProps) {
   const [mapError, setMapError] = useState<string | null>(null);
 
   useEffect(() => {
-    // Check if Leaflet is available
-    const checkLeafletAndInitMap = (attempt = 1) => {
+    // Dynamically import Leaflet to avoid SSR issues
+    const initializeMap = async () => {
       if (typeof window === 'undefined') return;
 
-      // If Leaflet isn't loaded yet, wait a bit and try again
-      if (!window.L) {
-        // Try for a maximum of 2 seconds before giving up (reduced from 5 seconds)
-        if (attempt < 4) {
-          setTimeout(() => checkLeafletAndInitMap(attempt + 1), 500);
-        } else {
-          setMapError('Failed to load interactive map');
-          setMapLoading(false);
-        }
-        return;
-      }
-
-      if (!mapRef.current) return;
-
       try {
+        // Import Leaflet dynamically
+        const LeafletModule = await import('leaflet');
+        L = LeafletModule.default;
+
+        // Fix for default marker icons in Next.js
+        delete (L.Icon.Default.prototype as any)._getIconUrl;
+        L.Icon.Default.mergeOptions({
+          iconRetinaUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/images/marker-icon-2x.png',
+          iconUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/images/marker-icon.png',
+          shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/images/marker-shadow.png',
+        });
+
+        if (!mapRef.current) return;
+
         // Clear existing map if it exists
         if (mapInstanceRef.current) {
           mapInstanceRef.current.remove();
         }
 
         // Initialize the map
-        const map = window.L.map(mapRef.current).setView([40.0, -85.0], 4);
+        const map = L.map(mapRef.current).setView([40.0, -85.0], 4);
         
         // Add tile layer
-        window.L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-          attribution: '© OpenStreetMap contributors'
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+          attribution: '© OpenStreetMap contributors',
+          maxZoom: 19,
         }).addTo(map);
 
         const mapMarkers: any = {};
 
         // Add markers for each location
         mapData.locations.forEach(location => {
-          const marker = window.L.marker(location.coords)
+          const marker = L.marker(location.coords)
             .addTo(map)
             .bindPopup(`<b>${location.name}</b><br/>${location.description}`);
           
@@ -65,9 +63,7 @@ export function Map({ mapData, className = '' }: MapProps) {
         });
 
         // Store markers for later use
-        (window as any).mapMarkers = mapMarkers;
         mapInstanceRef.current = map;
-
         setMapLoading(false);
         setMapError(null);
       } catch (error) {
@@ -78,7 +74,7 @@ export function Map({ mapData, className = '' }: MapProps) {
     };
 
     // Start the initialization process
-    setTimeout(checkLeafletAndInitMap, 100);
+    initializeMap();
 
     // Cleanup function
     return () => {
