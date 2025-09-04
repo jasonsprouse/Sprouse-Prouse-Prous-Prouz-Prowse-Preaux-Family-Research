@@ -194,78 +194,86 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Appendix / Biographical Register */}
-      <section id="appendix" className="content-section bg-bg-secondary">
+      {/* Biographical Register */}
+      <section id="register" className="content-section bg-bg-secondary">
         <div className="container mx-auto px-6 reveal">
           <h2 className="text-3xl md:text-4xl font-bold text-center mb-16 font-serif text-heading">
             Biographical Register & Genealogical Findings
           </h2>
-          <div className="max-w-4xl mx-auto">
+          <div className="max-w-6xl mx-auto">
             {siteData.biographicalData.map((era, eraIndex) => (
-              <div key={eraIndex} className="accordion-section">
-                <button 
-                  className="accordion-button w-full text-left"
-                  onClick={(e) => {
-                    const button = e.currentTarget
-                    const content = button.nextElementSibling as HTMLElement
-                    const isActive = button.classList.contains('active')
-                    
-                    // Close all other accordions
-                    document.querySelectorAll('.accordion-button.active').forEach(btn => {
-                      if (btn !== button) {
-                        btn.classList.remove('active')
-                        const btnContent = btn.nextElementSibling as HTMLElement
-                        if (btnContent) {
-                          btnContent.classList.remove('active')
-                        }
-                      }
-                    })
-                    
-                    button.classList.toggle('active')
-                    if (content) {
-                      content.classList.toggle('active')
-                    }
-                  }}
-                  data-location-id={era.locationId}
-                >
-                  {era.era}
-                </button>
-                <div className="accordion-content">
-                  <div className="grid gap-6">
-                    {era.people.map((person, personIndex) => (
-                      <div key={personIndex} className="person-card">
-                        <div className="flex justify-between items-start mb-3">
-                          <h4 className="person-name">{person.name}</h4>
-                          <span className="person-dates">{person.dates}</span>
-                        </div>
-                        <div className="grid md:grid-cols-2 gap-4 text-sm mb-4">
-                          <div className="space-y-2">
-                            <p className="text-text"><strong className="text-primary">Faith & Community:</strong> {person.faith}</p>
-                            <p className="text-text"><strong className="text-primary">Commercial Nexus:</strong> {person.nexus}</p>
-                          </div>
-                          <div>
-                            <p className="text-text"><strong className="text-primary">Primary Sources:</strong> {person.sources}</p>
-                          </div>
-                        </div>
-                        {person.genealogicalEvidence && (
-                          <div>
-                            <h5 className="font-semibold mb-3 text-heading">Genealogical Evidence:</h5>
-                            <div className="space-y-2">
-                              {person.genealogicalEvidence.map((evidence, evidenceIndex) => (
-                                <button
-                                  key={evidenceIndex}
-                                  className="evidence-button"
-                                  onClick={() => openModal(evidence.type, evidence.sourceImage, evidence.sourceTranscript)}
-                                >
-                                  <strong className="text-primary">{evidence.type}:</strong> <span className="text-text">{evidence.detail}</span>
-                                </button>
-                              ))}
-                            </div>
-                          </div>
-                        )}
+              <div key={eraIndex} className="era-section mb-16">
+                <div className="era-header glass rounded-2xl p-6 mb-8 text-center">
+                  <h3 className="text-2xl font-bold text-heading font-serif mb-2">
+                    {era.era}
+                  </h3>
+                  <div className="w-24 h-1 bg-gradient-to-r from-primary to-primary-light mx-auto rounded-full"></div>
+                </div>
+                <div className="grid gap-8 lg:grid-cols-2">
+                  {era.people.map((person, personIndex) => (
+                    <div key={personIndex} className="person-card glass rounded-2xl p-6 hover:shadow-xl transition-all duration-300 hover:scale-[1.02]">
+                      <div className="flex justify-between items-start mb-4">
+                        <h4 className="text-xl font-bold text-heading font-serif">{person.name}</h4>
+                        <span className="text-sm text-white font-semibold bg-primary px-3 py-1 rounded-full shadow-sm">{person.dates}</span>
                       </div>
-                    ))}
-                  </div>
+                      <div className="space-y-4 text-sm mb-4">
+                        <div className="bg-white/60 backdrop-blur-sm rounded-lg p-4 border border-primary/10">
+                          <p className="text-text">
+                            <strong className="text-primary flex items-center mb-2">
+                              <span className="w-2 h-2 bg-primary rounded-full mr-2"></span>
+                              Faith & Community:
+                            </strong> 
+                            {person.faith}
+                          </p>
+                        </div>
+                        <div className="bg-white/60 backdrop-blur-sm rounded-lg p-4 border border-primary/10">
+                          <p className="text-text">
+                            <strong className="text-primary flex items-center mb-2">
+                              <span className="w-2 h-2 bg-primary rounded-full mr-2"></span>
+                              Commercial Nexus:
+                            </strong> 
+                            {person.nexus}
+                          </p>
+                        </div>
+                        <div className="bg-white/60 backdrop-blur-sm rounded-lg p-4 border border-primary/10">
+                          <p className="text-text">
+                            <strong className="text-primary flex items-center mb-2">
+                              <span className="w-2 h-2 bg-primary rounded-full mr-2"></span>
+                              Primary Sources:
+                            </strong> 
+                            {person.sources}
+                          </p>
+                        </div>
+                      </div>
+                      {person.genealogicalEvidence && (
+                        <div className="border-t border-primary/20 pt-4">
+                          <h5 className="font-bold mb-4 text-heading flex items-center">
+                            <svg className="w-4 h-4 text-primary mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                            </svg>
+                            Genealogical Evidence:
+                          </h5>
+                          <div className="space-y-3">
+                            {person.genealogicalEvidence.map((evidence, evidenceIndex) => (
+                              <button
+                                key={evidenceIndex}
+                                className="evidence-button w-full text-left p-4 bg-white/80 hover:bg-primary/10 border border-primary/20 rounded-lg transition-all duration-200 hover:scale-[1.01] hover:shadow-md group"
+                                onClick={() => openModal(evidence.type, evidence.sourceImage, evidence.sourceTranscript)}
+                              >
+                                <div className="flex items-start">
+                                  <div className="w-2 h-2 bg-primary rounded-full mt-2 mr-3 group-hover:scale-125 transition-transform"></div>
+                                  <div>
+                                    <strong className="text-primary block mb-1">{evidence.type}:</strong> 
+                                    <span className="text-text text-sm leading-relaxed">{evidence.detail}</span>
+                                  </div>
+                                </div>
+                              </button>
+                            ))}
+                          </div>
+                        </div>
+                      )}
+                    </div>
+                  ))}
                 </div>
               </div>
             ))}
