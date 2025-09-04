@@ -744,7 +744,7 @@ h3 {
 
 /* Enhanced Alliance Lines */
 .alliance-line {
-  stroke: url(#connectionGradient);
+  stroke: var(--color-primary);
   stroke-width: 3;
   opacity: 0.8;
   transition: all var(--transition-normal);
