@@ -89,7 +89,7 @@ export default function Home() {
   return (
     <>
       {/* Hero Section */}
-      <section className="py-24 md:py-40 bg-cover bg-center hero-bg">
+      <section className="pt-32 pb-24 md:pt-48 md:pb-40 bg-cover bg-center hero-bg">
         <div className="container mx-auto px-6 text-center">
           <h1 className="text-4xl md:text-6xl font-bold leading-tight mb-4 font-serif reveal">A Study in Commercial Genetics</h1>
           <p className="text-lg md:text-xl max-w-3xl mx-auto mb-8 reveal" style={{ transitionDelay: '200ms' }}>An Eight-Century Analysis of the Sprouse-Prouse Family and the Infrastructure of Power.</p>
