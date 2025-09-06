@@ -91,14 +91,9 @@ h3 {
   font-weight: 600;
 }
 
-/* Navigation Enhancement */
-.nav-container {
-  background: rgba(254, 254, 254, 0.85);
-  backdrop-filter: blur(20px);
-  border-bottom: 1px solid rgba(232, 236, 240, 0.8);
-  transition: all var(--transition-normal);
-  box-shadow: var(--shadow-sm);
-}
+/* ========================================================================== 
+   Professional Navigation System
+   ========================================================================== */
 
 /* Scroll Progress Indicator */
 .scroll-progress {
@@ -106,62 +101,326 @@ h3 {
   top: 0;
   left: 0;
   width: 100%;
-  height: 3px;
+  height: 4px;
   z-index: 9999;
-  background: rgba(232, 236, 240, 0.3);
+  background: rgba(232, 236, 240, 0.15);
+  backdrop-filter: blur(10px);
 }
 
-.scroll-progress::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
+.scroll-progress-bar {
   height: 100%;
   background: var(--gradient-primary);
   transition: width 0.1s ease-out;
-  box-shadow: 0 0 10px rgba(139, 90, 60, 0.5);
+  box-shadow: 0 0 20px rgba(139, 90, 60, 0.4);
+  position: relative;
 }
 
-/* Enhanced Navigation on Scroll */
-.nav-container.scrolled {
-  background: rgba(254, 254, 254, 0.98);
-  box-shadow: var(--shadow-md);
-  backdrop-filter: blur(20px);
+.scroll-progress-bar::after {
+  content: '';
+  position: absolute;
+  right: 0;
+  top: 0;
+  width: 20px;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(139, 90, 60, 0.8));
+  filter: blur(8px);
 }
 
-.nav-container.scrolled .gradient-text {
+/* Professional Navigation Container */
+.professional-nav {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 50;
+  background: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(30px);
+  border-bottom: 1px solid rgba(232, 236, 240, 0.3);
+  transition: all var(--transition-normal);
+  box-shadow: 0 2px 20px rgba(44, 62, 80, 0.03);
+}
+
+.professional-nav.scrolled {
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(40px);
+  border-bottom: 1px solid rgba(232, 236, 240, 0.6);
+  box-shadow: 0 4px 30px rgba(44, 62, 80, 0.08);
+}
+
+.professional-nav.scrolled .nav-brand h1 {
+  transform: scale(0.95);
+}
+
+.nav-container {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 1rem 2rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  position: relative;
+}
+
+/* Brand Styling */
+.nav-brand {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.nav-brand h1 {
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin: 0;
+  transition: all var(--transition-normal);
+  letter-spacing: 0.5px;
+}
+
+.gradient-text {
   background: var(--gradient-primary);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
+  position: relative;
 }
 
-/* Navigation matching target template */
-.nav-link { 
-  position: relative; 
-  transition: color 0.3s; 
+.nav-tagline {
+  font-size: 0.75rem;
+  color: var(--color-text-light);
+  font-weight: 500;
+  letter-spacing: 0.5px;
+  margin-top: -2px;
+  opacity: 0.8;
+  font-family: 'Inter', sans-serif;
 }
 
-.nav-link::after {
-  content: ''; 
-  position: absolute; 
-  width: 100%; 
-  transform: scaleX(0); 
+/* Desktop Navigation Menu */
+.nav-menu {
+  display: flex;
+  gap: 2.5rem;
+  align-items: center;
+}
+
+.professional-nav-link {
+  position: relative;
+  padding: 0.75rem 0;
+  color: var(--color-text);
+  font-weight: 600;
+  font-size: 0.95rem;
+  letter-spacing: 0.25px;
+  transition: all var(--transition-normal);
+  text-decoration: none;
+  overflow: hidden;
+}
+
+.professional-nav-link:hover {
+  color: var(--color-primary);
+}
+
+.nav-link-text {
+  position: relative;
+  z-index: 2;
+}
+
+.nav-link-indicator {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 3px;
+  background: var(--gradient-primary);
+  transform: scaleX(0);
+  transform-origin: right;
+  transition: transform var(--transition-normal);
+  border-radius: 2px;
+}
+
+.professional-nav-link:hover .nav-link-indicator {
+  transform: scaleX(1);
+  transform-origin: left;
+}
+
+.professional-nav-link::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(139, 90, 60, 0.05), transparent);
+  transition: left var(--transition-normal);
+}
+
+.professional-nav-link:hover::before {
+  left: 100%;
+}
+
+/* Professional Hamburger Menu */
+.hamburger {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 2.5rem;
+  height: 2.5rem;
+  background: rgba(139, 90, 60, 0.1);
+  border: none;
+  border-radius: 0.5rem;
+  cursor: pointer;
+  transition: all var(--transition-normal);
+  position: relative;
+  overflow: hidden;
+}
+
+.hamburger:hover {
+  background: rgba(139, 90, 60, 0.15);
+  transform: scale(1.05);
+}
+
+.hamburger::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+  transition: left var(--transition-normal);
+}
+
+.hamburger:hover::before {
+  left: 100%;
+}
+
+.hamburger-line {
+  width: 1.25rem;
   height: 2px;
-  bottom: -4px; 
-  left: 0; 
-  background-color: var(--color-primary);
-  transform-origin: bottom right; 
-  transition: transform 0.25s ease-out;
+  background: var(--color-primary);
+  margin: 2px 0;
+  transition: all var(--transition-normal);
+  border-radius: 1px;
 }
 
-.nav-link:hover { 
-  color: var(--color-primary); 
+.hamburger.active .hamburger-line:nth-child(1) {
+  transform: rotate(45deg) translate(5px, 5px);
 }
 
-.nav-link:hover::after { 
-  transform: scaleX(1); 
-  transform-origin: bottom left; 
+.hamburger.active .hamburger-line:nth-child(2) {
+  opacity: 0;
+  transform: translateX(20px);
+}
+
+.hamburger.active .hamburger-line:nth-child(3) {
+  transform: rotate(-45deg) translate(7px, -6px);
+}
+
+/* Mobile Navigation */
+.mobile-nav {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  background: rgba(255, 255, 255, 0.98);
+  backdrop-filter: blur(40px);
+  border-bottom: 1px solid rgba(232, 236, 240, 0.6);
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(-20px);
+  transition: all var(--transition-normal);
+  box-shadow: 0 10px 40px rgba(44, 62, 80, 0.1);
+}
+
+.mobile-nav.active {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+}
+
+.mobile-nav-content {
+  padding: 2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.mobile-nav-link {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 1rem 1.5rem;
+  color: var(--color-text);
+  font-weight: 600;
+  font-size: 1.1rem;
+  text-decoration: none;
+  border-radius: 0.75rem;
+  transition: all var(--transition-normal);
+  transform: translateX(-20px);
+  opacity: 0;
+  animation: slideInMobile 0.4s ease-out forwards;
+  position: relative;
+  overflow: hidden;
+}
+
+.mobile-nav.active .mobile-nav-link {
+  transform: translateX(0);
+  opacity: 1;
+}
+
+.mobile-nav-link:hover {
+  background: rgba(139, 90, 60, 0.08);
+  color: var(--color-primary);
+  transform: translateX(8px);
+}
+
+.mobile-nav-icon {
+  color: var(--color-primary);
+  font-weight: bold;
+  transition: transform var(--transition-normal);
+}
+
+.mobile-nav-link:hover .mobile-nav-icon {
+  transform: translateX(4px);
+}
+
+.mobile-backdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.2);
+  backdrop-filter: blur(4px);
+  z-index: -1;
+  opacity: 0;
+  animation: fadeInBackdrop 0.3s ease-out forwards;
+}
+
+@keyframes slideInMobile {
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+@keyframes fadeInBackdrop {
+  to {
+    opacity: 1;
+  }
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .nav-container {
+    padding: 0.75rem 1.5rem;
+  }
+  
+  .nav-brand h1 {
+    font-size: 1.25rem;
+  }
+  
+  .nav-tagline {
+    font-size: 0.7rem;
+  }
 }
 
 /* Hero Section matching target template */
@@ -763,21 +1022,31 @@ h3 {
   opacity: 0.3;
 }
 
-/* Enhanced Accordion Styles */
+/* ========================================================================== 
+   Professional Accordion System - Image Blur Prevention
+   ========================================================================== */
+
+/* Era Section Accordions */
 .accordion-section {
   margin-bottom: 1.5rem;
   border-radius: var(--border-radius-lg);
   overflow: hidden;
-  box-shadow: var(--shadow-md);
+  box-shadow: 0 4px 20px rgba(44, 62, 80, 0.08);
   background: rgba(255, 255, 255, 0.98);
-  backdrop-filter: blur(10px);
-  border: 1px solid rgba(232, 236, 240, 0.8);
+  border: 1px solid rgba(232, 236, 240, 0.6);
+  transition: all var(--transition-normal);
 }
 
+.accordion-section:hover {
+  box-shadow: 0 8px 30px rgba(44, 62, 80, 0.12);
+  transform: translateY(-2px);
+}
+
+/* Professional Accordion Buttons */
 .accordion-button {
   width: 100%;
-  padding: 1.5rem 2rem;
-  background: rgba(139, 90, 60, 0.03);
+  padding: 1.75rem 2rem;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.95) 0%, rgba(248, 249, 250, 0.95) 100%);
   border: none;
   text-align: left;
   cursor: pointer;
@@ -795,24 +1064,40 @@ h3 {
   top: 0;
   left: 0;
   right: 0;
-  height: 3px;
+  height: 4px;
   background: var(--gradient-primary);
   transform: scaleX(0);
   transform-origin: left;
   transition: transform var(--transition-normal);
 }
 
+.accordion-button::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(139, 90, 60, 0.08), transparent);
+  transition: left var(--transition-normal);
+}
+
 .accordion-button:hover {
-  background: rgba(139, 90, 60, 0.08);
+  background: linear-gradient(135deg, rgba(139, 90, 60, 0.05) 0%, rgba(248, 249, 250, 0.95) 100%);
   transform: translateY(-1px);
+  box-shadow: 0 2px 8px rgba(139, 90, 60, 0.1);
 }
 
 .accordion-button:hover::before {
   transform: scaleX(1);
 }
 
+.accordion-button:hover::after {
+  left: 100%;
+}
+
 .accordion-button.active {
-  background: rgba(139, 90, 60, 0.1);
+  background: linear-gradient(135deg, rgba(139, 90, 60, 0.1) 0%, rgba(248, 249, 250, 0.95) 100%);
   color: var(--color-primary);
 }
 
@@ -820,16 +1105,176 @@ h3 {
   transform: scaleX(1);
 }
 
+/* Improved Accordion Content - No Blur Filters */
 .accordion-content {
   max-height: 0;
   overflow: hidden;
-  transition: all var(--transition-slow);
-  background: rgba(248, 249, 250, 0.5);
+  transition: max-height var(--transition-slow) ease-out, 
+              padding var(--transition-slow) ease-out,
+              opacity var(--transition-normal) ease-out;
+  background: linear-gradient(135deg, rgba(248, 249, 250, 0.8) 0%, rgba(255, 255, 255, 0.95) 100%);
+  opacity: 0;
+  /* Removed backdrop-filter to prevent image blurring */
 }
 
 .accordion-content.active {
   max-height: 2000px;
   padding: 2rem;
+  opacity: 1;
+}
+
+/* Professional Person Accordions - Blur-Free */
+.professional-person-accordion {
+  background: rgba(255, 255, 255, 0.98);
+  border: 1px solid rgba(232, 236, 240, 0.6);
+  border-radius: var(--border-radius);
+  margin-bottom: 1rem;
+  overflow: hidden;
+  transition: all var(--transition-normal);
+  position: relative;
+  /* Removed backdrop-filter to prevent image issues */
+}
+
+.professional-person-accordion:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(44, 62, 80, 0.1);
+  border-color: rgba(139, 90, 60, 0.3);
+}
+
+.professional-person-accordion::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(135deg, rgba(255,255,255,0.9) 0%, rgba(248,249,250,0.8) 100%);
+  opacity: 0;
+  transition: opacity var(--transition-normal);
+  pointer-events: none;
+  z-index: 1;
+}
+
+.professional-person-accordion:hover::before {
+  opacity: 0.7;
+}
+
+/* Enhanced Evidence Buttons - Image Safe */
+.enhanced-evidence-button {
+  position: relative;
+  overflow: hidden;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.95) 0%, rgba(248, 249, 250, 0.9) 100%);
+  border: 1px solid rgba(232, 236, 240, 0.6);
+  transition: all var(--transition-normal);
+}
+
+.enhanced-evidence-button::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(139, 90, 60, 0.1), transparent);
+  transition: left var(--transition-normal);
+  z-index: 1;
+}
+
+.enhanced-evidence-button:hover::before {
+  left: 100%;
+}
+
+.enhanced-evidence-button:hover {
+  transform: translateX(4px) scale(1.01);
+  box-shadow: 0 6px 20px rgba(44, 62, 80, 0.1);
+  border-color: rgba(139, 90, 60, 0.3);
+  background: linear-gradient(135deg, rgba(139, 90, 60, 0.05) 0%, rgba(248, 249, 250, 0.95) 100%);
+}
+
+/* Image Protection - Ensure No Blur Effects on Images */
+.accordion-content img,
+.enhanced-evidence-button img,
+.professional-person-accordion img {
+  transition: transform var(--transition-normal) ease-out, 
+              opacity var(--transition-normal) ease-out;
+  /* Explicitly prevent filter effects that could cause blurring */
+  filter: none !important;
+  backdrop-filter: none !important;
+  will-change: transform, opacity;
+}
+
+.accordion-content.expanded img,
+.enhanced-evidence-button:hover img,
+.professional-person-accordion.expanded img {
+  /* Only safe transforms that don't cause blur */
+  transform: scale(1.02);
+  opacity: 1;
+}
+
+/* Accordion Arrow Animation */
+.accordion-arrow {
+  transition: transform var(--transition-normal);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2rem;
+  height: 2rem;
+  border-radius: 50%;
+  background: rgba(139, 90, 60, 0.1);
+  color: var(--color-primary);
+  font-weight: bold;
+}
+
+.accordion-button.active .accordion-arrow {
+  transform: rotate(180deg);
+  background: rgba(139, 90, 60, 0.2);
+}
+
+/* Enhanced Animation Keyframes - Smooth and Blur-Free */
+@keyframes accordionSlideDown {
+  from {
+    max-height: 0;
+    opacity: 0;
+    padding-top: 0;
+    padding-bottom: 0;
+  }
+  to {
+    max-height: 2000px;
+    opacity: 1;
+    padding-top: 2rem;
+    padding-bottom: 2rem;
+  }
+}
+
+@keyframes accordionSlideUp {
+  from {
+    max-height: 2000px;
+    opacity: 1;
+    padding-top: 2rem;
+    padding-bottom: 2rem;
+  }
+  to {
+    max-height: 0;
+    opacity: 0;
+    padding-top: 0;
+    padding-bottom: 0;
+  }
+}
+
+/* Accordion Content States - Clear Definitions */
+.accordion-content.collapsed {
+  max-height: 0 !important;
+  opacity: 0 !important;
+  padding-top: 0 !important;
+  padding-bottom: 0 !important;
+  animation: accordionSlideUp var(--transition-slow) ease-out;
+}
+
+.accordion-content.expanded {
+  max-height: 2000px !important;
+  opacity: 1 !important;
+  padding: 2rem !important;
+  animation: accordionSlideDown var(--transition-slow) ease-out;
 }
 
 /* Person Cards Enhancement */
@@ -1426,74 +1871,7 @@ body.loaded {
   opacity: 1;
 }
 
-/* Person Accordion Styles - Enhanced */
-.polished-accordion {
-  position: relative;
-  backdrop-filter: blur(2px);
-  transition: all var(--transition-normal);
-}
-
-.polished-accordion:hover {
-  transform: translateY(-2px);
-  box-shadow: var(--shadow-medium);
-}
-
-.polished-accordion::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: linear-gradient(135deg, rgba(255,255,255,0.9) 0%, rgba(248,249,250,0.8) 100%);
-  border-radius: 1rem;
-  opacity: 0;
-  transition: opacity var(--transition-normal);
-  pointer-events: none;
-}
-
-.polished-accordion:hover::before {
-  opacity: 1;
-}
-
-.enhanced-evidence-button::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: -100%;
-  width: 100%;
-  height: 100%;
-  background: linear-gradient(90deg, transparent, rgba(139, 90, 60, 0.1), transparent);
-  transition: left var(--transition-normal);
-}
-
-.enhanced-evidence-button:hover::before {
-  left: 100%;
-}
-
-.enhanced-evidence-button:hover {
-  transform: translateX(4px) scale(1.01);
-  box-shadow: var(--shadow-medium);
-}
-
-/* Accordion Content Animation */
-.accordion-content {
-  transition: all var(--transition-slow);
-  overflow: hidden;
-}
-
-.accordion-content.collapsed {
-  max-height: 0 !important;
-  opacity: 0 !important;
-  padding-top: 0 !important;
-  padding-bottom: 0 !important;
-}
-
-.accordion-content.expanded {
-  max-height: 2000px !important;
-  opacity: 1 !important;
-  animation: slideDown var(--transition-slow) ease-out;
-}
+/* Legacy accordion styles removal - replaced with professional system above */
 
 @keyframes slideDown {
   from {
