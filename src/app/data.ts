@@ -2,9 +2,9 @@ export const siteData = {
   eras: [
     {
       id: 1,
-      title: "I. The Crucible of Commerce",
+      title: "I. Feudal & Medieval Foundations",
       period: "c. 1100–1607",
-      description: "From Devon manors to the powerful Society of Merchant Venturers in Exeter, the family forged its commercial DNA in the English wool and tin trades, mastering international logistics and credit.",
+      description: "From royal Dapifers (stewards) and Channel Island Wardens to the 1st Sword Bearer of Exeter and MP John Prouz, the family forged its commercial DNA in land logistics, international cloth guilds, and local governance.",
       image: "https://images.unsplash.com/photo-1594782480839-819708170198?q=80&w=800&auto=format&fit=crop",
       alt: "Historic medieval port city of Exeter"
     },
@@ -12,7 +12,7 @@ export const siteData = {
       id: 2,
       title: "II. The Atlantic Enterprise",
       period: "c. 1650–1780",
-      description: "Transplanting their skills to colonial Maryland, they established riverfront plantations as private logistical hubs for the lucrative tobacco trade, linking rural production to urban finance in Baltimore.",
+      description: "Transplanting their logistical skills to the Chesapeake, they served as church wardens, patented riverfront tobacco ports like Prouse's Landing, and integrated with Baltimore finance networks.",
       image: "https://images.unsplash.com/photo-1620050143639-0d127713d2e2?q=80&w=800&auto=format&fit=crop",
       alt: "Colonial-era plantation house in Maryland"
     },
@@ -20,24 +20,38 @@ export const siteData = {
       id: 3,
       title: "III. Forging a New Nation",
       period: "c. 1780–1880",
-      description: "Moving west, the family adapted again, mastering the legal infrastructure of the frontier before founding a town at a critical railroad junction, controlling the flow of timber and grain.",
+      description: "Moving west along the Wilderness Road, they adapted to frontier law and spec. William Sprouse served under Captain Abraham Lincoln in the Black Hawk War before patenting the prairie Occidental Plow.",
       image: "https://images.unsplash.com/photo-1554224024-81a16b9b35b7?q=80&w=800&auto=format&fit=crop",
       alt: "Vintage steam train on a railroad track"
     },
     {
       id: 4,
-      title: "IV. The Modern Apex",
-      period: "c. 1860–1993",
-      description: "The family's focus evolved to finance, politics, and finally, national retail, scaling their logistical instinct to manage a multi-state distribution network for the Sprouse-Reitz stores.",
+      title: "IV. Railroads & Modern Retail",
+      period: "c. 1850–1993",
+      description: "Founder William T. Sprouse established the railroad junction town of Kinmundy, Illinois. The line culminated in mass retail leadership, with John Alwyn Sprouse serving as CEO of Sprouse-Reitz Stores.",
       image: "https://images.unsplash.com/photo-1528701920115-f5c71a39f40e?q=80&w=800&auto=format&fit=crop",
       alt: "Interior of a vintage 20th-century general store"
     }
   ],
   biographicalData: [
     {
-      era: "I. Medieval & Early Modern Devon (1100–1600)",
+      era: "I. Feudal & Medieval Foundations (1100–1607)",
       locationId: "exeter",
       people: [
+        {
+          name: "Eudo de Préaux",
+          dates: "died c. 1120",
+          faith: "Catholic; founder of St. John's Abbey in Colchester in 1096.",
+          nexus: "Royal Seneschal (Dapifer) to William the Conqueror, William Rufus, and Henry I; Governor of Colchester Castle; held extensive Domesday estates across Essex and Suffolk. Married Rohais de Clare.",
+          sources: "1086 Domesday Book; Colchester Castle construction charters; St. John's Abbey cartularies."
+        },
+        {
+          name: "William de Pirou",
+          dates: "fl. c. 1110–1123",
+          faith: "Catholic.",
+          nexus: "King's Dapifer (Royal Steward) to Henry I; witnessed the 1113 Savigny Charter ex parte mea; survived the 1120 White Ship sinking, as proven by Queen Adeliza's 1121 charter.",
+          sources: "Cartulary of Savigny Abbey; 1121 Queen Adeliza Charter."
+        },
         {
           name: "Osbert de Préaux",
           dates: "fl. c. 1120–1150",
@@ -54,18 +68,32 @@ export const siteData = {
           ]
         },
         {
-          name: "William de Préaux",
-          dates: "fl. c. 1180–1210",
-          faith: "Catholic; served in Angevin court.",
-          nexus: "Engaged in Channel maritime provisioning for military expeditions.",
-          sources: "Angevin administrative records; port customs accounts."
+          name: "Pierre (Peter) de Préaux",
+          dates: "born c. 1170, died c. 1212",
+          faith: "Catholic.",
+          nexus: "Warden of the Channel Islands; Constable of Rouen; close companion to Richard I and King John; held the manor of Alton in Southampton; married Mary de Vernon, daughter of the 5th Earl of Devon.",
+          sources: "1200 Patent Rolls; 1204 Rouen siege and capitulation charters."
         },
         {
-          name: "Lawrence Prouz",
+          name: "John Prouz of Chagford",
+          dates: "born c. 1410",
+          faith: "Catholic.",
+          nexus: "Acquired West Challacombe Manor via marriage to Jane Orchard; prominent freeholder and wool trader in North Devon. Stone porch features carved quartered arms of Prouz and Orchard.",
+          sources: "Exmoor HER MDE20391; Westcote's View of Devonshire."
+        },
+        {
+          name: "Lawrence Prouse",
           dates: "1480–1548",
           faith: "Catholic parish life pre-Reformation.",
-          nexus: "Sword Bearer of Exeter; managed manorial agriculture and tin mining; coordinated shipments via Exeter quay.",
-          sources: "Exeter Guild records; Devon subsidy rolls."
+          nexus: "Appointed 1st Sword Bearer of the City of Exeter; managed Exeter Quay tin logistics and municipal agriculture; active in the 1538 Exeter Conspiracy.",
+          sources: "Exeter Guildhall Records; Devon subsidy rolls."
+        },
+        {
+          name: "Bartholomew Prouz alias Sproute",
+          dates: "born c. 1485",
+          faith: "Anglican.",
+          nexus: "JP and Justice of Assizes in Chelmsford; held Calverley manorial estates in Barking, Essex. Proves the use of the S-prefix variant in England as early as 1512.",
+          sources: "Letters & Papers of Henry VIII; Barking manorial rolls (1515-1529)."
         },
         {
           name: "Richard Prouz",
@@ -88,10 +116,17 @@ export const siteData = {
       locationId: "talbot",
       people: [
         {
+          name: "George Sprouse (Cotton Will)",
+          dates: "fl. 1653",
+          faith: "Protestant.",
+          nexus: "St. Mary's County agricultural laborer; labor bequest recorded in the landmark 1653 Will of Edward Cotton (which established the first school in Maryland).",
+          sources: "1653 Will of Edward Cotton; Maryland State Archives."
+        },
+        {
           name: "George Prouse II",
           dates: "1642–1696",
           faith: "Anglican; St. Peter's Parish, Talbot County.",
-          nexus: "Assembled river-front plantations; leveraged London factor credit.",
+          nexus: "Assembled river-front plantations; leveraged London factor credit; patented 'Prouse's Landing' for direct tobacco export.",
           sources: "Talbot County land patents; parish registers.",
           genealogicalEvidence: [
             {
@@ -127,55 +162,55 @@ export const siteData = {
           name: "Jane Harding Prouse",
           dates: "",
           faith: "Anglican.",
-          nexus: "Gittings family connections; facilitated access to urban storage and capital markets.",
-          sources: "Baltimore County court records; family papers."
+          nexus: "Gittings family connections; inherited enslaved woman Hagar (later litigated in Chancery Case #20978002).",
+          sources: "Baltimore County court records; Gittings family papers."
         },
         {
           name: "George Prouse V",
           dates: "1733–1781",
           faith: "Anglican; Church Warden.",
-          nexus: "Managed plantation logistics and parish finances, a key source of local power.",
-          sources: "St. Peter's Parish Vestry Minutes."
+          nexus: "Managed plantation logistics and parish finances. Estate administration recorded under the name George Sprouse in 1772.",
+          sources: "St. Peter's Parish Vestry Minutes; Caroline County Admin Bonds."
         }
       ]
     },
     {
-      era: "III. Post-Colonial Expansion (1780–1850)",
+      era: "III. Post-Colonial Expansion & Law (1780–1850)",
       locationId: "robertson",
       people: [
         {
           name: "George Sprouse",
           dates: "1757–1845",
           faith: "Anglican roots; frontier Protestantism.",
-          nexus: "Migrated to Robertson County, TN; diversified farming; Appleton merchant heritage.",
+          nexus: "Migrated to Robertson County, TN; established dark-fired tobacco homestead adjacent to Wessyngton Plantation; Appleton merchant heritage.",
           sources: "Robertson County deed books; Appleton genealogies."
         },
         {
           name: "Margaret Appleton Sprouse",
           dates: "",
           faith: "Protestant.",
-          nexus: "Descended from Ipswich, MA, merchant-magistrates; maintained literacy and record-keeping traditions.",
+          nexus: "Descended from Ipswich merchant-magistrates and the Glover printing-press line (dunster/Harvard connection).",
           sources: "Massachusetts Bay Colony records."
         },
         {
           name: "James W. Sprouse",
           dates: "c. 1798–1860",
           faith: "Protestant.",
-          nexus: "Lawyer; landholder; handled deeds, contracts, estate settlements.",
+          nexus: "Lawyer; landholder; handled deeds, contracts, estate settlements on the Tennessee frontier.",
           sources: "Robertson County court minutes; probate records."
         },
         {
-          name: "William Sprouse (b. 1802)",
+          name: "William T. Sprouse (Black Hawk)",
           dates: "1802–after 1880",
           faith: "Protestant.",
-          nexus: "Black Hawk War veteran; blacksmith; patented \"Occidental Plow\"; TN→IL→KS; served under Abraham Lincoln in 1832.",
-          sources: "U.S. Patent Office records; military muster rolls.",
+          nexus: "Private in Captain Abraham Lincoln's Company (1832 Black Hawk War), gunsmith, Sangamon County blacksmith, patented the 'Occidental Plow'.",
+          sources: "U.S. Patent Office records; military muster rolls; Sangamon marriage registers.",
           genealogicalEvidence: [
             {
               type: "Military Muster Roll",
               detail: "1832, 4th Reg, IL Mounted Volunteers. Listed as a private in Captain Abraham Lincoln's company.",
               sourceImage: "https://placehold.co/400x300/e2e8f0/64748b?text=Muster+Roll",
-              sourceTranscript: "Company: Captain A. Lincoln\\n4th Regiment, Illinois Mounted Volunteers\\nPrivate William Sprouse - Mustered in April 21, 1832..."
+              sourceTranscript: "Company: Captain A. Lincoln\n4th Regiment, Illinois Mounted Volunteers\nPrivate William Sprouse - Mustered in April 21, 1832..."
             }
           ]
         },
@@ -183,11 +218,11 @@ export const siteData = {
           name: "Martha Combs Sprouse",
           dates: "",
           faith: "Protestant.",
-          nexus: "Virginia Northern Neck heritage; linked to Op den Graeff mercantile-heraldic line.",
-          sources: "Virginia land and parish records."
+          nexus: "Virginia Northern Neck heritage; linked to Op den Graeff mercantile-heraldic line. Married William T. Sprouse in Sangamon County in 1830.",
+          sources: "Virginia land and parish records; Sangamon marriage files."
         },
         {
-          name: "William Sprouse (b. 1822)",
+          name: "William Sprouse",
           dates: "1822–after 1880",
           faith: "Protestant.",
           nexus: "Involved in town-planning beside a rail line; boosted local market access.",
@@ -196,14 +231,14 @@ export const siteData = {
       ]
     },
     {
-      era: "IV. Modern & Frontier Era (1850–1954)",
+      era: "IV. Railroads & Modern Retail (1850–1993)",
       locationId: "kinmundy",
       people: [
         {
-          name: "William T. Sprouse",
+          name: "William T. Sprouse (Founder)",
           dates: "1822–1886",
           faith: "Protestant.",
-          nexus: "Founded Kinmundy, IL, beside Illinois Central Railroad; built first saw and grist mill; Civil War captain.",
+          nexus: "Founded Kinmundy, IL, beside Illinois Central Railroad; built first saw and grist mill; Civil War Captain.",
           sources: "Marion County plat maps; Civil War service records.",
           genealogicalEvidence: [
             {
@@ -256,27 +291,27 @@ export const siteData = {
     locations: [
       {
         id: "exeter",
-        name: "Exeter, Devon",
+        name: "Exeter, Devon & Normandy Strongholds",
         coords: [50.7184, -3.5339],
-        description: "The family's commercial origins in the wool and tin trades."
+        description: "Old World origins at Gidleigh Castle, Château de Pirou, West Challacombe, and Exeter guild halls."
       },
       {
         id: "talbot",
         name: "Talbot County, MD",
         coords: [38.783, -76.071],
-        description: "Hub of the family's tobacco plantation and export operations."
+        description: "Hub of the family's tobacco plantation and export operations at Prouse's Landing."
       },
       {
         id: "robertson",
         name: "Robertson County, TN",
         coords: [36.529, -86.885],
-        description: "Center of frontier farming and legal-financial activities."
+        description: "Center of frontier farming, tobacco prizing, and legal-financial activities."
       },
       {
         id: "kinmundy",
         name: "Kinmundy, IL",
         coords: [38.771, -88.846],
-        description: "Founded at a key railroad junction for the grain and timber trade."
+        description: "Founded by William T. Sprouse at a key railroad junction for the grain and timber trade."
       }
     ]
   },
