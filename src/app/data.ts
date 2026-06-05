@@ -6,7 +6,8 @@ export const siteData = {
       period: "c. 1100–1607",
       description: "From royal Dapifers (stewards) and Channel Island Wardens to the 1st Sword Bearer of Exeter and MP John Prouz, the family forged its commercial DNA in land logistics, international cloth guilds, and local governance.",
       image: "https://images.unsplash.com/photo-1594782480839-819708170198?q=80&w=800&auto=format&fit=crop",
-      alt: "Historic medieval port city of Exeter"
+      alt: "Historic medieval port city of Exeter",
+      videoSummary: "Transitioned from Norman dapifers to Devonshire barons to Exeter merchants. Preserved the lineage through the White Ship disaster, built Gidleigh Castle, and mastered the medieval wool and tin trade."
     },
     {
       id: 2,
@@ -14,7 +15,8 @@ export const siteData = {
       period: "c. 1650–1780",
       description: "Transplanting their logistical skills to the Chesapeake, they served as church wardens, patented riverfront tobacco ports like Prouse's Landing, and integrated with Baltimore finance networks.",
       image: "https://images.unsplash.com/photo-1620050143639-0d127713d2e2?q=80&w=800&auto=format&fit=crop",
-      alt: "Colonial-era plantation house in Maryland"
+      alt: "Colonial-era plantation house in Maryland",
+      videoSummary: "Transplanted the logistical merchant instinct to the Chesapeake. Built riverfront tobacco plantations like Prouse's Landing, integrating into the elite planter and civic networks of colonial Maryland."
     },
     {
       id: 3,
@@ -22,7 +24,8 @@ export const siteData = {
       period: "c. 1780–1880",
       description: "Moving west along the Wilderness Road, they adapted to frontier law and spec. William Sprouse served under Captain Abraham Lincoln in the Black Hawk War before patenting the prairie Occidental Plow.",
       image: "https://images.unsplash.com/photo-1554224024-81a16b9b35b7?q=80&w=800&auto=format&fit=crop",
-      alt: "Vintage steam train on a railroad track"
+      alt: "Vintage steam train on a railroad track",
+      videoSummary: "Forged into the American frontier. Served under Abraham Lincoln in the Black Hawk War, invented the Occidental Plow, and established legal and civic infrastructure in Tennessee and Illinois."
     },
     {
       id: 4,
@@ -30,7 +33,8 @@ export const siteData = {
       period: "c. 1850–1993",
       description: "Founder William T. Sprouse established the railroad junction town of Kinmundy, Illinois. The line culminated in mass retail leadership, with John Alwyn Sprouse serving as CEO of Sprouse-Reitz Stores.",
       image: "https://images.unsplash.com/photo-1528701920115-f5c71a39f40e?q=80&w=800&auto=format&fit=crop",
-      alt: "Interior of a vintage 20th-century general store"
+      alt: "Interior of a vintage 20th-century general store",
+      videoSummary: "Founded the railroad junction town of Kinmundy, dominating local grain and timber milling, and eventually scaled this logistical instinct into a multi-state retail empire with Sprouse-Reitz Stores."
     }
   ],
   biographicalData: [

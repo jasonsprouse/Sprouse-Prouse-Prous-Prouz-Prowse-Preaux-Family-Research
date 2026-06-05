@@ -93,7 +93,10 @@ export default function Home() {
         <div className="container mx-auto px-6 text-center">
           <h1 className="text-4xl md:text-6xl font-bold leading-tight mb-4 font-serif reveal">A Study in Commercial Genetics</h1>
           <p className="text-lg md:text-xl max-w-3xl mx-auto mb-8 reveal" style={{ transitionDelay: '200ms' }}>An Eight-Century Analysis of the Sprouse-Prouse Family and the Infrastructure of Power.</p>
-          <a href="#introduction" className="btn-primary font-bold py-3 px-8 rounded-full inline-block reveal" style={{ transitionDelay: '400ms' }}>Explore the Legacy</a>
+          <div className="flex justify-center flex-wrap gap-4 reveal" style={{ transitionDelay: '400ms' }}>
+            <a href="#introduction" className="btn-primary font-bold py-3 px-8 rounded-full inline-block">Explore the Legacy</a>
+            <a href="/monograph" className="bg-white/10 hover:bg-white/20 text-white font-bold py-3 px-8 rounded-full border border-white/30 backdrop-blur-sm transition-all inline-block">Read Full Monograph</a>
+          </div>
         </div>
       </section>
 
@@ -128,7 +131,31 @@ export default function Home() {
                       <div className="era-card-content p-6">
                         <h3 className="text-xl font-bold font-serif mb-2">{era.title}</h3>
                         <p className="text-sm font-semibold text-black mb-3">{era.period}</p>
-                        <p className="text-gray-600 leading-relaxed">{era.description}</p>
+                        <p className="text-gray-600 leading-relaxed mb-6">{era.description}</p>
+                        
+                        {/* Epoch Video Player */}
+                        <div className="bg-gray-50 rounded-xl overflow-hidden border border-gray-200 mt-6 shadow-sm">
+                          <div className="relative aspect-video bg-black">
+                            <video 
+                              className="absolute inset-0 w-full h-full object-cover"
+                              poster={era.image}
+                              controls
+                              preload="none"
+                            >
+                              <source src={`/videos/era-${era.id}.mp4`} type="video/mp4" />
+                              Your browser does not support the video tag.
+                            </video>
+                          </div>
+                          <div className="p-4 bg-white border-t border-gray-100">
+                            <h4 className="text-sm font-bold text-gray-900 mb-2 flex items-center gap-2">
+                              <svg className="w-4 h-4 text-gray-700" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z" /><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+                              Epoch Video Summary
+                            </h4>
+                            <p className="text-sm text-gray-600 leading-relaxed italic">
+                              &quot;{era.videoSummary}&quot;
+                            </p>
+                          </div>
+                        </div>
                       </div>
                     </div>
                   </div>
