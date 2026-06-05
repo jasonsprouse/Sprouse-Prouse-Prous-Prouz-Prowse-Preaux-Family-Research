@@ -62,7 +62,7 @@ export const siteData = {
             {
               type: "Manorial Roll Entry",
               detail: "Records show Osbert de Préaux holding lands at Gidleigh, noting annual yields of wool sent to Exeter.",
-              sourceImage: "https://placehold.co/400x300/e2e8f0/64748b?text=Manorial+Roll",
+              sourceImage: "/manorial_roll.png",
               sourceTranscript: "Item: To Osbert de Préaux, for the lands at Gidleigh, an accounting of XL stone of wool delivered to the port-reeve of Exeter..."
             }
           ]
@@ -132,7 +132,7 @@ export const siteData = {
             {
               type: "Land Patent",
               detail: "Grant for 350 acres, 'Prouse's Landing,' described as 'fronting the Choptank River for the purpose of loading tobacco.'",
-              sourceImage: "https://placehold.co/400x300/e2e8f0/64748b?text=Land+Patent",
+              sourceImage: "/land_patent.png",
               sourceTranscript: "By the authority of the Lord Proprietor, we do grant unto George Prouse a parcel of land of 350 acres... to be known as Prouse's Landing, for the cultivation and shipping of tobacco."
             }
           ]
@@ -209,7 +209,7 @@ export const siteData = {
             {
               type: "Military Muster Roll",
               detail: "1832, 4th Reg, IL Mounted Volunteers. Listed as a private in Captain Abraham Lincoln's company.",
-              sourceImage: "https://placehold.co/400x300/e2e8f0/64748b?text=Muster+Roll",
+              sourceImage: "/muster_roll.png",
               sourceTranscript: "Company: Captain A. Lincoln\n4th Regiment, Illinois Mounted Volunteers\nPrivate William Sprouse - Mustered in April 21, 1832..."
             }
           ]
@@ -244,7 +244,7 @@ export const siteData = {
             {
               type: "County Land Deed",
               detail: "Documents the purchase of the initial 80-acre tract for the town plat of Kinmundy, 'adjacent to the proposed Illinois Central right-of-way.'",
-              sourceImage: "https://placehold.co/400x300/e2e8f0/64748b?text=Land+Deed",
+              sourceImage: "/land_deed.png",
               sourceTranscript: "Be it known that William T. Sprouse has this day purchased the 80 acre tract... for the establishment of a town to be named Kinmundy, situated upon the planned route of the Illinois Central Railroad..."
             }
           ]
