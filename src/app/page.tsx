@@ -89,13 +89,23 @@ export default function Home() {
   return (
     <>
       {/* Hero Section */}
-      <section className="py-24 md:py-40 bg-cover bg-center hero-bg">
-        <div className="container mx-auto px-6 text-center">
-          <h1 className="text-4xl md:text-6xl font-bold leading-tight mb-4 font-serif reveal">A Study in Commercial Genetics</h1>
-          <p className="text-lg md:text-xl max-w-3xl mx-auto mb-8 reveal" style={{ transitionDelay: '200ms' }}>An Eight-Century Analysis of the Sprouse-Prouse Family and the Infrastructure of Power.</p>
-          <div className="flex justify-center flex-wrap gap-4 reveal" style={{ transitionDelay: '400ms' }}>
-            <a href="#introduction" className="btn-primary font-bold py-3 px-8 rounded-full inline-block">Explore the Legacy</a>
-            <a href="/monograph" className="bg-white/10 hover:bg-white/20 text-white font-bold py-3 px-8 rounded-full border border-white/30 backdrop-blur-sm transition-all inline-block">Read Full Monograph</a>
+      <section className="pt-32 pb-24 md:pt-48 md:pb-40 bg-cover bg-center hero-bg relative overflow-hidden">
+        <div className="hero-content container mx-auto px-6 text-center">
+          <h1 className="hero-title reveal">A Study in Commercial Genetics</h1>
+          <p className="hero-subtitle reveal" style={{ transitionDelay: '200ms' }}>An Eight-Century Analysis of the Sprouse-Prouse Family and the Infrastructure of Power.</p>
+          <div className="flex justify-center flex-wrap gap-4 mt-8 reveal" style={{ transitionDelay: '400ms' }}>
+            <a href="#introduction" className="hero-cta">
+              Explore the Legacy
+              <svg className="w-5 h-5 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 14l-7 7m0 0l-7-7m7 7V3" />
+              </svg>
+            </a>
+            <a href="/monograph" className="btn-secondary" style={{ padding: '1rem 2rem', fontSize: '1.1rem' }}>
+              <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
+              </svg>
+              Read Full Monograph
+            </a>
           </div>
         </div>
       </section>
