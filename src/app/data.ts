@@ -50,11 +50,53 @@ export const siteData = {
           sources: "1086 Domesday Book; Colchester Castle construction charters; St. John's Abbey cartularies."
         },
         {
-          name: "William de Pirou",
+          name: "William de Pirou I",
           dates: "fl. c. 1110–1123",
           faith: "Catholic.",
           nexus: "King's Dapifer (Royal Steward) to Henry I; witnessed the 1113 Savigny Charter ex parte mea; survived the 1120 White Ship sinking, as proven by Queen Adeliza's 1121 charter.",
           sources: "Cartulary of Savigny Abbey; 1121 Queen Adeliza Charter."
+        },
+        {
+          name: "Robert de Pirou",
+          dates: "fl. c. 1130–1172",
+          faith: "Catholic.",
+          nexus: "Son of William de Pirou I; held the manor of Warminster (Wiltshire) and tenancy in Kilve (Somerset) as gifts from Henry I; entered the Knights Templar and held Gisors and Stoneleigh.",
+          sources: "1160–1161 Gisors castle guard accounts; Stoneleigh manor grant rolls."
+        },
+        {
+          name: "William de Pirou II",
+          dates: "fl. 1166",
+          faith: "Catholic.",
+          nexus: "Grandson of William de Pirou I; held one knight's fee in Devonshire under the return of William de Tracy.",
+          sources: "1166 Cartae Baronum return of William de Tracy (Liber Rubeus de Scaccario, p. 255: 'Piro, j militem')."
+        },
+        {
+          name: "William de Pirou III",
+          dates: "fl. 1200",
+          faith: "Catholic.",
+          nexus: "Paid a 1,200 pounds of Anjou proffer to King John for the Normandy inheritance of William de Tracy.",
+          sources: "1200 Norman Proffer rolls (Magni Rotuli Scaccarii Normanniae)."
+        },
+        {
+          name: "Sir William le Pruz I",
+          dates: "fl. 1234–1243",
+          faith: "Catholic.",
+          nexus: "First Devonshire lord to use the anglicized spelling le Pruz; married the heiress of Giles de Gidleigh, transferring Gidleigh Castle to the family; served on the 1234 Devon Forest Commission.",
+          sources: "1234 Close Rolls of Henry III; Gidleigh Castle manorial registers."
+        },
+        {
+          name: "Sir William le Pruz II",
+          dates: "born c. 1220, died 1269",
+          faith: "Catholic.",
+          nexus: "High Sheriff of Devon in 1269; held the Tracy knight's fee under the Honour of Barnstaple; litigated the Lustleigh advowson with Henry de Tracy in 1261.",
+          sources: "1274 Inquisition Post Mortem of Henry de Tracy; 1261 Devon Feet of Fines (45 Henry III); 1270 IPM of William le Pruz."
+        },
+        {
+          name: "Sir William le Pruz III",
+          dates: "born 1245, died 1316",
+          faith: "Catholic.",
+          nexus: "Commissioner of the Peace for Devon; builder of the stone keep at Gidleigh Castle; buried with Crusader effigy in Lustleigh Church.",
+          sources: "1316 IPM (Writ dated 26 April, 9 Edward II) under the spelling le Prutz; Lustleigh parish records."
         },
         {
           name: "Osbert de Préaux",
