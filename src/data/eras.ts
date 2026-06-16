@@ -11,6 +11,8 @@ export const eras: Era[] = [
       gradient: ["#8b5a3c", "#d4af37"], // Brown to gold
       accentColor: "#d4af37"
     },
+    image: "https://images.unsplash.com/photo-1594782480839-819708170198?q=80&w=800&auto=format&fit=crop",
+    videoSummary: "Transitioned from Norman dapifers to Devonshire barons to Exeter merchants. Preserved the lineage through the White Ship disaster, built Gidleigh Castle, and mastered the medieval wool and tin trade.",
     alt: "Medieval Commerce Era"
   },
   {
@@ -23,6 +25,8 @@ export const eras: Era[] = [
       gradient: ["#1e3a8a", "#3b82f6"], // Deep blue to lighter blue
       accentColor: "#3b82f6"
     },
+    image: "https://images.unsplash.com/photo-1620050143639-0d127713d2e2?q=80&w=800&auto=format&fit=crop",
+    videoSummary: "Transplanted the logistical merchant instinct to the Chesapeake. Built riverfront tobacco plantations like Prouse's Landing, integrating into the elite planter and civic networks of colonial Maryland.",
     alt: "Colonial Atlantic Trade Era"
   },
   {
@@ -35,6 +39,8 @@ export const eras: Era[] = [
       gradient: ["#7c2d12", "#dc2626"], // Brown to red
       accentColor: "#dc2626"
     },
+    image: "https://images.unsplash.com/photo-1554224024-81a16b9b35b7?q=80&w=800&auto=format&fit=crop",
+    videoSummary: "Forged into the American frontier. Served under Abraham Lincoln in the Black Hawk War, invented the Occidental Plow, and established legal and civic infrastructure in Tennessee and Illinois.",
     alt: "American Frontier Railroad Era"
   },
   {
@@ -47,6 +53,8 @@ export const eras: Era[] = [
       gradient: ["#1f2937", "#6b7280"], // Dark gray to lighter gray
       accentColor: "#8b5cf6"
     },
+    image: "https://images.unsplash.com/photo-1528701920115-f5c71a39f40e?q=80&w=800&auto=format&fit=crop",
+    videoSummary: "Founded the railroad junction town of Kinmundy, dominating local grain and timber milling, and eventually scaled this logistical instinct into a multi-state retail empire with Sprouse-Reitz Stores.",
     alt: "Modern Business Era"
   }
 ];
